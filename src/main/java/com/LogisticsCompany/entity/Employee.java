@@ -16,5 +16,6 @@ public class Employee {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private BusinessEntity businessEntity;
+    @JoinColumn(name = "logistic_company_id")
+    private LogisticCompany logisticCompany;
 }

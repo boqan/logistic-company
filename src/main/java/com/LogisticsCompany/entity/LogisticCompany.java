@@ -27,6 +27,13 @@ public class LogisticCompany extends BusinessEntity {
     @OneToMany(mappedBy = "logisticCompany")
     private Set<Office> offices;
 
+    @OneToMany(mappedBy = "logisticCompany" )
+    private Set<Employee> employees;
+
+
+    @OneToMany(mappedBy = "logisticCompany" )
+    private Set<Client> clients;
+
     @Column(name = "country")
     private String country;
 

@@ -1,9 +1,6 @@
 package com.LogisticsCompany.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +17,6 @@ public class Client {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private BusinessEntity businessEntity;
+    @JoinColumn(name = "logistic_company_id")
+    private LogisticCompany logisticCompany;
 }
