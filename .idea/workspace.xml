@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af3f3ddf-dfb7-4739-9279-6ac2f3ac08fe" name="Changes" comment="adding Office">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/BusinessEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Employee.java" afterDir="false" />
+    <list default="true" id="af3f3ddf-dfb7-4739-9279-6ac2f3ac08fe" name="Changes" comment="adding stuff">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/enums/DeliveryStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/BusinessEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/BusinessEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/LogisticCompany.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/LogisticCompany.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Office.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +30,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -46,9 +52,23 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "preferences.editor"
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="LogisticsCompanyApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.LogisticsCompany.LogisticsCompanyApplication" />
+      <module name="LogisticsCompany.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -72,7 +92,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701252336284</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="adding stuff">
+      <created>1701253721679</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701253721679</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -89,6 +116,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding packages" />
     <MESSAGE value="adding Office" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding Office" />
+    <MESSAGE value="adding stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding stuff" />
   </component>
 </project>
