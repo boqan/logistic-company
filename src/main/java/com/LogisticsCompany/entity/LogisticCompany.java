@@ -20,11 +20,6 @@ import java.util.Set;
 @Table(name = "logistic_company")
 public class LogisticCompany extends BusinessEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cid")
-    private int cid;
-
     @Column(name = "name")
     private String name;
 

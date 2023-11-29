@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af3f3ddf-dfb7-4739-9279-6ac2f3ac08fe" name="Changes" comment="adding stuff">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/enums/DeliveryStatus.java" afterDir="false" />
+    <list default="true" id="c37b0105-b492-4ae1-b60e-0279a9dca909" name="Changes" comment="adding stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/BusinessEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/BusinessEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Employee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/LogisticCompany.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/LogisticCompany.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/LogisticsCompany/entity/Office.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +20,23 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="LogisticsCompany" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -48,16 +61,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="LogisticsCompanyApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
