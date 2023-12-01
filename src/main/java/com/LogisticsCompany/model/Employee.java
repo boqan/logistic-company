@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Employee {
     @Id
     private int id;
@@ -18,4 +17,5 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logistic_company_id")
     private LogisticCompany logisticCompany;
+
 }
