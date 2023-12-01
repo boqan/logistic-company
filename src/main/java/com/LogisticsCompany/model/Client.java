@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Client {
+public class Client extends IdGenerator {
 
-    @Id
-    private int id;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logistic_company_id")

@@ -1,6 +1,7 @@
 package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Table(name = "office", schema = "transport_company")
-public class Office {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
+public class Office extends IdGenerator {
 
     @Column(name="address")
     private String address;

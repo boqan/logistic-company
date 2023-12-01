@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name = "my_order") // The name "order" is a reserved keyword in SQL that is why we need to change it
-public class Order {
-    @Id
-    private int id;
+public class Order extends IdGenerator{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Office office;
