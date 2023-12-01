@@ -1,4 +1,4 @@
-package com.LogisticsCompany.entity;
+package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
 import jakarta.persistence.*;
@@ -15,7 +15,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "logistic_company")
 public class LogisticCompany extends BusinessEntity {
@@ -23,19 +22,13 @@ public class LogisticCompany extends BusinessEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "offices")
     @OneToMany(mappedBy = "logisticCompany")
     private Set<Office> offices;
 
-    @OneToMany(mappedBy = "logisticCompany" )
-    private Set<Employee> employees;
-
-
-    @OneToMany(mappedBy = "logisticCompany" )
-    private Set<Client> clients;
-
-    @Column(name = "country")
-    private String country;
 
     public Map<Office, Set<Order>> getOrders() {
         return null;

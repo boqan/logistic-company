@@ -1,4 +1,4 @@
-package com.LogisticsCompany.entity;
+package com.LogisticsCompany.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Client {
-
+@Table(name = "my_order") // The name "order" is a reserved keyword in SQL that is why we need to change it
+public class Order {
     @Id
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "logistic_company_id")
-    private LogisticCompany logisticCompany;
+    private Office office;
+
 }

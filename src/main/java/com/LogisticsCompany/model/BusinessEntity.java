@@ -1,4 +1,4 @@
-package com.LogisticsCompany.entity;
+package com.LogisticsCompany.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,13 @@ abstract public class BusinessEntity {
 
     @Column(name = "revenue")
     private BigDecimal revenue;
+
+    @OneToMany(mappedBy = "logisticCompany" )
+    private Set<Employee> employees;
+
+    @OneToMany(mappedBy = "logisticCompany" )
+    private Set<Client> clients;
+
 
 
     public abstract BigDecimal calculateRevenue();

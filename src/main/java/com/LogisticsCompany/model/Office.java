@@ -1,4 +1,4 @@
-package com.LogisticsCompany.entity;
+package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
 import jakarta.persistence.*;
