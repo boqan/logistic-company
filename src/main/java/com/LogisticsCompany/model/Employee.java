@@ -1,2 +1,4 @@
-package com.LogisticsCompany.model;public class Employee {
+package com.LogisticsCompany.model;
+
+public class Employee {
 }

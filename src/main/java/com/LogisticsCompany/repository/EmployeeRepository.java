@@ -1,2 +1,4 @@
-package com.LogisticsCompany.repository;public class EmployeeRepository {
+package com.LogisticsCompany.repository;
+
+public class EmployeeRepository {
 }
