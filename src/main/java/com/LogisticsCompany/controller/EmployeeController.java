@@ -1,2 +1,4 @@
-package com.LogisticsCompany.controller;public class EmployeeController {
+package com.LogisticsCompany.controller;
+
+public class EmployeeController {
 }

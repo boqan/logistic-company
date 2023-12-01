@@ -1,2 +1,4 @@
-package com.LogisticsCompany.service;public class EmployeeService {
+package com.LogisticsCompany.service;
+
+public class EmployeeService {
 }
