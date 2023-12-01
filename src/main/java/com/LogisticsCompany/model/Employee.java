@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employee extends IdGenerator {
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logistic_company_id")
     private LogisticCompany logisticCompany;

@@ -28,18 +28,4 @@ public class LogisticCompany extends BusinessEntity {
     @Column(name = "offices")
     @OneToMany(mappedBy = "logisticCompany")
     private Set<Office> offices;
-
-
-    public Map<Office, Set<Order>> getOrders() {
-        return null;
-    }
-
-    public Map<Integer, Set<Order>> getOrders(DeliveryStatus status) {
-        return null;
-    }
-
-    @Override
-    public BigDecimal calculateRevenue() {
-        return null;
-    }
 }

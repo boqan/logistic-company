@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-abstract public class BusinessEntity extends IdGenerator {
+public class BusinessEntity extends IdGenerator {
 
     @Column(name = "revenue")
     private BigDecimal revenue;
@@ -22,8 +22,4 @@ abstract public class BusinessEntity extends IdGenerator {
 
     @OneToMany(mappedBy = "logisticCompany" )
     private Set<Client> clients;
-
-    public abstract BigDecimal calculateRevenue();
-
-
 }

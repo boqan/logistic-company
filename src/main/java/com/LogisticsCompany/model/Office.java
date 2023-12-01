@@ -27,12 +27,4 @@ public class Office extends IdGenerator {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private LogisticCompany logisticCompany;
-
-    public Set<Order> getOrders(DeliveryStatus status) {
-        return null;
-    }
-
-    public Set<Order> getOrders(DeliveryStatus status, Client client) {
-        return null;
-    }
 }
