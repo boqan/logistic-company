@@ -1,6 +1,7 @@
 package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class Order extends IdGenerator{
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Office office;
     @Enumerated
     @Column(name = "delivery_status")

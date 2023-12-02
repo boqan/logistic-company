@@ -26,6 +26,7 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
         if(!logisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
+
         return logisticCompany.get();
     }
 
@@ -80,10 +81,10 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
         LogisticCompany logisticCompanyDb=currLogisticCompany.get();
 
         if(logisticCompanyDb.getOffices().isEmpty()){
-            throw new CompanyNoOfficesException("Company has no officess ");
+            throw new CompanyNoOfficesException("Company has no offices ");
         }
 
-        Map<Office,List<Order>> currMap = null;
+        Map<Office,List<Order>> currMap=null;
 
         for(Office office:logisticCompanyDb.getOffices()){
             currMap.put(office,office.getOrders());

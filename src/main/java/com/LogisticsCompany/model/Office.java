@@ -2,6 +2,7 @@ package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +28,6 @@ public class Office extends IdGenerator {
     private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private LogisticCompany logisticCompany;
 }
