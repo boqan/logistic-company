@@ -1,5 +1,6 @@
 package com.LogisticsCompany.model;
 
+import com.LogisticsCompany.enums.DeliveryStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,5 +17,10 @@ public class Order extends IdGenerator{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Office office;
+    @Enumerated
+    @Column(name = "delivery_status")
+    private DeliveryStatus deliveryStatus;
+
+
 
 }

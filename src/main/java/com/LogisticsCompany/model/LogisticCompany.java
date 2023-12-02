@@ -2,10 +2,12 @@ package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.DeliveryStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.query.Order;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,13 +21,15 @@ import java.util.Set;
 @Table(name = "logistic_company")
 public class LogisticCompany extends BusinessEntity {
 
+    @NotBlank(message = "Company must have a name")
     @Column(name = "name")
     private String name;
 
+    @NotBlank(message = "Company must have a country")
     @Column(name = "country")
     private String country;
 
     @Column(name = "offices")
     @OneToMany(mappedBy = "logisticCompany")
-    private Set<Office> offices;
+    private List<Office> offices;
 }

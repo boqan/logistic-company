@@ -1,11 +1,14 @@
 package com.LogisticsCompany.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @MappedSuperclass
@@ -15,11 +18,11 @@ import java.util.Set;
 public class BusinessEntity extends IdGenerator {
 
     @Column(name = "revenue")
-    private BigDecimal revenue;
+    private BigDecimal revenue=BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "logisticCompany" )
-    private Set<Employee> employees;
+    private List<Employee> employees;
 
     @OneToMany(mappedBy = "logisticCompany" )
-    private Set<Client> clients;
+    private List<Client> clients;
 }

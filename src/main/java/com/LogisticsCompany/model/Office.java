@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +24,7 @@ public class Office extends IdGenerator {
 
     @Column(name="orders")
     @OneToMany(mappedBy = "office")
-    private Set<Order> orders;
+    private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private LogisticCompany logisticCompany;

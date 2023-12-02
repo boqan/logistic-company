@@ -1,11 +1,11 @@
 package com.LogisticsCompany.repository;
 
-import com.LogisticsCompany.model.BusinessEntity;
+import com.LogisticsCompany.model.LogisticCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BusinessEntityRepository extends JpaRepository<BusinessEntity, Long> {
+public interface LogisticCompanyRepository extends JpaRepository<LogisticCompany, Long> {
 
 
 }
