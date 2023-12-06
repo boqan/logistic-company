@@ -1,6 +1,7 @@
 package com.LogisticsCompany.controller;
 
 
+import com.LogisticsCompany.dto.LogisticCompanyDTOnoCompany;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -40,7 +41,7 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/company/{id}")
-    public LogisticCompany fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDTOnoCompany fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchCompanyById(companyId);
     }
 

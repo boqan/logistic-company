@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Client extends IdGenerator {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     @JoinColumn(name = "logistic_company_id")
     private LogisticCompany logisticCompany;
+
+    @Column(name = "name")
+    private String name;
+
 }

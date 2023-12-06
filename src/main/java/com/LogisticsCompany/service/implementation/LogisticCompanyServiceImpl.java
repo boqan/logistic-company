@@ -1,7 +1,9 @@
 package com.LogisticsCompany.service.implementation;
 
+import com.LogisticsCompany.dto.LogisticCompanyDTOnoCompany;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
+import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
@@ -18,16 +20,18 @@ import java.util.Optional;
 public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     @Autowired
     private LogisticCompanyRepository logisticCompanyRepository;
+    @Autowired
+    private EntityMapper entityMapper;
 
     @Override
-    public LogisticCompany fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDTOnoCompany fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> logisticCompany = logisticCompanyRepository.findById(companyId);
-
         if(!logisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
 
-        return logisticCompany.get();
+        LogisticCompanyDTOnoCompany companyDTO = entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompany.get());
+        return companyDTO;
     }
 
     @Override

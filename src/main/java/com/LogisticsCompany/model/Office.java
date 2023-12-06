@@ -16,7 +16,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "office", schema = "transport_company")
 public class Office extends IdGenerator {
 
@@ -28,6 +27,5 @@ public class Office extends IdGenerator {
     private List<Order> orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
     private LogisticCompany logisticCompany;
 }

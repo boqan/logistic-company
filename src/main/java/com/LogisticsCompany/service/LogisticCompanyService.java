@@ -1,5 +1,6 @@
 package com.LogisticsCompany.service;
 
+import com.LogisticsCompany.dto.LogisticCompanyDTOnoCompany;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 
 public interface LogisticCompanyService {
-    public LogisticCompany fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
+    public LogisticCompanyDTOnoCompany fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
     public List<LogisticCompany> fetchLogisticCompanyList();
 
