@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "logistic_company")
-public class LogisticCompany extends BusinessEntity {
+public class LogisticCompany extends IdGenerator {
 
     @NotBlank(message = "Company must have a name")
     @Column(name = "name")

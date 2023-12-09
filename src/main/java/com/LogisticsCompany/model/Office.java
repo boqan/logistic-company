@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "office", schema = "transport_company")
-public class Office extends IdGenerator {
+public class Office extends BusinessEntity {
 
     @Column(name="address")
     private String address;

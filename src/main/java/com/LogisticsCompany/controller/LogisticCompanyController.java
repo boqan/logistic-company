@@ -1,7 +1,7 @@
 package com.LogisticsCompany.controller;
 
 
-import com.LogisticsCompany.dto.LogisticCompanyDTOnoCompany;
+import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 public class LogisticCompanyController {
@@ -41,7 +40,7 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/company/{id}")
-    public LogisticCompanyDTOnoCompany fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDTOnoOffice fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchCompanyById(companyId);
     }
 

@@ -20,9 +20,9 @@ public class BusinessEntity extends IdGenerator {
     @Column(name = "revenue")
     private BigDecimal revenue=BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "logisticCompany" )
+    @OneToMany(mappedBy = "office" )
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "logisticCompany" )
+    @OneToMany(mappedBy = "office" )
     private List<Client> clients;
 }

@@ -1,6 +1,6 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.LogisticCompanyDTOnoCompany;
+import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
@@ -24,13 +24,13 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     private EntityMapper entityMapper;
 
     @Override
-    public LogisticCompanyDTOnoCompany fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDTOnoOffice fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> logisticCompany = logisticCompanyRepository.findById(companyId);
         if(!logisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
 
-        LogisticCompanyDTOnoCompany companyDTO = entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompany.get());
+        LogisticCompanyDTOnoOffice companyDTO = entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompany.get());
         return companyDTO;
     }
 
@@ -63,10 +63,6 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
 
         if(Objects.nonNull(logisticCompany.getName()) && !"".equals(logisticCompany.getName())){
             logisticCompanyDb.setName(logisticCompany.getName());
-        }
-
-        if(Objects.nonNull(logisticCompany.getRevenue()) && !"".equals(logisticCompany.getRevenue())){
-            logisticCompanyDb.setRevenue((logisticCompany.getRevenue()));
         }
 
         if(Objects.nonNull(logisticCompany.getCountry()) && !"".equals(logisticCompany.getCountry())){

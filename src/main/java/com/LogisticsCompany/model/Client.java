@@ -15,8 +15,8 @@ public class Client extends IdGenerator {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "logistic_company_id")
-    private LogisticCompany logisticCompany;
+    @JoinColumn(name = "office_id")
+    private Office office;
 
     @Column(name = "name")
     private String name;

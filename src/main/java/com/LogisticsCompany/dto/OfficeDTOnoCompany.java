@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfficeDTOnoCompany extends IdGenerator {
+public class OfficeDTOnoCompany extends BusinessEntityDTOnoOffice {
 
     private String address;
 

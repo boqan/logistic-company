@@ -14,9 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Employee extends IdGenerator {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "logistic_company_id")
-    private LogisticCompany logisticCompany;
-
+    @JoinColumn(name = "office_id")
+    private Office office;
 
     @NotBlank(message = "Employee should have a name")
     @Column(name="name")

@@ -10,50 +10,48 @@ import java.util.stream.Collectors;
 
 @Service
 public class EntityMapper {
-    private final ModelMapper modelMapper= new ModelMapper();
+    private final ModelMapper modelMapper = new ModelMapper();
 
-
-    public LogisticCompanyDTOnoCompany mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
-        LogisticCompanyDTOnoCompany companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDTOnoCompany.class);
-        companyDTO.setEmployees(mapEmployeeListToDTOnoCompany(logisticCompany.getEmployees()));
+    public LogisticCompanyDTOnoOffice mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
+        LogisticCompanyDTOnoOffice companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDTOnoOffice.class);
         companyDTO.setOffices(mapOfficeListDTOnoCompany(logisticCompany.getOffices()));
-        companyDTO.setClients(mapClientListDTOnoCompany(logisticCompany.getClients()));
         return companyDTO;
     }
 
     public OfficeDTOnoCompany mapToOfficeDTOnoCompany(Office office){
-        OfficeDTOnoCompany officeDto =modelMapper.map(office, OfficeDTOnoCompany.class);
+        OfficeDTOnoCompany officeDto = modelMapper.map(office, OfficeDTOnoCompany.class);
         officeDto.setOrders(mapOrderListToDTOnoOffice(office.getOrders()));
+        officeDto.setEmployees(mapEmployeeListToDTOnoOffice(office.getEmployees()));
+        officeDto.setClients(mapClientListDTOnoOffice(office.getClients()));
         return officeDto;
     }
 
-
-    public EmployeeDTOnoCompany mapToDTOnoCompany(Employee employee){
-        return modelMapper.map(employee, EmployeeDTOnoCompany.class);
+    public EmployeeDTOnoOffice mapToDTOnoOffice(Employee employee){
+        return modelMapper.map(employee, EmployeeDTOnoOffice.class);
     }
 
-    public OrderDTOnoOffice mapToDTOnoOffice(Order order){
+    public OrderDTOnoOffice mapToOrderDTOnoOffice(Order order){
         return modelMapper.map(order, OrderDTOnoOffice.class);
     }
 
-    public ClientDTOnoCompany mapClientToDTOnoCompany(Client client){
-        return modelMapper.map(client,ClientDTOnoCompany.class);
+    public ClientDTOnoOffice mapClientToDTOnoOffice(Client client){
+        return modelMapper.map(client, ClientDTOnoOffice.class);
     }
 
-    private List<ClientDTOnoCompany> mapClientListDTOnoCompany(List<Client> clients){
-        return clients.stream().map(this::mapClientToDTOnoCompany).collect(Collectors.toList());
+    private List<ClientDTOnoOffice> mapClientListDTOnoOffice(List<Client> clients){
+        return clients.stream().map(this::mapClientToDTOnoOffice).collect(Collectors.toList());
     }
 
     private List<OrderDTOnoOffice> mapOrderListToDTOnoOffice(List<Order> orders){
-        return orders.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
+        return orders.stream().map(this::mapToOrderDTOnoOffice).collect(Collectors.toList());
     }
 
     private List<OfficeDTOnoCompany> mapOfficeListDTOnoCompany(List<Office> offices){
         return offices.stream().map(this::mapToOfficeDTOnoCompany).collect(Collectors.toList());
     }
 
-    private List<EmployeeDTOnoCompany> mapEmployeeListToDTOnoCompany(List<Employee> employees){
-        return employees.stream().map(this::mapToDTOnoCompany).collect(Collectors.toList());
+    private List<EmployeeDTOnoOffice> mapEmployeeListToDTOnoOffice(List<Employee> employees){
+        return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
     }
 
 }
