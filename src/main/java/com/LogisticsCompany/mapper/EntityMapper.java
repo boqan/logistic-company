@@ -31,7 +31,10 @@ public class EntityMapper {
     }
 
     public OrderDTOnoOffice mapToOrderDTOnoOffice(Order order){
-        return modelMapper.map(order, OrderDTOnoOffice.class);
+        OrderDTOnoOffice orderDTO = modelMapper.map(order, OrderDTOnoOffice.class);
+        orderDTO.setReceiver(mapClientToDTOnoOffice(order.getReceiver()));
+        orderDTO.setSender(mapClientToDTOnoOffice(order.getSender()));
+        return orderDTO;
     }
 
     public ClientDTOnoOffice mapClientToDTOnoOffice(Client client){

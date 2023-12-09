@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @ResponseStatus
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
-    /**@ExceptionHandler(LogisticCompanyNotFoundException.class)
+    @ExceptionHandler(LogisticCompanyNotFoundException.class)
     public ResponseEntity<ErrorMessage> logisticCompanyNotFoundException(LogisticCompanyNotFoundException logisticCompanyNotFoundException, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, logisticCompanyNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
@@ -21,5 +21,5 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ErrorMessage> officeNotFoundException(OfficeNotFoundException officeNotFoundException, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, officeNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
-    }**/
+    }
 }

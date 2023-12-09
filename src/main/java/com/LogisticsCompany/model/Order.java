@@ -18,11 +18,31 @@ import java.math.BigDecimal;
 public class Order extends IdGenerator{
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Office office;
-    @Enumerated
-    @Column(name = "delivery_status")
-    private DeliveryStatus deliveryStatus;
+    @JoinColumn(name = "sender_id")
+    private Client sender;
 
-    @Column(name = "price")
-    private BigDecimal price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id")
+    private Client receiver;
+
+    @Column(nullable = false)
+    private double weight;
+
+    @Column(nullable = false, length = 255)
+    private String receiverAddress;
+
+    @Column(nullable = false)
+    private double price;
+
+    // @Enumerated(EnumType.STRING)
+    //private DeliveryType deliveryType;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "office_id")
+    private Office office;
+
+    // Additional methods such as calculatePrice() can be added here if needed
 }

@@ -32,4 +32,7 @@ public class LogisticCompany extends IdGenerator {
     @Column(name = "offices")
     @OneToMany(mappedBy = "logisticCompany")
     private List<Office> offices;
+
+
+
 }
