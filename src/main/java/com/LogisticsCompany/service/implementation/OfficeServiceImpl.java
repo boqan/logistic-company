@@ -1,17 +1,16 @@
 package com.LogisticsCompany.service.implementation;
 
+import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
 import com.LogisticsCompany.dto.OfficeDTOnoCompany;
 import com.LogisticsCompany.dto.OrderDTOnoOffice;
 import com.LogisticsCompany.enums.DeliveryStatus;
-import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
+import com.LogisticsCompany.error.InvalidStatusException;
 import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
-import com.LogisticsCompany.model.LogisticCompany;
+import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.service.OfficeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,20 +28,6 @@ public class OfficeServiceImpl implements OfficeService {
     private EntityMapper entityMapper;
 
     @Override
-    public List<OrderDTOnoOffice> getOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException {
-        Optional<Office> office = officeRepository.findById(officeId);
-        if(!office.isPresent()){
-            throw new OfficeNotFoundException("Office not available");
-        }
-        OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
-        return officeDTOnoCompany.getOrders().stream().
-                filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getDeliveryStatus()
-                        .equals(deliveryStatus))
-                        .collect(Collectors.toList());
-    }
-
-    @Override
     public OfficeDTOnoCompany fetchOfficeById(Long officeId) throws OfficeNotFoundException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
@@ -52,42 +37,65 @@ public class OfficeServiceImpl implements OfficeService {
         return officeDTOnoCompany;
     }
 
+
     @Override
-    public List<OrderDTOnoOffice> getOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException {
+    public List<OrderDTOnoOffice> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
             throw new OfficeNotFoundException("Office not available");
+        }
+        if(!DeliveryStatus.isValidStatus(deliveryStatus.name())){
+            throw new InvalidStatusException("Invalid delivery status");
         }
         OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
         return officeDTOnoCompany.getOrders().stream().
                 filter(orderDTOnoOffice -> orderDTOnoOffice
                         .getDeliveryStatus()
                         .equals(deliveryStatus))
-                .collect(Collectors.toList()).stream()
+                        .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<OrderDTOnoOffice> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException {
+        Optional<Office> office = officeRepository.findById(officeId);
+        if(!office.isPresent()){
+            throw new OfficeNotFoundException("Office not available");
+        }
+        if(!DeliveryStatus.isValidStatus(deliveryStatus.name())){
+            throw new InvalidStatusException("Invalid delivery status");
+        }
+        OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
+        return officeDTOnoCompany.getOrders().stream()
                 .filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getReceiver()
-                        .getId()
-                        .equals(clientId))
+                        .getDeliveryStatus()
+                        .equals(deliveryStatus) &&
+                        orderDTOnoOffice
+                                .getReceiver()
+                                .getId()
+                                .equals(clientId))
                 .collect(Collectors.toList());
     }
 
 
     @Override
-    public List<OrderDTOnoOffice> getOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException {
+    public List<OrderDTOnoOffice> fetchOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
             throw new OfficeNotFoundException("Office not available");
         }
+        if(!DeliveryStatus.isValidStatus(deliveryStatus.name())){
+            throw new InvalidStatusException("Invalid delivery status");
+        }
         OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
-        return officeDTOnoCompany.getOrders().stream().
-                filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getDeliveryStatus()
-                        .equals(deliveryStatus))
-                .collect(Collectors.toList()).stream()
+        return officeDTOnoCompany.getOrders().stream()
                 .filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getSender()
-                        .getId()
-                        .equals(clientId))
+                        .getDeliveryStatus()
+                        .equals(deliveryStatus) &&
+                        orderDTOnoOffice
+                                .getSender()
+                                .getId()
+                                .equals(clientId))
                 .collect(Collectors.toList());
     }
 
@@ -105,7 +113,7 @@ public class OfficeServiceImpl implements OfficeService {
     public void deleteOfficeById(Long officeId) throws OfficeNotFoundException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
-            throw new OfficeNotFoundException("Office not available !");
+            throw new OfficeNotFoundException("Office not available!");
         }
         officeRepository.deleteById(officeId);
     }
@@ -126,6 +134,60 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         return officeRepository.save(officeDb);
+    }
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesSortedBySalary(Office office) {
+        List<Employee> employees = office.getEmployees().stream()
+                .sorted((e1, e2) -> (int) (e1.getSalary() - e2.getSalary()))
+                .collect(Collectors.toList());
+        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+    }
+
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesAboveSalary(Office office, double salary) {
+        List<Employee> employees = office.getEmployees().stream()
+                .filter(employee -> employee.getSalary() > salary)
+                .collect(Collectors.toList());
+        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+    }
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesBelowSalary(Office office, double salary) {
+        List<Employee> employees = office.getEmployees().stream()
+                .filter(employee -> employee.getSalary() < salary)
+                .collect(Collectors.toList());
+        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+    }
+
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesByName(Office office, String name) {
+        List<Employee> employees = office.getEmployees().stream()
+                .filter(employee -> employee.getName().equals(name))
+                .collect(Collectors.toList());
+        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+    }
+
+    @Override
+    public List<OrderDTOnoOffice> fetchClientListOfOrders(Long officeId, Long clientId) throws OfficeNotFoundException {
+        Optional<Office> office = officeRepository.findById(officeId);
+        if(!office.isPresent()){
+            throw new OfficeNotFoundException("Office not available");
+        }
+        OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
+        return officeDTOnoCompany.getOrders().stream()
+                .filter(orderDTOnoOffice -> orderDTOnoOffice
+                        .getSender()
+                        .getId()
+                        .equals(clientId) ||
+                        orderDTOnoOffice
+                                .getReceiver()
+                                .getId()
+                                .equals(clientId))
+                .collect(Collectors.toList());
+
     }
 
 }

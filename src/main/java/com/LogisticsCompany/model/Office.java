@@ -19,10 +19,10 @@ import java.util.Set;
 @Table(name = "office", schema = "transport_company")
 public class Office extends BusinessEntity {
 
-    @Column(name="address")
+    @Column(name="address", nullable = false, length = 255)
     private String address;
 
-    @Column(name="orders")
+    @Column(name="orders", nullable = false, length = 255)
     @OneToMany(mappedBy = "office")
     private List<Order> orders;
 

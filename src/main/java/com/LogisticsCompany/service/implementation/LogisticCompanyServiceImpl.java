@@ -1,6 +1,8 @@
 package com.LogisticsCompany.service.implementation;
 
+import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
 import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
+import com.LogisticsCompany.dto.OfficeDTOnoCompany;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
@@ -12,10 +14,10 @@ import com.LogisticsCompany.service.LogisticCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     @Autowired
@@ -92,4 +94,82 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
 
         return currMap;
     }
+
+    @Override
+    public BigDecimal fetchRevenue(Long companyId) throws LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb=currLogisticCompany.get();
+
+        BigDecimal revenue=BigDecimal.ZERO;
+
+        for(Office office:logisticCompanyDb.getOffices()){
+            revenue.add(office.getRevenue());
+        }
+
+        return revenue;
+    }
+
+    @Override
+    public List<OfficeDTOnoCompany> fetchOfficesSortedByRevenue(Long companyId) throws LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb=currLogisticCompany.get();
+
+        List<OfficeDTOnoCompany> officeDTOnoCompanyList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
+        officeDTOnoCompanyList.sort(Comparator.comparing(OfficeDTOnoCompany::getRevenue));
+        return officeDTOnoCompanyList;
+    }
+
+    @Override
+    public List<OfficeDTOnoCompany> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb=currLogisticCompany.get();
+
+        List<OfficeDTOnoCompany> officeDTOnoCompanyList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
+
+        officeDTOnoCompanyList.sort(Comparator.comparing(officeDTOnoCompany -> officeDTOnoCompany.getEmployees().size()));
+        return officeDTOnoCompanyList;
+    }
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb = currLogisticCompany.get();
+
+        List<EmployeeDTOnoOffice> employeeDTOnoOfficeList = new ArrayList<>();
+        for(Office office:logisticCompanyDb.getOffices()){
+            employeeDTOnoOfficeList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+        }
+        return employeeDTOnoOfficeList;
+    }
+
+    @Override
+    public List<EmployeeDTOnoOffice> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb = currLogisticCompany.get();
+
+        List<EmployeeDTOnoOffice> employeeDTOnoOfficeList = new ArrayList<>();
+        for(Office office:logisticCompanyDb.getOffices()){
+            employeeDTOnoOfficeList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+        }
+        return employeeDTOnoOfficeList.stream()
+                .filter(employeeDTOnoOffice -> employeeDTOnoOffice.getName().equals(name))
+                .collect(Collectors.toList());
+    }
+
+
 }

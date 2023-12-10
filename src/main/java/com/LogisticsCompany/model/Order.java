@@ -44,5 +44,4 @@ public class Order extends IdGenerator{
     @JoinColumn(name = "office_id")
     private Office office;
 
-    // Additional methods such as calculatePrice() can be added here if needed
 }

@@ -22,11 +22,11 @@ import java.util.Set;
 public class LogisticCompany extends IdGenerator {
 
     @NotBlank(message = "Company must have a name")
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
     @NotBlank(message = "Company must have a country")
-    @Column(name = "country")
+    @Column(name = "country", nullable = false, length = 255)
     private String country;
 
     @Column(name = "offices")

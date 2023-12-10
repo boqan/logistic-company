@@ -17,12 +17,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class BusinessEntity extends IdGenerator {
 
-    @Column(name = "revenue")
+    @Column(name = "revenue", nullable = false)
     private BigDecimal revenue=BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "office" )
+    @OneToMany(mappedBy = "office")
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "office" )
+    @OneToMany(mappedBy = "office")
     private List<Client> clients;
 }

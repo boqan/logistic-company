@@ -18,7 +18,11 @@ public class Employee extends IdGenerator {
     private Office office;
 
     @NotBlank(message = "Employee should have a name")
-    @Column(name="name")
+    @Column(name="name", nullable = false, length = 255)
     private String name;
+
+    @NotBlank(message = "Employee should have a salary")
+    @Column(name="salary", nullable = false)
+    private double salary;
 
 }

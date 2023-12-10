@@ -49,11 +49,11 @@ public class EntityMapper {
         return orders.stream().map(this::mapToOrderDTOnoOffice).collect(Collectors.toList());
     }
 
-    private List<OfficeDTOnoCompany> mapOfficeListDTOnoCompany(List<Office> offices){
+    public List<OfficeDTOnoCompany> mapOfficeListDTOnoCompany(List<Office> offices){
         return offices.stream().map(this::mapToOfficeDTOnoCompany).collect(Collectors.toList());
     }
 
-    private List<EmployeeDTOnoOffice> mapEmployeeListToDTOnoOffice(List<Employee> employees){
+    public List<EmployeeDTOnoOffice> mapEmployeeListToDTOnoOffice(List<Employee> employees){
         return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
     }
 

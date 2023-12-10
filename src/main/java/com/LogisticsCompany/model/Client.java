@@ -18,7 +18,7 @@ public class Client extends IdGenerator {
     @JoinColumn(name = "office_id")
     private Office office;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
 }

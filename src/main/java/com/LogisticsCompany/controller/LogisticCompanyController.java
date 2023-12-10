@@ -1,7 +1,9 @@
 package com.LogisticsCompany.controller;
 
 
+import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
 import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
+import com.LogisticsCompany.dto.OfficeDTOnoCompany;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +58,33 @@ public class LogisticCompanyController {
                                          @RequestBody LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.updateLogisticCompany(companyId,logisticCompany);
     }
+
+    @GetMapping("/company/{id}/revenue")
+    public BigDecimal getRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        return logisticCompanyService.fetchRevenue(companyId);
+    }
+
+    @GetMapping("/company/{id}/offices_sortedByRevenue")
+    public List<OfficeDTOnoCompany> sortOfficesByRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        return logisticCompanyService.fetchOfficesSortedByRevenue(companyId);
+    }
+
+    @GetMapping("/company/{id}/offices_sortedByNumberOfEmployees")
+    public List<OfficeDTOnoCompany> sortOfficesByNumberOfEmployees(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        return logisticCompanyService.fetchOfficesSortedByNumberOfEmployees(companyId);
+    }
+
+    @GetMapping("/company/{id}/employees_sortedBySalary")
+    public List<EmployeeDTOnoOffice> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        return logisticCompanyService.fetchEmployeesSortedBySalary(companyId);
+    }
+
+    @GetMapping("/company/{id}/employees_byName/{name}")
+    public List<EmployeeDTOnoOffice> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+        return logisticCompanyService.fetchEmployeesByName(companyId, name);
+    }
+
+
 
 
 
