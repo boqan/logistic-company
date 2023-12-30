@@ -26,7 +26,6 @@ public class EntityMapper {
         return officeDto;
     }
 
-
     public OrderDTOnoOffice mapToOrderDTOnoOffice(Order order){
         OrderDTOnoOffice orderDTO = modelMapper.map(order, OrderDTOnoOffice.class);
         orderDTO.setReceiver(mapClientToDTOnoOffice(order.getReceiver()));
@@ -51,15 +50,20 @@ public class EntityMapper {
     }
 
     // EmployeeDTOnoOffice
-    public EmployeeDTOnoOffice mapToEmployeeDTOnoOffice(Employee employee){
-        return modelMapper.map(employee, EmployeeDTOnoOffice.class);
+    public EmployeeDTO mapToEmployeeDTOnoOffice(Employee employee){
+        return modelMapper.map(employee, EmployeeDTO.class);
     }
-    public List<EmployeeDTOnoOffice> mapEmployeeListToDTOnoOffice(List<Employee> employees){
+    public List<EmployeeDTO> mapEmployeeListToDTOnoOffice(List<Employee> employees){
         return employees.stream().map(this::mapToEmployeeDTOnoOffice).collect(Collectors.toList());
     }
 
+    public Employee mapToEmployee(EmployeeDTO employeeDTO) {
+        return modelMapper.map(employeeDTO, Employee.class);
+    }
 
-
+    public List<Employee> mapEmployeeList(List<EmployeeDTO> employeeDTOS) {
+        return employeeDTOS.stream().map(this::mapToEmployee).collect(Collectors.toList());
+    }
 }
 
 

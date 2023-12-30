@@ -14,7 +14,7 @@ import java.util.List;
 public class BusinessEntityDTOnoOffice extends IdGenerator {
     private BigDecimal revenue = BigDecimal.ZERO;
 
-    private List<EmployeeDTOnoOffice> employees;
+    private List<EmployeeDTO> employees;
 
     private List<ClientDTOnoOffice> clients;
 }

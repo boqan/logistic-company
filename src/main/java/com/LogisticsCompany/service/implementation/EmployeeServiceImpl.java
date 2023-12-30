@@ -1,6 +1,6 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.repository.EmployeeRepository;
@@ -16,7 +16,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EntityMapper entityMapper;
 
 
-    public EmployeeDTOnoOffice createOrUpdateEmployee(Long id, EmployeeDTOnoOffice employeeDTO) {
+    public EmployeeDTO createOrUpdateEmployee(Long id, EmployeeDTO employeeDTO) {
         Employee existingEmployee = employeeRepository.findById(id).orElse(null);
         if(existingEmployee != null) {
             //The employee already exists

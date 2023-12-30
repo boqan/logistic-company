@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeDTOnoOffice extends IdGenerator {
+public class EmployeeDTO extends IdGenerator {
     private String name;
     private BigDecimal salary;
 }

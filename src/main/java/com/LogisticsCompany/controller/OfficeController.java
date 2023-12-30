@@ -1,6 +1,6 @@
 package com.LogisticsCompany.controller;
 
-import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDTOnoCompany;
 import com.LogisticsCompany.dto.OrderDTOnoOffice;
 import com.LogisticsCompany.enums.DeliveryStatus;
@@ -78,22 +78,22 @@ public class OfficeController {
     }
 
     @GetMapping("/office/{id}/employees_sortedBySalary")
-    public List<EmployeeDTOnoOffice> getEmployeesSortedBySalary(Office office) {
+    public List<EmployeeDTO> getEmployeesSortedBySalary(Office office) {
         return officeService.fetchEmployeesSortedBySalary(office);
     }
 
     @GetMapping("/office/{id}/employees_aboveSalary/{salary}")
-    public List<EmployeeDTOnoOffice> getEmployeesAboveSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesAboveSalary(Office office, @PathVariable("salary") double salary) {
         return officeService.fetchEmployeesAboveSalary(office, salary);
     }
 
     @GetMapping("/office/{id}/employees_belowSalary/{salary}")
-    public List<EmployeeDTOnoOffice> getEmployeesBelowSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesBelowSalary(Office office, @PathVariable("salary") double salary) {
         return officeService.fetchEmployeesBelowSalary(office, salary);
     }
 
     @GetMapping("/office/{id}/employees_byName/{name}")
-    public List<EmployeeDTOnoOffice> getEmployeeByName(Office office, @PathVariable("name") String name) {
+    public List<EmployeeDTO> getEmployeeByName(Office office, @PathVariable("name") String name) {
         return officeService.fetchEmployeesByName(office, name);
     }
 
