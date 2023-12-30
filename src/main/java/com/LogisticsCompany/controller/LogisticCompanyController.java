@@ -1,9 +1,9 @@
 package com.LogisticsCompany.controller;
 
 
-import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
-import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
-import com.LogisticsCompany.dto.OfficeDTOnoCompany;
+import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.LogisticCompanyDto;
+import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -43,7 +43,7 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/company/{id}")
-    public LogisticCompanyDTOnoOffice fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDto fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchCompanyById(companyId);
     }
 
@@ -65,22 +65,22 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/company/{id}/offices_sortedByRevenue")
-    public List<OfficeDTOnoCompany> sortOfficesByRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+    public List<OfficeDto> sortOfficesByRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchOfficesSortedByRevenue(companyId);
     }
 
     @GetMapping("/company/{id}/offices_sortedByNumberOfEmployees")
-    public List<OfficeDTOnoCompany> sortOfficesByNumberOfEmployees(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+    public List<OfficeDto> sortOfficesByNumberOfEmployees(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchOfficesSortedByNumberOfEmployees(companyId);
     }
 
     @GetMapping("/company/{id}/employees_sortedBySalary")
-    public List<EmployeeDTOnoOffice> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDto> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchEmployeesSortedBySalary(companyId);
     }
 
     @GetMapping("/company/{id}/employees_byName/{name}")
-    public List<EmployeeDTOnoOffice> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchEmployeesByName(companyId, name);
     }
 

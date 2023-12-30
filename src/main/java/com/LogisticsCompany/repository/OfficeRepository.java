@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OfficeRepository extends JpaRepository< Office, Long> {
+public interface OfficeRepository extends JpaRepository<Office, Long> {
+
 
 }
