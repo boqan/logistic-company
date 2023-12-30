@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee extends IdGenerator {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "office_id")
