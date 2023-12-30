@@ -13,6 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class EmployeeDTO extends IdGenerator {
     private String name;
-    private BigDecimal salary;
+    private double salary;
     private Office office;
 }

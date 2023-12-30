@@ -26,6 +26,6 @@ public class Employee extends IdGenerator {
 
     @NotBlank(message = "Employee should have a salary")
     @Column(name="salary", nullable = false)
-    private BigDecimal salary;
+    private double salary;
 
 }
