@@ -141,7 +141,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .sorted((e1, e2) -> (int) (e1.getSalary() - e2.getSalary()))
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
 
@@ -150,7 +150,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getSalary() > salary)
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getSalary() < salary)
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
 
@@ -167,7 +167,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getName().equals(name))
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
     @Override
