@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -24,6 +26,6 @@ public class Employee extends IdGenerator {
 
     @NotBlank(message = "Employee should have a salary")
     @Column(name="salary", nullable = false)
-    private double salary;
+    private BigDecimal salary;
 
 }
