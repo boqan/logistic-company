@@ -64,6 +64,13 @@ public class EntityMapper {
     public List<Employee> mapEmployeeList(List<EmployeeDTO> employeeDTOS) {
         return employeeDTOS.stream().map(this::mapToEmployee).collect(Collectors.toList());
     }
+    public ClientDTOnoOffice convertToDto(Client clientEntity) {
+        // Perform the mapping from ClientEntity to ClientDTOnoOffice
+        ClientDTOnoOffice clientDto = new ClientDTOnoOffice();
+        clientDto.setId(clientEntity.getId());
+        clientDto.setName(clientEntity.getName());
+        return clientDto;
+    }
 }
 
 
