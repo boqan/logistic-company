@@ -5,13 +5,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-
+@Data
 @MappedSuperclass
-@Getter
-@Setter
 public class IdGenerator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
