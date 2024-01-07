@@ -1,4 +1,4 @@
 package com.LogisticsCompany.repository;
 
-public class EmployeeRepository {
+public interface EmployeeRepository {
 }
