@@ -57,6 +57,26 @@ public class EntityMapper {
         return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
     }
 
+    // Order mappings-----------------------------------------------------------------------------------------------
+    public OrderDTO mapToOrderDTO(Order order) {
+        return modelMapper.map(order, OrderDTO.class);
+    }
+
+    public Order mapToOrderEntity(OrderDTO orderDTO) {
+        return modelMapper.map(orderDTO, Order.class);
+    }
+
+    public List<OrderDTO> mapToOrderDTOs(List<Order> orders) {
+        return orders.stream()
+                .map(this::mapToOrderDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Add other mapping methods as necessary for your application logic
+
+    // You might need to configure the ModelMapper to handle specific mapping configurations,
+    // such as skipping null fields or specifying how to map nested objects.
+
 }
 
 

@@ -1,5 +1,7 @@
 package com.LogisticsCompany.model;
 
+import com.LogisticsCompany.enums.DeliveryStatus;
+import com.LogisticsCompany.enums.DeliveryType;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.LogisticsCompany.model;
+package com.LogisticsCompany.enums;
 
 public enum DeliveryType {
     TO_OFFICE,
