@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,27 +24,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EntityMapper entityMapper;
 
     @Override
-    public EmployeeDTO createOrUpdateEmployee(Long id, EmployeeDTO employeeDTO) throws InvalidSalaryException {
-        Employee existingEmployee = employeeRepository.findById(id).orElse(null);
-
-        if(existingEmployee != null) {
-            //The employee already exists
-            BeanUtils.copyProperties(employeeDTO, existingEmployee, "id");
-            Employee updatedEmployee = employeeRepository.save(existingEmployee);
-
-            return entityMapper.mapToEmployeeDTO(updatedEmployee);
-        }
-        else {
-            if (employeeDTO.getSalary() <= 0) {
+    public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidSalaryException {
+        if (employeeDTO.getSalary().compareTo(BigDecimal.ZERO) <= 0) {
                 throw new InvalidSalaryException("Salary cannot be negative");
-            }
-            //Create a new employee
-            Employee newEmployee = entityMapper.mapToEmployee(employeeDTO);
-            Employee savedEmployee = employeeRepository.save(newEmployee);
-
-            return entityMapper.mapToEmployeeDTO(savedEmployee);
         }
+        Employee newEmployee = entityMapper.mapToEmployee(employeeDTO);
+        employeeRepository.save(newEmployee);
     }
+
+    @Override
+    public void updateEmployee(EmployeeDTO employeeDTO, Long id) throws InvalidSalaryException {
+        if (employeeDTO.getSalary().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidSalaryException("Salary cannot be negative");
+        }
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employeeRepository.save(employee);
+    }
+
 
     @Override
     public void deleteEmployeeById(Long id) {
@@ -58,9 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
 
-        EmployeeDTO employeeDTO = entityMapper.mapToEmployeeDTO(employee);
-
-        return employeeDTO;
+        return entityMapper.mapToEmployeeDTO(employee);
     }
 
     @Override
@@ -68,9 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with name " + name + " not found"));
 
-        EmployeeDTO employeeDTO = entityMapper.mapToEmployeeDTO(employee);
-
-        return employeeDTO;
+        return entityMapper.mapToEmployeeDTO(employee);
     }
 
     @Override
@@ -81,14 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityNotFoundException("No employees found in the database");
         }
 
-        List<EmployeeDTO> employeeDTOs = employees.stream()
+        return employees.stream()
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
                 .collect(Collectors.toList());
-
-        return employeeDTOs;
     }
 
-    // This may be changed in the future as it works with double not BigDecimal
     @Override
     public List<EmployeeDTO> sortEmployeesBySalary() {
         List<Employee> employees = employeeRepository.findAll();
@@ -97,12 +91,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityNotFoundException("No employees found in the database");
         }
 
-        List<EmployeeDTO> sortedEmployeeDTOs = employees.stream()
+        return employees.stream()
                 .sorted(Comparator.comparing(Employee::getSalary)) // Sort by salary in ascending order
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
                 .collect(Collectors.toList());
-
-        return sortedEmployeeDTOs;
     }
 
     @Override
@@ -113,11 +105,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EntityNotFoundException("No employees found in the database");
         }
 
-        List<EmployeeDTO> sortedEmployeeDTOs = employees.stream()
+        return employees.stream()
                 .sorted(Comparator.comparing(Employee::getName)) // Sort by employee name in ascending order
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
                 .collect(Collectors.toList());
-
-        return sortedEmployeeDTOs;
     }
 }

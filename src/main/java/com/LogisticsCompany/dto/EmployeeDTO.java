@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeDTO extends IdGenerator {
+public class EmployeeDTO {
     private String name;
-    private double salary;
+    private BigDecimal salary;
     private Office office;
 }
