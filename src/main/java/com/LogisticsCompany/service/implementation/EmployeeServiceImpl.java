@@ -98,7 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         List<EmployeeDTO> sortedEmployeeDTOs = employees.stream()
-                .sorted(Comparator.comparingDouble(Employee::getSalary)) // Sort by salary in ascending order
+                .sorted(Comparator.comparing(Employee::getSalary)) // Sort by salary in ascending order
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
                 .collect(Collectors.toList());
 

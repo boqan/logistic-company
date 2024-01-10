@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 @RestController
 public class OfficeController {
@@ -83,12 +84,12 @@ public class OfficeController {
     }
 
     @GetMapping("/office/{id}/employees_aboveSalary/{salary}")
-    public List<EmployeeDTO> getEmployeesAboveSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesAboveSalary(Office office, @PathVariable("salary") BigDecimal salary) {
         return officeService.fetchEmployeesAboveSalary(office, salary);
     }
 
     @GetMapping("/office/{id}/employees_belowSalary/{salary}")
-    public List<EmployeeDTO> getEmployeesBelowSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesBelowSalary(Office office, @PathVariable("salary") BigDecimal salary) {
         return officeService.fetchEmployeesBelowSalary(office, salary);
     }
 

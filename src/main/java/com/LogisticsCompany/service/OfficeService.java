@@ -8,6 +8,7 @@ import com.LogisticsCompany.error.InvalidStatusException;
 import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.model.Office;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OfficeService {
@@ -30,9 +31,9 @@ public interface OfficeService {
 
     List<EmployeeDTO> fetchEmployeesSortedBySalary(Office office);
 
-    List<EmployeeDTO> fetchEmployeesAboveSalary(Office office, double salary);
+    List<EmployeeDTO> fetchEmployeesAboveSalary(Office office, BigDecimal salary);
 
-    List<EmployeeDTO> fetchEmployeesBelowSalary(Office office, double salary);
+    List<EmployeeDTO> fetchEmployeesBelowSalary(Office office, BigDecimal salary);
 
     List<EmployeeDTO> fetchEmployeesByName(Office office, String name);
 
