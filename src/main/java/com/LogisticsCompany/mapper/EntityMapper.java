@@ -1,5 +1,8 @@
 package com.LogisticsCompany.mapper;
 import com.LogisticsCompany.dto.*;
+import com.LogisticsCompany.enums.DeliveryStatus;
+import com.LogisticsCompany.enums.DeliveryType;
+import com.LogisticsCompany.error.OrderCreationValidationException;
 import com.LogisticsCompany.model.*;
 import org.modelmapper.ModelMapper;
 
@@ -58,24 +61,36 @@ public class EntityMapper {
     }
 
     // Order mappings-----------------------------------------------------------------------------------------------
-    public OrderDTO mapToOrderDTO(Order order) {
-        return modelMapper.map(order, OrderDTO.class);
+    public OrderDTOnoOfficeSenderRecieverWithIds mapToOrderDTOnoOfficeSenderRecieverWithIds(Order order) {
+        return modelMapper.map(order, OrderDTOnoOfficeSenderRecieverWithIds.class);
     }
 
-    public Order mapToOrderEntity(OrderDTO orderDTO) {
-        return modelMapper.map(orderDTO, Order.class);
+    public Order mapToOrderEntity(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds) {
+        return modelMapper.map(orderDTOnoOfficeSenderRecieverWithIds, Order.class);
     }
 
-    public List<OrderDTO> mapToOrderDTOs(List<Order> orders) {
+    public List<OrderDTOnoOfficeSenderRecieverWithIds> mapToOrderDTOs(List<Order> orders) {
         return orders.stream()
-                .map(this::mapToOrderDTO)
+                .map(this::mapToOrderDTOnoOfficeSenderRecieverWithIds)
                 .collect(Collectors.toList());
     }
 
-    // Add other mapping methods as necessary for your application logic
+    public Order.OrderBuilder mapOrderCreationRequestToEntity(OrderCreationRequest request) throws OrderCreationValidationException {
+        Order.OrderBuilder orderBuilder = Order.builder();
 
-    // You might need to configure the ModelMapper to handle specific mapping configurations,
-    // such as skipping null fields or specifying how to map nested objects.
+        try {
+            DeliveryType deliveryType = DeliveryType.valueOf(request.deliveryType().toUpperCase());
+            orderBuilder.deliveryType(deliveryType); // Store the converted delivery type enum in the order entity builder
+        } catch (IllegalArgumentException e) {
+            throw new OrderCreationValidationException("Invalid delivery type: " + request.deliveryType());
+        }
+
+        return orderBuilder
+                .weight(request.weight())
+                .receiverAddress(request.receiverAddress())
+                .status(DeliveryStatus.PENDING);
+
+    }
 
 }
 

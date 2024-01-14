@@ -1,17 +1,24 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.OrderDTO;
+import com.LogisticsCompany.dto.OrderCreationRequest;
+import com.LogisticsCompany.dto.OrderDTOnoOfficeSenderRecieverWithIds;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.DeliveryStatusException;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
+import com.LogisticsCompany.error.OfficeNotFoundException;
+import com.LogisticsCompany.error.OrderCreationValidationException;
 import com.LogisticsCompany.mapper.EntityMapper;
+import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.OrderRepository;
+import com.LogisticsCompany.service.OfficeService;
 import com.LogisticsCompany.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -19,43 +26,78 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final EntityMapper entityMapper;
 
+    private final OfficeService officeService;
+
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, EntityMapper entityMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, EntityMapper entityMapper, OfficeService officeService) {
         this.orderRepository = orderRepository;
         this.entityMapper = entityMapper;
+        this.officeService = officeService;
     }
 
-    // create two more overloads, with order order and long orderid, also add check if it already exists
-    @Override
-    public OrderDTO createOrder(OrderDTO orderDTO) {
-        orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderDTO.getId()));
+    private void orderCreationRequestValidation(OrderCreationRequest request) throws OrderCreationValidationException {
+        if(request.weight() <= 0){
+            throw new OrderCreationValidationException("Weight must be greater than 0");
+        }
+        if(request.deliveryType() == null){
+            throw new OrderCreationValidationException("Delivery type must be specified");
+        }
 
-        Order order = entityMapper.mapToOrderEntity(orderDTO);
+        if(request.receiver() == null){
+            throw new OrderCreationValidationException("Receiver must be specified");
+        }
+        if(request.sender() == null){
+            throw new OrderCreationValidationException("Sender must be specified");
+        }
+        if(request.receiverAddress() == null){
+            throw new OrderCreationValidationException("Receiver address must be specified");
+        }
+
+    }
+    @Override
+    public OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException {
+        // Validate order creation request
+        orderCreationRequestValidation(request);
+
+        Order.OrderBuilder orderBuilder = entityMapper.mapOrderCreationRequestToEntity(request); // part of the mapping logic
+
+        orderBuilder.price(calculateOrderPriceForOrderCreation(request)); // price is calculated based on the request
+
+        Office fetchedDefaultOffice = officeService.fetchDefaultOffice(); // first office in the database is fetched
+        orderBuilder.office(fetchedDefaultOffice); // the first office is set as the office for the order
+
+        Order order = orderBuilder.build(); // build the order entity, check if it already exists in the DB
+        Optional<Order> existingOrder = orderRepository.findById(order.getId());
+        if (existingOrder.isPresent()) {
+            throw new EntityAlreadyExistsInDbException("Order already exists for ID: " + order.getId());
+        }
+
+        officeService.updateOfficeOrders(order, fetchedDefaultOffice); // update the office's orders (add the new order to the list of orders)
+
         Order savedOrder = orderRepository.save(order);
-        return entityMapper.mapToOrderDTO(savedOrder);
+        return entityMapper.mapToOrderDTOnoOfficeSenderRecieverWithIds(savedOrder);
     }
 
     @Override
-    public OrderDTO getOrderById(Long id) {
+    public OrderDTOnoOfficeSenderRecieverWithIds getOrderById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + id));
-        return entityMapper.mapToOrderDTO(order);
+        return entityMapper.mapToOrderDTOnoOfficeSenderRecieverWithIds(order);
     }
 
     @Override
-    public List<OrderDTO> getAllOrders() {
+    public List<OrderDTOnoOfficeSenderRecieverWithIds> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
         return entityMapper.mapToOrderDTOs(orders);
     }
     // same here
     @Override
-    public OrderDTO updateOrder(Long orderId, OrderDTO orderDTO) {
+    public OrderDTOnoOfficeSenderRecieverWithIds updateOrder(Long orderId, OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds) {
         Order existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderId));
 
         // map from the DTO to the entity so that all fields are updated
-        Order updatedOrder = entityMapper.mapToOrderEntity(orderDTO);
+        Order updatedOrder = entityMapper.mapToOrderEntity(orderDTOnoOfficeSenderRecieverWithIds);
         existingOrder.setStatus(updatedOrder.getStatus());
         existingOrder.setWeight(updatedOrder.getWeight());
         existingOrder.setPrice(updatedOrder.getPrice());
@@ -69,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(existingOrder);
 
         // return the updated existing order as a DTO
-        return entityMapper.mapToOrderDTO(existingOrder);
+        return entityMapper.mapToOrderDTOnoOfficeSenderRecieverWithIds(existingOrder);
     }
 
     @Override
@@ -80,10 +122,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder(OrderDTO orderDTO) {
-        orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderDTO.getId()));
-        orderRepository.deleteById(orderDTO.getId());
+    public void deleteOrder(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds) {
+        orderRepository.findById(orderDTOnoOfficeSenderRecieverWithIds.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderDTOnoOfficeSenderRecieverWithIds.getId()));
+        orderRepository.deleteById(orderDTOnoOfficeSenderRecieverWithIds.getId());
     }
 
     @Override
@@ -104,47 +146,38 @@ public class OrderServiceImpl implements OrderService {
     }
     //overload to acceptOrderDTO
     @Override
-    public void changeOrderStatus(OrderDTO orderDTO, DeliveryStatus newStatus) throws DeliveryStatusException {
-        // If this order exists in the DB, update its status
-        Order order = orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderDTO.getId() + " does not exist in the database"));
-
-        if (order.getStatus() == DeliveryStatus.DELIVERED) {
-            throw new DeliveryStatusException("Order with id " + orderDTO.getId() + " has already been delivered");
-        }
-        if (order.getStatus() == newStatus) {
-            throw new DeliveryStatusException("Order with id " + orderDTO.getId() + " already has status " + newStatus);
-        }
-
-        order.setStatus(newStatus);
-        orderRepository.save(order);
+    public void changeOrderStatus(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds, DeliveryStatus newStatus) throws DeliveryStatusException {
+        changeOrderStatus(orderDTOnoOfficeSenderRecieverWithIds.getId(), newStatus);
     }
 
     @Override
-    public double calculateOrderPrice(Long orderId) {
+    public double calculateOrderPriceForOrderCreation(OrderCreationRequest request) {
+
+        // This is a placeholder for the calculation logic
+        // base price will be a set number
+        double basePrice = 5;
+        double weightFactor = request.weight() * 0.2;
+        double distanceFactor = 2.0; // Example distance factor, implement logic to calculate distance.
+
+        return basePrice + (request.weight() * weightFactor) + distanceFactor;
+    }
+
+    @Override
+    public double calculateOrderPriceForExistingOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderId + " does not exist in the database"));
         // This is a placeholder for the calculation logic
-        // base price will be calculated as 10 percent of the price of the order
-        double basePrice = order.getPrice() * 0.1;
-        double weightFactor = order.getWeight();
-        double distanceFactor = 5.0; // Example distance factor, implement logic to calculate distance.
+        // base price will be a set number
+        double basePrice = 5;
+        double weightFactor = order.getWeight() * 0.2;
+        double distanceFactor = 2.0; // Example distance factor, implement logic to calculate distance.
 
         return basePrice + (order.getWeight() * weightFactor) + distanceFactor;
     }
 
     //overload to accept orderDTO
     @Override
-    public double calculateOrderPrice(OrderDTO orderDTO) {
-        Order order = orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Order with id " + orderDTO.getId() + " does not exist in the database"));
-
-        // This is a placeholder for the calculation logic
-        // base price will be calculated as 10 percent of the price of the order
-        double basePrice = order.getPrice() * 0.1;
-        double weightFactor = order.getWeight();
-        double distanceFactor = 5.0; // Example distance factor, implement logic to calculate distance.
-
-        return basePrice + (order.getWeight() * weightFactor) + distanceFactor;
+    public double calculateOrderPriceForExistingOrder(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds) {
+        return calculateOrderPriceForExistingOrder(orderDTOnoOfficeSenderRecieverWithIds.getId());
     }
 }

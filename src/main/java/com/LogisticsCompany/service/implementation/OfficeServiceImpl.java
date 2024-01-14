@@ -9,11 +9,13 @@ import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.model.Office;
+import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,7 +38,20 @@ public class OfficeServiceImpl implements OfficeService {
         OfficeDTOnoCompany officeDTOnoCompany = entityMapper.mapToOfficeDTOnoCompany(office.get());
         return officeDTOnoCompany;
     }
+    // we use this fetch default office method to get the first office in the database
+    // since we need it to create an order and then update the office's orders
+    // we would have some logic to check which office is the closest or most optimal,
+    // but since we don't have that, we just get the first one as a placeholder way of doing it
+    @Override
+    public Office fetchDefaultOffice() throws OfficeNotFoundException {
+        Optional<Office> office = officeRepository.findFirstByOrderByIdAsc();
 
+        if (office.isEmpty()) {
+            throw new OfficeNotFoundException("No offices available");
+        }
+
+        return office.get();
+    }
 
     @Override
     public List<OrderDTOnoOffice> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException {
@@ -134,6 +149,26 @@ public class OfficeServiceImpl implements OfficeService {
         }
 
         return officeRepository.save(officeDb);
+    }
+    // needed together with fetchDefaultOffice() to create an order and then update the office's orders
+    @Override
+    public Office updateOfficeOrders(Order newOrder, Office fetchedDefaultOffice) throws OfficeNotFoundException {
+
+        // Ensure the orders list is initialized
+        if (fetchedDefaultOffice.getOrders() != null) {  // if the orders list is not null and is empty, create a new one and add the new order
+            if(fetchedDefaultOffice.getOrders().isEmpty()){
+                fetchedDefaultOffice.setOrders(new ArrayList<>());
+                fetchedDefaultOffice.getOrders().add(newOrder);
+            }
+            else {
+                final List<Order> newOrdersList = new ArrayList<>(); // if the orders list is not null and not empty,
+                fetchedDefaultOffice.getOrders().addAll(newOrdersList); // transfer the orders to a new list, add the new order and then set the new list as the orders list
+                fetchedDefaultOffice.setOrders(newOrdersList);
+            }
+        }
+
+        // Save the updated office
+        return officeRepository.save(fetchedDefaultOffice);
     }
 
     @Override
