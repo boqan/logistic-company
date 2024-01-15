@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.LogisticsCompany.LogisticsCompanyApplicationTests" tests="1" skipped="1" failures="0" errors="0" timestamp="2024-01-06T18:12:15" hostname="V2GHYY21JW" time="0.001">
-  <properties/>
-  <testcase name="contextLoads()" classname="com.LogisticsCompany.LogisticsCompanyApplicationTests" time="0.001">
-    <skipped/>
-  </testcase>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
