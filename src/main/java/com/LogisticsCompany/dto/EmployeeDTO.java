@@ -14,5 +14,5 @@ import java.math.BigDecimal;
 public class EmployeeDTO {
     private String name;
     private BigDecimal salary;
-    private Office office;
+    private Long officeID;
 }

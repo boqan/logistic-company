@@ -1,7 +1,7 @@
 package com.LogisticsCompany.service.implementation;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
-import com.LogisticsCompany.error.InvalidSalaryException;
+import com.LogisticsCompany.error.InvalidDTOException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.repository.EmployeeRepository;
@@ -24,20 +24,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EntityMapper entityMapper;
 
     @Override
-    public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidSalaryException {
-        if (employeeDTO.getSalary().compareTo(BigDecimal.ZERO) <= 0) {
-                throw new InvalidSalaryException("Salary cannot be negative");
-        }
+    public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException {
+        validateDTO(employeeDTO);
         Employee newEmployee = entityMapper.mapToEmployee(employeeDTO);
         employeeRepository.save(newEmployee);
     }
 
     @Override
-    public void updateEmployee(EmployeeDTO employeeDTO, Long id) throws InvalidSalaryException {
-        if (employeeDTO.getSalary().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new InvalidSalaryException("Salary cannot be negative");
-        }
-
+    public void updateEmployee(EmployeeDTO employeeDTO, Long id) throws InvalidDTOException {
+        validateDTO(employeeDTO);
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
 
@@ -109,5 +104,11 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .sorted(Comparator.comparing(Employee::getName)) // Sort by employee name in ascending order
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
                 .collect(Collectors.toList());
+    }
+
+    private void validateDTO(EmployeeDTO employeeDTO) throws InvalidDTOException {
+        if (employeeDTO.getSalary().compareTo(BigDecimal.ZERO) <= 0 || employeeDTO.getName() == null) {
+            throw new InvalidDTOException("DTO contains invalid data");
+        }
     }
 }
