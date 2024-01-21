@@ -1,16 +1,22 @@
 package com.LogisticsCompany.mapper;
 import com.LogisticsCompany.dto.*;
 import com.LogisticsCompany.model.*;
+import com.LogisticsCompany.repository.OfficeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EntityMapper {
     private final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private OfficeRepository officeRepository; // Inject OfficeRepository
 
     public LogisticCompanyDTOnoOffice mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
         LogisticCompanyDTOnoOffice companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDTOnoOffice.class);
@@ -49,20 +55,12 @@ public class EntityMapper {
         return offices.stream().map(this::mapToOfficeDTOnoCompany).collect(Collectors.toList());
     }
 
-    // EmployeeDTO
-    public EmployeeDTO mapToEmployeeDTO(Employee employee){
-        return modelMapper.map(employee, EmployeeDTO.class);
-    }
     public List<EmployeeDTO> mapEmployeeListToDTO(List<Employee> employees){
         return employees.stream().map(this::mapToEmployeeDTO).collect(Collectors.toList());
     }
 
-    public Employee mapToEmployee(EmployeeDTO employeeDTO) {
-        return modelMapper.map(employeeDTO, Employee.class);
-    }
-
-    public List<Employee> mapEmployeeList(List<EmployeeDTO> employeeDTOS) {
-        return employeeDTOS.stream().map(this::mapToEmployee).collect(Collectors.toList());
+    public EmployeeDTO mapToEmployeeDTO(Employee employee){
+        return modelMapper.map(employee, EmployeeDTO.class);
     }
     public ClientDTOnoOffice convertToDto(Client clientEntity) {
         // Perform the mapping from ClientEntity to ClientDTOnoOffice

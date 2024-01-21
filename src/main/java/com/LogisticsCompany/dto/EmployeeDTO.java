@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeeDTO extends IdGenerator {
+public class EmployeeDTO {
     private String name;
     private BigDecimal salary;
     private Long officeID;

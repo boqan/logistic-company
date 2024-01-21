@@ -3,7 +3,7 @@ package com.LogisticsCompany.service.implementation;
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
-import com.LogisticsCompany.mapper.EntityMapper;
+import com.LogisticsCompany.mapper.EmployeeMapper;
 import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.repository.EmployeeRepository;
 import com.LogisticsCompany.service.EmployeeService;
@@ -22,12 +22,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private EntityMapper entityMapper;
+    private EmployeeMapper entityMapper;
 
     @Override
     public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException {
         validateDTO(employeeDTO);
-        Employee newEmployee = entityMapper.mapToEmployee(employeeDTO);
+        Employee newEmployee = entityMapper.DTOToEmployee(employeeDTO);
         employeeRepository.save(newEmployee);
     }
 
@@ -40,7 +40,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         BeanUtils.copyProperties(employeeDTO, employee);
         employeeRepository.save(employee);
     }
-
 
     @Override
     public void deleteEmployeeById(Long id) {
