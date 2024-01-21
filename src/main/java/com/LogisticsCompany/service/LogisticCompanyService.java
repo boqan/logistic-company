@@ -17,7 +17,7 @@ import java.util.Map;
 public interface LogisticCompanyService {
     public LogisticCompanyDTOnoOffice fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
-    public List<LogisticCompany> fetchLogisticCompanyList();
+    public List<LogisticCompanyDTOnoOffice> fetchLogisticCompanyList();
 
     LogisticCompany saveLogisticCompany(LogisticCompany logisticCompany);
 

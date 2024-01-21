@@ -37,7 +37,7 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/companies")
-    public List<LogisticCompany> fetchLogisticCompanyList(){
+    public List<LogisticCompanyDTOnoOffice> fetchLogisticCompanyList(){
         return logisticCompanyService.fetchLogisticCompanyList();
 
     }

@@ -41,11 +41,14 @@ public class EntityMapper {
         return modelMapper.map(client, ClientDTOnoOffice.class);
     }
 
-    private List<ClientDTOnoOffice> mapClientListDTOnoOffice(List<Client> clients){
+    public List<ClientDTOnoOffice> mapClientListDTOnoOffice(List<Client> clients){
         return clients.stream().map(this::mapClientToDTOnoOffice).collect(Collectors.toList());
     }
+    public List<LogisticCompanyDTOnoOffice> mapLogisticCompaniesNoCompany(List<LogisticCompany> logisticCompanies){
+        return logisticCompanies.stream().map(this::mapToDTOLogisticsCompanyNoCompany).collect(Collectors.toList());
+    }
 
-    private List<OrderDTOnoOffice> mapOrderListToDTOnoOffice(List<Order> orders){
+    public List<OrderDTOnoOffice> mapOrderListToDTOnoOffice(List<Order> orders){
         return orders.stream().map(this::mapToOrderDTOnoOffice).collect(Collectors.toList());
     }
 
