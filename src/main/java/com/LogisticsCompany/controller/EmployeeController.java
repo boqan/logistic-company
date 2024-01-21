@@ -77,14 +77,4 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handleNotFoundException(EntityNotFoundException e) {
-        return ResponseEntity.notFound().build();
-    }
-
-    @ExceptionHandler(InvalidDTOException.class)
-    public ResponseEntity<String> handleInvalidDTOException(InvalidDTOException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
 }

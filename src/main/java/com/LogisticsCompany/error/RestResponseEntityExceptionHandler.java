@@ -1,5 +1,6 @@
 package com.LogisticsCompany.error;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,5 +34,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ErrorMessage> companyNoOfficesException(CompanyNoOfficesException companyNoOfficesException, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, companyNoOfficesException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+    // Employee ExceptionHandlers
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity handleNotFoundException(EntityNotFoundException e) {
+        return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(InvalidDTOException.class)
+    public ResponseEntity<String> handleInvalidDTOException(InvalidDTOException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
