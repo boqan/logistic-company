@@ -1,5 +1,6 @@
 package com.LogisticsCompany.dto;
 
+import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.model.IdGenerator;
 import com.LogisticsCompany.model.Office;
 import lombok.AllArgsConstructor;
@@ -15,4 +16,5 @@ public class EmployeeDTO {
     private String name;
     private BigDecimal salary;
     private Long officeID;
+    private EmployeeType employeeType;
 }

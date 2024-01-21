@@ -1,6 +1,7 @@
 package com.LogisticsCompany.controller;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
+import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
 //import com.LogisticsCompany.service.EmployeeService;
 import com.LogisticsCompany.service.EmployeeService;
@@ -34,6 +35,11 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.findEmployeeByName(name));
     }
 
+    @GetMapping("/findByType/{type}")
+    public ResponseEntity<List<EmployeeDTO>> findEmployeesByType(@PathVariable("type") EmployeeType type) {
+        // It will return the DTO as the body
+        return ResponseEntity.ok(employeeService.findEmployeesByType(type));
+    }
     @GetMapping("/getAll")
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         // It will return the DTO as the body

@@ -1,5 +1,6 @@
 package com.LogisticsCompany.model;
 
+import com.LogisticsCompany.enums.EmployeeType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -19,6 +20,10 @@ public class Employee extends IdGenerator {
 
     @Column(name="name", nullable = false, length = 255)
     private String name;
+
+    @Column(name="employee_type", nullable = false, length = 255)
+    @Enumerated(EnumType.STRING)
+    private EmployeeType employeeType;
 
     @Column(name="salary", nullable = false)
     private BigDecimal salary;

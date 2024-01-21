@@ -1,6 +1,7 @@
 package com.LogisticsCompany.service.implementation;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
+import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Employee;
@@ -75,6 +76,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employees.stream()
                 .map(employee -> entityMapper.mapToEmployeeDTO(employee))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmployeeDTO> findEmployeesByType(EmployeeType employeeType) {
+        List<Employee> employees = employeeRepository.findAllByEmployeeType(employeeType);
+
+        if (employees.isEmpty()) {
+            throw new EntityNotFoundException("No employees found with the type " + employeeType);
+        }
+
+        return employees.stream()
+                .map(entityMapper::mapToEmployeeDTO)
                 .collect(Collectors.toList());
     }
 
