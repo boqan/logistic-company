@@ -39,6 +39,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void createClient(ClientDTO clientDto) {
+        Client client = entityMapper.convertToClient(clientDto);
+        repository.save(client);
+    }
+
+    @Override
     public void placeOrder(Order order, Office office, DeliveryType deliveryType) {
 
     }
@@ -51,6 +57,17 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void receiveOrder(Order order) {
 
+    }
+
+    @Override
+    public boolean deleteClient(Long clientId){
+        try{
+            getClient(clientId);
+        }catch (Exception e){
+            return false;
+        }
+        repository.deleteById(clientId);
+        return true;
     }
 
 }

@@ -57,11 +57,16 @@ public class EntityMapper {
         return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
     }
     public ClientDTO convertToDto(Client clientEntity) {
-        // Perform the mapping from ClientEntity to ClientDTOnoOffice
         ClientDTO clientDto = new ClientDTO();
         clientDto.setId(clientEntity.getId());
         clientDto.setName(clientEntity.getName());
         return clientDto;
+    }
+    public Client convertToClient(ClientDTO clientDto) {
+        Client client = new Client();
+        client.setName(clientDto.getName());
+        client.setId(clientDto.getId());
+        return client;
     }
 }
 
