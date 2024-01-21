@@ -10,10 +10,12 @@ import com.LogisticsCompany.repository.ClientRepository;
 import com.LogisticsCompany.service.ClientService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository repository;
