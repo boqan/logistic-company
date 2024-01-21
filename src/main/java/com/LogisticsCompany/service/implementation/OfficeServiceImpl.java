@@ -43,8 +43,8 @@ public class OfficeServiceImpl implements OfficeService {
     // we would have some logic to check which office is the closest or most optimal,
     // but since we don't have that, we just get the first one as a placeholder way of doing it
     @Override
-    public Office fetchDefaultOffice() throws OfficeNotFoundException {
-        Optional<Office> office = officeRepository.findFirstByOrderByIdAsc();
+    public Office fetchOfficeByIdReturnsEntity(Long officeId) throws OfficeNotFoundException {
+        Optional<Office> office = officeRepository.findById(officeId);
 
         if (office.isEmpty()) {
             throw new OfficeNotFoundException("No offices available");

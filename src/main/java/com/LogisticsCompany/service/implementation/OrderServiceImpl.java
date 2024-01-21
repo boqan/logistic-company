@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -55,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
     @Override
-    public OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException {
+    public OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException {
         // Validate order creation request
         orderCreationRequestValidation(request);
 
@@ -63,16 +62,12 @@ public class OrderServiceImpl implements OrderService {
 
         orderBuilder.price(calculateOrderPriceForOrderCreation(request)); // price is calculated based on the request
 
-        Office fetchedDefaultOffice = officeService.fetchDefaultOffice(); // first office in the database is fetched
+        Office fetchedDefaultOffice = officeService.fetchOfficeByIdReturnsEntity(officeId); // gets the office provided in the URL path and sets that as the office from which it is being sent
         orderBuilder.office(fetchedDefaultOffice); // the first office is set as the office for the order
 
-        Order order = orderBuilder.build(); // build the order entity, check if it already exists in the DB
-        Optional<Order> existingOrder = orderRepository.findById(order.getId());
-        if (existingOrder.isPresent()) {
-            throw new EntityAlreadyExistsInDbException("Order already exists for ID: " + order.getId());
-        }
-
-        officeService.updateOfficeOrders(order, fetchedDefaultOffice); // update the office's orders (add the new order to the list of orders)
+        Order order = orderBuilder.build(); // build the order entity
+// DA SE TESTVA
+//        officeService.updateOfficeOrders(order, fetchedDefaultOffice); // update the office's orders (add the new order to the list of orders)
 
         Order savedOrder = orderRepository.save(order);
         return entityMapper.mapToOrderDTOnoOfficeSenderRecieverWithIds(savedOrder);
@@ -125,6 +120,8 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds) {
         orderRepository.findById(orderDTOnoOfficeSenderRecieverWithIds.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderDTOnoOfficeSenderRecieverWithIds.getId()));
+
+
         orderRepository.deleteById(orderDTOnoOfficeSenderRecieverWithIds.getId());
     }
 

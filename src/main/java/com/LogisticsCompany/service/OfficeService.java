@@ -17,7 +17,7 @@ public interface OfficeService {
 
     OfficeDTOnoCompany fetchOfficeById(Long officeId) throws OfficeNotFoundException;
 
-    Office fetchDefaultOffice() throws OfficeNotFoundException;
+    Office fetchOfficeByIdReturnsEntity(Long officeId) throws OfficeNotFoundException;
     List<OrderDTOnoOffice> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;
 
     List<OrderDTOnoOffice> fetchOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;

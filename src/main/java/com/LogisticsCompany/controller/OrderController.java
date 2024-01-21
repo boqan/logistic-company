@@ -26,9 +26,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping // implement exception handler for these exceptions
-    public ResponseEntity<OrderDTOnoOfficeSenderRecieverWithIds> createOrder(@RequestBody OrderCreationRequest request) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException {
-        OrderDTOnoOfficeSenderRecieverWithIds createdOrder = orderService.createOrder(request);
+    @PostMapping ("/createOrder/{officeId}")// implement exception handler for these exceptions
+    public ResponseEntity<OrderDTOnoOfficeSenderRecieverWithIds> createOrder(@RequestBody OrderCreationRequest request, @PathVariable Long officeId)
+            throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException
+    {
+        OrderDTOnoOfficeSenderRecieverWithIds createdOrder = orderService.createOrder(request, officeId);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 

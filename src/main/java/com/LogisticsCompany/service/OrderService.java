@@ -11,7 +11,7 @@ import com.LogisticsCompany.error.OrderCreationValidationException;
 import java.util.List;
 
 public interface OrderService {
-    OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
+    OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
     OrderDTOnoOfficeSenderRecieverWithIds getOrderById(Long id);
     List<OrderDTOnoOfficeSenderRecieverWithIds> getAllOrders();
     OrderDTOnoOfficeSenderRecieverWithIds updateOrder(Long orderId, OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds);
