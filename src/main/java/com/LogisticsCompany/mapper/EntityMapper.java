@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class EntityMapper {
-    private final ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public LogisticCompanyDTOnoOffice mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
         LogisticCompanyDTOnoOffice companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDTOnoOffice.class);
@@ -39,6 +39,10 @@ public class EntityMapper {
 
     public ClientDTOnoOffice mapClientToDTOnoOffice(Client client){
         return modelMapper.map(client, ClientDTOnoOffice.class);
+    }
+
+    public static CredentialsDTO mapToDTO(Credentials credentials){
+        return modelMapper.map(credentials, CredentialsDTO.class);
     }
 
     public List<ClientDTOnoOffice> mapClientListDTOnoOffice(List<Client> clients){

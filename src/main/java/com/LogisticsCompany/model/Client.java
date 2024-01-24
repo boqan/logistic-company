@@ -21,4 +21,6 @@ public class Client extends IdGenerator {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
+    //@OneToOne(fetch = FetchType.LAZY)
+    //private Credentials credentials;
 }

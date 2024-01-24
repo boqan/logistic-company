@@ -1,7 +1,5 @@
 package com.LogisticsCompany.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -24,5 +22,8 @@ public class Employee extends IdGenerator {
     @NotBlank(message = "Employee should have a salary")
     @Column(name="salary", nullable = false)
     private double salary;
+
+    //@OneToOne(fetch = FetchType.LAZY)
+    //private Credentials credentials;
 
 }
