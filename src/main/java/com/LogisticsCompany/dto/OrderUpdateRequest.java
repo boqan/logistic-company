@@ -5,8 +5,7 @@ import com.LogisticsCompany.enums.DeliveryType;
 import lombok.Data;
 
 @Data
-public class OrderDTOnoOfficeSenderRecieverWithIds {
-    private Long id;
+public class OrderUpdateRequest {
     private Long sender;
     private Long receiver;
     private double weight;
@@ -14,11 +13,13 @@ public class OrderDTOnoOfficeSenderRecieverWithIds {
     private double price;
     private DeliveryType deliveryType;
     private DeliveryStatus status;
-    public OrderDTOnoOfficeSenderRecieverWithIds() {
+    private Long officeId;
+
+    // Add constructors, getters, and setters if not using Lombok
+    public OrderUpdateRequest() {
     }
 
-    public OrderDTOnoOfficeSenderRecieverWithIds(Long id, Long sender, Long receiver, double weight, String receiverAddress, double price, DeliveryType deliveryType, DeliveryStatus status) {
-        this.id = id;
+    public OrderUpdateRequest(Long sender, Long receiver, double weight, String receiverAddress, double price, DeliveryType deliveryType, DeliveryStatus status, Long officeId) {
         this.sender = sender;
         this.receiver = receiver;
         this.weight = weight;
@@ -26,5 +27,6 @@ public class OrderDTOnoOfficeSenderRecieverWithIds {
         this.price = price;
         this.deliveryType = deliveryType;
         this.status = status;
+        this.officeId = officeId;
     }
 }

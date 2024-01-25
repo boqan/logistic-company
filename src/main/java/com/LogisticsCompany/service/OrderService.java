@@ -1,7 +1,8 @@
 package com.LogisticsCompany.service;
 
 import com.LogisticsCompany.dto.OrderCreationRequest;
-import com.LogisticsCompany.dto.OrderDTOnoOfficeSenderRecieverWithIds;
+import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
+import com.LogisticsCompany.dto.OrderUpdateRequest;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.DeliveryStatusException;
 import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
@@ -11,16 +12,16 @@ import com.LogisticsCompany.error.OrderCreationValidationException;
 import java.util.List;
 
 public interface OrderService {
-    OrderDTOnoOfficeSenderRecieverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
-    OrderDTOnoOfficeSenderRecieverWithIds getOrderById(Long id);
-    List<OrderDTOnoOfficeSenderRecieverWithIds> getAllOrders();
-    OrderDTOnoOfficeSenderRecieverWithIds updateOrder(Long orderId, OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds);
+    OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
+    OrderDTOSenderReceiverWithIds getOrderById(Long id);
+    List<OrderDTOSenderReceiverWithIds> getAllOrders();
+    OrderDTOSenderReceiverWithIds updateOrder(Long orderId, OrderUpdateRequest orderUpdateRequest);
     void deleteOrder(Long id); // accepts orderId
-    void deleteOrder(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds); // same method - overload to accept orderDTO
+    void deleteOrder(OrderDTOSenderReceiverWithIds orderDTOSenderReceiverWithIds); // same method - overload to accept orderDTO
     void changeOrderStatus(Long orderId, DeliveryStatus newStatus) throws DeliveryStatusException; // accepts orderId
-    void changeOrderStatus(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds, DeliveryStatus newStatus) throws DeliveryStatusException; // same method - overload to accept orderDTO
+    void changeOrderStatus(OrderDTOSenderReceiverWithIds orderDTOSenderReceiverWithIds, DeliveryStatus newStatus) throws DeliveryStatusException; // same method - overload to accept orderDTO
 
     double calculateOrderPriceForOrderCreation(OrderCreationRequest request);
     double calculateOrderPriceForExistingOrder(Long orderId); // accepts orderID
-    double calculateOrderPriceForExistingOrder(OrderDTOnoOfficeSenderRecieverWithIds orderDTOnoOfficeSenderRecieverWithIds); // same method - overload to accept orderDTO
+    double calculateOrderPriceForExistingOrder(OrderDTOSenderReceiverWithIds orderDTOSenderReceiverWithIds); // same method - overload to accept orderDTO
 }
