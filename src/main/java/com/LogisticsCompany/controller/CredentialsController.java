@@ -17,7 +17,7 @@ public class CredentialsController {
     private CredentialsService credentialsService;
 
     @PostMapping("/register")
-    public CredentialsDTO register(@RequestBody Credentials credentials) {
+    public ResponseEntity<String> register(@RequestBody Credentials credentials) {
         return credentialsService.registerCredentials(credentials);
     }
 

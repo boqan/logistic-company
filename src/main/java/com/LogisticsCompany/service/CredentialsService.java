@@ -6,7 +6,7 @@ import com.LogisticsCompany.model.Credentials;
 import org.springframework.http.ResponseEntity;
 
 public interface CredentialsService {
-    CredentialsDTO registerCredentials(Credentials credentials);
+    ResponseEntity<String> registerCredentials(Credentials credentials);
 
     ResponseEntity<String> loginCredentials(LoginDTO loginDTO);
 }
