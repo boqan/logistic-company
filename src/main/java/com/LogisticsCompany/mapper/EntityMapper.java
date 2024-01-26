@@ -1,22 +1,16 @@
 package com.LogisticsCompany.mapper;
 import com.LogisticsCompany.dto.*;
 import com.LogisticsCompany.model.*;
-import com.LogisticsCompany.repository.OfficeRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EntityMapper {
     private final ModelMapper modelMapper = new ModelMapper();
-    @Autowired
-    private OfficeRepository officeRepository; // Inject OfficeRepository
 
     public LogisticCompanyDTOnoOffice mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
         LogisticCompanyDTOnoOffice companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDTOnoOffice.class);

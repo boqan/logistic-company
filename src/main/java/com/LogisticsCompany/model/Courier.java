@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Courier extends Employee{
-    @NotBlank(message = "Courier should have a delivery area")
+
     @Column(name = "delivery_area", nullable = false, length = 255)
     private String deliveryArea;
 
-    @NotBlank(message = "Courier should have a vehicle ID")
     @Column(name = "vehicle_id", nullable = false, length = 255)
     private String vehicleID;
 

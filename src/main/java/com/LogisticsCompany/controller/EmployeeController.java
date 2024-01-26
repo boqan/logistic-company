@@ -3,9 +3,7 @@ package com.LogisticsCompany.controller;
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
-//import com.LogisticsCompany.service.EmployeeService;
 import com.LogisticsCompany.service.EmployeeService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +20,6 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    // The DTO should not have variable id
     @GetMapping("/findById/{id}")
     public ResponseEntity<EmployeeDTO> findEmployeeById(@PathVariable("id") Long id) {
         // It will return the DTO as the body

@@ -5,7 +5,9 @@ import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
 import com.LogisticsCompany.mapper.EmployeeMapper;
 import com.LogisticsCompany.model.Employee;
+import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.repository.EmployeeRepository;
+import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -22,12 +24,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
-    private EmployeeMapper entityMapper;
+    private OfficeRepository officeRepository;
+    @Autowired
+    private EmployeeMapper entityDTOMapper;
 
     @Override
     public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException {
         validateDTO(employeeDTO);
-        Employee newEmployee = entityMapper.DTOToEmployee(employeeDTO);
+        Employee newEmployee = entityDTOMapper.DTOToEmployee(employeeDTO);
         employeeRepository.save(newEmployee);
     }
 
@@ -35,9 +39,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateEmployee(EmployeeDTO employeeDTO, Long id) throws InvalidDTOException {
         validateDTO(employeeDTO);
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " is not found"));
 
+        // Fetch the Office entity based on the officeId in the DTO
+        Long newOfficeId = employeeDTO.getOfficeID();
+        Office newOffice = officeRepository.findById(newOfficeId)
+                .orElseThrow(() -> new EntityNotFoundException("Office with ID " + newOfficeId + " is not found"));
+
+        // Update properties using copyProperties
         BeanUtils.copyProperties(employeeDTO, employee);
+
+        // Set the new Office object in the Employee entity
+        employee.setOffice(newOffice);
+
         employeeRepository.save(employee);
     }
 
@@ -54,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
 
-        return entityMapper.mapToEmployeeDTO(employee);
+        return entityDTOMapper.EmployeeToDTO(employee);
     }
 
     @Override
@@ -62,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with name " + name + " not found"));
 
-        return entityMapper.mapToEmployeeDTO(employee);
+        return entityDTOMapper.EmployeeToDTO(employee);
     }
 
     @Override
@@ -74,7 +88,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employees.stream()
-                .map(employee -> entityMapper.mapToEmployeeDTO(employee))
+                .map(employee -> entityDTOMapper.EmployeeToDTO(employee))
                 .collect(Collectors.toList());
     }
 
@@ -87,7 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employees.stream()
-                .map(entityMapper::mapToEmployeeDTO)
+                .map(entityDTOMapper::EmployeeToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -101,7 +115,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employees.stream()
                 .sorted(Comparator.comparing(Employee::getSalary)) // Sort by salary in ascending order
-                .map(employee -> entityMapper.mapToEmployeeDTO(employee))
+                .map(employee -> entityDTOMapper.EmployeeToDTO(employee))
                 .collect(Collectors.toList());
     }
 
@@ -115,7 +129,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employees.stream()
                 .sorted(Comparator.comparing(Employee::getName)) // Sort by employee name in ascending order
-                .map(employee -> entityMapper.mapToEmployeeDTO(employee))
+                .map(employee -> entityDTOMapper.EmployeeToDTO(employee))
                 .collect(Collectors.toList());
     }
 

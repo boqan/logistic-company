@@ -18,17 +18,30 @@ public class EmployeeMapper {
 
     private final ModelMapper modelMapper = new ModelMapper();
     @Autowired
-    private OfficeRepository officeRepository; // Inject OfficeRepository
+    private OfficeRepository officeRepository;
 
-    // EmployeeDTO
-    public EmployeeDTO mapToEmployeeDTO(Employee employee){
-        EmployeeDTO dto = modelMapper.map(employee, EmployeeDTO.class);
-        return dto;
+    // Those methods are written by hand
+    public EmployeeDTO EmployeeToDTO(Employee employee){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+
+        // Set properties manually
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setSalary(employee.getSalary());
+        employeeDTO.setEmployeeType(employee.getEmployeeType());
+
+        // Assuming that employee has an 'office' property
+        if (employee.getOffice() != null) {
+            // Set the officeId property of the DTO
+            employeeDTO.setOfficeID(employee.getOffice().getId());
+        }
+        else {
+            // Handle the case where the office is not found
+            throw new EntityNotFoundException("Office with ID " + employeeDTO.getOfficeID() + " is not found");
+        }
+
+        return employeeDTO;
     }
 
-    public List<EmployeeDTO> mapEmployeeListToDTO(List<Employee> employees){
-        return employees.stream().map(this::mapToEmployeeDTO).collect(Collectors.toList());
-    }
 
     public Employee DTOToEmployee(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
@@ -47,15 +60,32 @@ public class EmployeeMapper {
             if (officeOptional.isPresent()) {
                 employee.setOffice(officeOptional.get());
             } else {
-                // Handle the case where the office is not found (throw an exception or handle it based on your requirements)
-                throw new EntityNotFoundException("Office with ID " + employeeDTO.getOfficeID() + " not found");
+                // Handle the case where the office is not found
+                throw new EntityNotFoundException("Office with ID " + employeeDTO.getOfficeID() + " is not found");
             }
         }
 
         return employee;
     }
 
+    // Those methods use the ModelMapper library
+    public List<EmployeeDTO> mapEmployeeListToDTO(List<Employee> employees){
+        return employees.stream().map(this::EmployeeToDTO).collect(Collectors.toList());
+    }
+
+    public Employee mapEmployeeDTOToEmployee(EmployeeDTO employeeDTO) {
+        return DTOToEmployee(employeeDTO);
+    }
+
     public List<Employee> mapEmployeeList(List<EmployeeDTO> employeeDTOS) {
         return employeeDTOS.stream().map(this::DTOToEmployee).collect(Collectors.toList());
+
+
     }
+
+    public EmployeeDTO mapToEmployeeDTO(Employee employee){
+        EmployeeDTO dto = modelMapper.map(employee, EmployeeDTO.class);
+        return dto;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.LogisticsCompany.service;
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.enums.EmployeeType;
 import com.LogisticsCompany.error.InvalidDTOException;
+import com.LogisticsCompany.model.Office;
 
 import java.util.List;
 
@@ -13,9 +14,7 @@ public interface EmployeeService {
     EmployeeDTO findEmployeeById(Long id);
     EmployeeDTO findEmployeeByName(String name);
     List<EmployeeDTO> getAllEmployees();
-
     List<EmployeeDTO> findEmployeesByType(EmployeeType employeeType);
-
     List<EmployeeDTO> sortEmployeesBySalary();
     List<EmployeeDTO> sortEmployeesByName();
 
