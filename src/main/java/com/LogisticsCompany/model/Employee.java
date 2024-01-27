@@ -2,7 +2,6 @@ package com.LogisticsCompany.model;
 
 import com.LogisticsCompany.enums.EmployeeType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;

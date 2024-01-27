@@ -13,8 +13,8 @@ public interface EmployeeService {
     void deleteEmployeeById(Long id);
     EmployeeDTO findEmployeeById(Long id);
     EmployeeDTO findEmployeeByName(String name);
-    List<EmployeeDTO> getAllEmployees();
     List<EmployeeDTO> findEmployeesByType(EmployeeType employeeType);
+    List<EmployeeDTO> getAllEmployees();
     List<EmployeeDTO> sortEmployeesBySalary();
     List<EmployeeDTO> sortEmployeesByName();
 

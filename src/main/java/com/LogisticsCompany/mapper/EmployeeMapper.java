@@ -79,8 +79,6 @@ public class EmployeeMapper {
 
     public List<Employee> mapEmployeeList(List<EmployeeDTO> employeeDTOS) {
         return employeeDTOS.stream().map(this::DTOToEmployee).collect(Collectors.toList());
-
-
     }
 
     public EmployeeDTO mapToEmployeeDTO(Employee employee){
