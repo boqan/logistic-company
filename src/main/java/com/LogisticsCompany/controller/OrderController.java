@@ -66,10 +66,10 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}/pricecalc")
-    public ResponseEntity<Double> calculateOrderPrice(@PathVariable Long id) {
-        double price = orderService.calculateOrderPriceForExistingOrder(id);
-        return ResponseEntity.ok(price);
-    }
+//    @GetMapping("/{id}/pricecalc")
+//    public ResponseEntity<Double> calculateOrderPrice(@PathVariable Long id) {
+//        double price = orderService.calculateOrderPriceForExistingOrder(id);
+//        return ResponseEntity.ok(price);
+//    }
 
 }
