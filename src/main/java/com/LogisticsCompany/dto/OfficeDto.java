@@ -1,15 +1,18 @@
 package com.LogisticsCompany.dto;
 
-import com.LogisticsCompany.model.IdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTOnoOffice extends IdGenerator {
+public class OfficeDto extends BusinessEntityDto {
 
-    private String name;
+    private String address;
+
+    private List<OrderDto> orders;
+
 
 }

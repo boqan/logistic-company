@@ -35,7 +35,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, companyNoOfficesException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
-
+    
     @ExceptionHandler(OrderCreationValidationException.class)
     public ResponseEntity<ErrorMessage> handleOrderCreationValidationException(
             OrderCreationValidationException ex, WebRequest request) {
@@ -58,7 +58,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> entityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }

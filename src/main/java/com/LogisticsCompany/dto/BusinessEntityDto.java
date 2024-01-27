@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusinessEntityDTOnoOffice extends IdGenerator {
+public class BusinessEntityDto extends IdGenerator {
     private BigDecimal revenue = BigDecimal.ZERO;
 
-    private List<EmployeeDTOnoOffice> employees;
+    private List<EmployeeDto> employees;
 
-    private List<ClientDTOnoOffice> clients;
+    private List<ClientDTO> clients;
 }

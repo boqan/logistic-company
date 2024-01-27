@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface OfficeRepository extends JpaRepository< Office, Long> {
+public interface OfficeRepository extends JpaRepository<Office, Long> {
+
 
     Optional<Office> findFirstByOrderByIdAsc();
 }

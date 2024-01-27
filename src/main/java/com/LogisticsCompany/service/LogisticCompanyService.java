@@ -1,8 +1,8 @@
 package com.LogisticsCompany.service;
 
-import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
-import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
-import com.LogisticsCompany.dto.OfficeDTOnoCompany;
+import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.LogisticCompanyDto;
+import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 public interface LogisticCompanyService {
-    public LogisticCompanyDTOnoOffice fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
+    public LogisticCompanyDto fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
     public List<LogisticCompany> fetchLogisticCompanyList();
 
@@ -29,11 +29,11 @@ public interface LogisticCompanyService {
 
     BigDecimal fetchRevenue(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<OfficeDTOnoCompany> fetchOfficesSortedByRevenue(Long companyId) throws LogisticCompanyNotFoundException;
+    List<OfficeDto> fetchOfficesSortedByRevenue(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<OfficeDTOnoCompany> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException;
+    List<OfficeDto> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<EmployeeDTOnoOffice> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException;
+    List<EmployeeDto> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<EmployeeDTOnoOffice> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException;
+    List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException;
 }
