@@ -153,17 +153,12 @@ public class OfficeServiceImpl implements OfficeService {
     public Office updateOfficeOrders(Order newOrder, Office fetchedDefaultOffice) throws OfficeNotFoundException {
 
         // Ensure the orders list is initialized
-        if (fetchedDefaultOffice.getOrders() != null) {  // if the orders list is not null and is empty, create a new one and add the new order
-            if(fetchedDefaultOffice.getOrders().isEmpty()){
-                fetchedDefaultOffice.setOrders(new ArrayList<>());
-                fetchedDefaultOffice.getOrders().add(newOrder);
-            }
-            else {
-                final List<Order> newOrdersList = new ArrayList<>(); // if the orders list is not null and not empty,
-                fetchedDefaultOffice.getOrders().addAll(newOrdersList); // transfer the orders to a new list, add the new order and then set the new list as the orders list
-                fetchedDefaultOffice.setOrders(newOrdersList);
-            }
+        if (fetchedDefaultOffice.getOrders() == null) {
+            fetchedDefaultOffice.setOrders(new ArrayList<>());
         }
+
+        // Add the new order to the list
+        fetchedDefaultOffice.getOrders().add(newOrder);
 
         // Save the updated office
         return officeRepository.save(fetchedDefaultOffice);
