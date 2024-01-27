@@ -1,6 +1,6 @@
 package com.LogisticsCompany.service;
 
-import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.dto.OrderDto;
 import com.LogisticsCompany.enums.DeliveryStatus;
@@ -28,13 +28,13 @@ public interface OfficeService {
 
     Office updateOffice(Long officeId, Office office) throws OfficeNotFoundException;
 
-    List<EmployeeDto> fetchEmployeesSortedBySalary(Office office);
+    List<EmployeeDTO> fetchEmployeesSortedBySalary(Office office);
 
-    List<EmployeeDto> fetchEmployeesAboveSalary(Office office, double salary);
+    List<EmployeeDTO> fetchEmployeesAboveSalary(Office office, double salary);
 
-    List<EmployeeDto> fetchEmployeesBelowSalary(Office office, double salary);
+    List<EmployeeDTO> fetchEmployeesBelowSalary(Office office, double salary);
 
-    List<EmployeeDto> fetchEmployeesByName(Office office, String name);
+    List<EmployeeDTO> fetchEmployeesByName(Office office, String name);
 
     List<OrderDto> fetchClientListOfOrders(Long officeId, Long clientId) throws OfficeNotFoundException;
 }

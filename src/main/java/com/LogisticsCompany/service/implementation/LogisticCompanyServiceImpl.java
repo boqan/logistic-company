@@ -1,6 +1,6 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
@@ -140,33 +140,33 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     }
 
     @Override
-    public List<EmployeeDto> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDTO> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb = currLogisticCompany.get();
 
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDtoList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
         }
-        return employeeDtoList;
+        return employeeDTOList;
     }
 
     @Override
-    public List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDTO> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb = currLogisticCompany.get();
 
-        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDtoList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
         }
-        return employeeDtoList.stream()
+        return employeeDTOList.stream()
                 .filter(employeeDTOnoOffice -> employeeDTOnoOffice.getName().equals(name))
                 .collect(Collectors.toList());
     }
