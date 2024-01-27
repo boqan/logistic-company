@@ -1,8 +1,8 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.EmployeeDTOnoOffice;
-import com.LogisticsCompany.dto.LogisticCompanyDTOnoOffice;
-import com.LogisticsCompany.dto.OfficeDTOnoCompany;
+import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.LogisticCompanyDto;
+import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
@@ -26,13 +26,13 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     private EntityMapper entityMapper;
 
     @Override
-    public LogisticCompanyDTOnoOffice fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDto fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> logisticCompany = logisticCompanyRepository.findById(companyId);
         if(!logisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
 
-        LogisticCompanyDTOnoOffice companyDTO = entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompany.get());
+        LogisticCompanyDto companyDTO = entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompany.get());
         return companyDTO;
     }
 
@@ -113,60 +113,60 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     }
 
     @Override
-    public List<OfficeDTOnoCompany> fetchOfficesSortedByRevenue(Long companyId) throws LogisticCompanyNotFoundException {
+    public List<OfficeDto> fetchOfficesSortedByRevenue(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb=currLogisticCompany.get();
 
-        List<OfficeDTOnoCompany> officeDTOnoCompanyList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
-        officeDTOnoCompanyList.sort(Comparator.comparing(OfficeDTOnoCompany::getRevenue));
-        return officeDTOnoCompanyList;
+        List<OfficeDto> officeDtoList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
+        officeDtoList.sort(Comparator.comparing(OfficeDto::getRevenue));
+        return officeDtoList;
     }
 
     @Override
-    public List<OfficeDTOnoCompany> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException {
+    public List<OfficeDto> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb=currLogisticCompany.get();
 
-        List<OfficeDTOnoCompany> officeDTOnoCompanyList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
+        List<OfficeDto> officeDtoList = entityMapper.mapOfficeListDTOnoCompany(logisticCompanyDb.getOffices());
 
-        officeDTOnoCompanyList.sort(Comparator.comparing(officeDTOnoCompany -> officeDTOnoCompany.getEmployees().size()));
-        return officeDTOnoCompanyList;
+        officeDtoList.sort(Comparator.comparing(officeDTOnoCompany -> officeDTOnoCompany.getEmployees().size()));
+        return officeDtoList;
     }
 
     @Override
-    public List<EmployeeDTOnoOffice> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDto> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb = currLogisticCompany.get();
 
-        List<EmployeeDTOnoOffice> employeeDTOnoOfficeList = new ArrayList<>();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDTOnoOfficeList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDtoList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
         }
-        return employeeDTOnoOfficeList;
+        return employeeDtoList;
     }
 
     @Override
-    public List<EmployeeDTOnoOffice> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
         }
         LogisticCompany logisticCompanyDb = currLogisticCompany.get();
 
-        List<EmployeeDTOnoOffice> employeeDTOnoOfficeList = new ArrayList<>();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDTOnoOfficeList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDtoList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
         }
-        return employeeDTOnoOfficeList.stream()
+        return employeeDtoList.stream()
                 .filter(employeeDTOnoOffice -> employeeDTOnoOffice.getName().equals(name))
                 .collect(Collectors.toList());
     }
