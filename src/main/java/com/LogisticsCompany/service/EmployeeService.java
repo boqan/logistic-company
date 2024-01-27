@@ -1,4 +1,4 @@
 package com.LogisticsCompany.service;
 
-public class EmployeeService {
+public interface EmployeeService {
 }
