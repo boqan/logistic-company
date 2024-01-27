@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDto extends IdGenerator {
+public class ClientDTO extends IdGenerator {
 
     private String name;
 

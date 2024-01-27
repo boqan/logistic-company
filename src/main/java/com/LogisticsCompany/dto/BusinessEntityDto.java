@@ -16,5 +16,5 @@ public class BusinessEntityDto extends IdGenerator {
 
     private List<EmployeeDto> employees;
 
-    private List<ClientDto> clients;
+    private List<ClientDTO> clients;
 }

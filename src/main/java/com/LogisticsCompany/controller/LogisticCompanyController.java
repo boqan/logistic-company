@@ -30,7 +30,7 @@ public class LogisticCompanyController {
         return logisticCompanyService.saveLogisticCompany(logisticCompany);
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/order/{id}")
     public Map< Office, List<Order>> fetchOrders(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException {
 
         return logisticCompanyService.fetchOrdersMap(companyId);

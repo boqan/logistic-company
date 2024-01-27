@@ -37,11 +37,11 @@ public class EntityMapper {
         return orderDTO;
     }
 
-    public ClientDto mapClientToDTOnoOffice(Client client){
-        return modelMapper.map(client, ClientDto.class);
+    public ClientDTO mapClientToDTOnoOffice(Client client){
+        return modelMapper.map(client, ClientDTO.class);
     }
 
-    private List<ClientDto> mapClientListDTOnoOffice(List<Client> clients){
+    private List<ClientDTO> mapClientListDTOnoOffice(List<Client> clients){
         return clients.stream().map(this::mapClientToDTOnoOffice).collect(Collectors.toList());
     }
 
@@ -56,7 +56,18 @@ public class EntityMapper {
     public List<EmployeeDto> mapEmployeeListToDTOnoOffice(List<Employee> employees){
         return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
     }
-
+    public ClientDTO convertToDto(Client clientEntity) {
+        ClientDTO clientDto = new ClientDTO();
+        clientDto.setId(clientEntity.getId());
+        clientDto.setName(clientEntity.getName());
+        return clientDto;
+    }
+    public Client convertToClient(ClientDTO clientDto) {
+        Client client = new Client();
+        client.setName(clientDto.getName());
+        client.setId(clientDto.getId());
+        return client;
+    }
 }
 
 

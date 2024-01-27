@@ -17,9 +17,9 @@ public class OrderDto extends IdGenerator {
     private DeliveryStatus deliveryStatus;
     private BigDecimal price;
 
-    private ClientDto sender;
+    private ClientDTO sender;
 
-    private ClientDto receiver;
+    private ClientDTO receiver;
 }
 
 
