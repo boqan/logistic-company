@@ -28,3 +28,5 @@ replay_pid*
 build/
 
 src/main/resources/application.properties
+src/main/resources/application.properties
+.idea/workspace.xml
