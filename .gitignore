@@ -26,3 +26,31 @@ replay_pid*
 .gradle
 .idea
 build
+
+#react
+/node_modules
+/.pnp
+.pnp.js
+package-lock.json
+jspm_packages/
+
+# Distribution directories
+dist/
+
+# Typescript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
