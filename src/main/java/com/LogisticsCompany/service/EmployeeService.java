@@ -18,4 +18,3 @@ public interface EmployeeService {
     List<EmployeeDTO> sortEmployeesBySalary();
     List<EmployeeDTO> sortEmployeesByName();
 }
-

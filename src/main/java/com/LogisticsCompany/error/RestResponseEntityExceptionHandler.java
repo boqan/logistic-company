@@ -35,15 +35,31 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, companyNoOfficesException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> entityNotFound(EntityNotFoundException entityNotFoundException, WebRequest request) {
-        ErrorMessage errorMessage = new ErrorMessage( HttpStatus.NOT_FOUND,"Entity not found");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    
+    @ExceptionHandler(OrderCreationValidationException.class)
+    public ResponseEntity<ErrorMessage> handleOrderCreationValidationException(
+            OrderCreationValidationException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
-    @ExceptionHandler(InvalidDTOException.class)
-    public ResponseEntity<String> handleInvalidDTOException(InvalidDTOException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    @ExceptionHandler(EntityAlreadyExistsInDbException.class)
+    public ResponseEntity<ErrorMessage> handleEntityAlreadyExistsInDbException(
+            EntityAlreadyExistsInDbException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+    }
+
+    @ExceptionHandler(DeliveryStatusException.class)
+    public ResponseEntity<ErrorMessage> handleDeliveryStatusException(
+            DeliveryStatusException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 }

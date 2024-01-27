@@ -26,3 +26,7 @@ replay_pid*
 .gradle/
 .idea/
 build/
+
+src/main/resources/application.properties
+src/main/resources/application.properties
+.idea/workspace.xml
