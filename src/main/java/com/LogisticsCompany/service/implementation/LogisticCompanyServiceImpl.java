@@ -149,7 +149,7 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
 
         List<EmployeeDTO> employeeDTOList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTO(office.getEmployees()));
         }
         return employeeDTOList;
     }
@@ -164,7 +164,7 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
 
         List<EmployeeDTO> employeeDTOList = new ArrayList<>();
         for(Office office:logisticCompanyDb.getOffices()){
-            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTOnoOffice(office.getEmployees()));
+            employeeDTOList.addAll(entityMapper.mapEmployeeListToDTO(office.getEmployees()));
         }
         return employeeDTOList.stream()
                 .filter(employeeDTOnoOffice -> employeeDTOnoOffice.getName().equals(name))

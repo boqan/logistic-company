@@ -21,7 +21,7 @@ public class EntityMapper {
     public OfficeDto mapToOfficeDTOnoCompany(Office office){
         OfficeDto officeDto = modelMapper.map(office, OfficeDto.class);
         officeDto.setOrders(mapOrderListToDTOnoOffice(office.getOrders()));
-        officeDto.setEmployees(mapEmployeeListToDTOnoOffice(office.getEmployees()));
+        officeDto.setEmployees(mapEmployeeListToDTO(office.getEmployees()));
         officeDto.setClients(mapClientListDTOnoOffice(office.getClients()));
         return officeDto;
     }
@@ -32,6 +32,7 @@ public class EntityMapper {
 
     public OrderDto mapToOrderDTOnoOffice(Order order){
         OrderDto orderDTO = modelMapper.map(order, OrderDto.class);
+
         orderDTO.setReceiver(mapClientToDTOnoOffice(order.getReceiver()));
         orderDTO.setSender(mapClientToDTOnoOffice(order.getSender()));
         return orderDTO;
@@ -53,10 +54,15 @@ public class EntityMapper {
         return offices.stream().map(this::mapToOfficeDTOnoCompany).collect(Collectors.toList());
     }
 
-    public List<EmployeeDTO> mapEmployeeListToDTOnoOffice(List<Employee> employees){
-        return employees.stream().map(this::mapToDTOnoOffice).collect(Collectors.toList());
+    public List<EmployeeDTO> mapEmployeeListToDTO(List<Employee> employees){
+        return employees.stream().map(this::mapToEmployeeDTO).collect(Collectors.toList());
+    }
+
+    public EmployeeDTO mapToEmployeeDTO(Employee employee){
+        return modelMapper.map(employee, EmployeeDTO.class);
     }
     public ClientDTO convertToDto(Client clientEntity) {
+        // Perform the mapping from ClientEntity to ClientDTOnoOffice
         ClientDTO clientDto = new ClientDTO();
         clientDto.setId(clientEntity.getId());
         clientDto.setName(clientEntity.getName());
@@ -68,6 +74,7 @@ public class EntityMapper {
         client.setId(clientDto.getId());
         return client;
     }
+
 }
 
 

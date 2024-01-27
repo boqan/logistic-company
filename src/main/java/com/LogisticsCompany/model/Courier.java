@@ -19,5 +19,5 @@ public class Courier extends Employee{
 
     @Column(name = "vehicle_id", nullable = false, length = 255)
     private String vehicleID;
-
 }
+

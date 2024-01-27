@@ -85,5 +85,4 @@ public class EmployeeMapper {
         EmployeeDTO dto = modelMapper.map(employee, EmployeeDTO.class);
         return dto;
     }
-
 }

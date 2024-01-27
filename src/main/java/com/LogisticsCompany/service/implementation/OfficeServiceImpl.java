@@ -15,6 +15,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -137,9 +139,9 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public List<EmployeeDTO> fetchEmployeesSortedBySalary(Office office) {
         List<Employee> employees = office.getEmployees().stream()
-                .sorted((e1, e2) -> (int) (e1.getSalary() - e2.getSalary()))
+                .sorted(Comparator.comparing(Employee::getSalary))
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
 
@@ -148,7 +150,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getSalary() > salary)
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
     @Override
@@ -156,7 +158,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getSalary() < salary)
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
 
@@ -165,7 +167,7 @@ public class OfficeServiceImpl implements OfficeService {
         List<Employee> employees = office.getEmployees().stream()
                 .filter(employee -> employee.getName().equals(name))
                 .collect(Collectors.toList());
-        return entityMapper.mapEmployeeListToDTOnoOffice(employees);
+        return entityMapper.mapEmployeeListToDTO(employees);
     }
 
     @Override

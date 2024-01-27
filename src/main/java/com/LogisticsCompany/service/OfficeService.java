@@ -8,6 +8,7 @@ import com.LogisticsCompany.error.InvalidStatusException;
 import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.model.Office;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface OfficeService {

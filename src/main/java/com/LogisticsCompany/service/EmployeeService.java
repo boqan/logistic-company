@@ -17,5 +17,5 @@ public interface EmployeeService {
     List<EmployeeDTO> getAllEmployees();
     List<EmployeeDTO> sortEmployeesBySalary();
     List<EmployeeDTO> sortEmployeesByName();
-
 }
+
