@@ -1,6 +1,6 @@
 package com.LogisticsCompany.service;
 
-import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
@@ -33,7 +33,7 @@ public interface LogisticCompanyService {
 
     List<OfficeDto> fetchOfficesSortedByNumberOfEmployees(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<EmployeeDto> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException;
+    List<EmployeeDTO> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException;
 
-    List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException;
+    List<EmployeeDTO> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException;
 }

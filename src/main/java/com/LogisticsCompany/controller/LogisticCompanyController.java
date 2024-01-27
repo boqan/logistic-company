@@ -1,7 +1,7 @@
 package com.LogisticsCompany.controller;
 
 
-import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
@@ -75,12 +75,12 @@ public class LogisticCompanyController {
     }
 
     @GetMapping("/company/{id}/employees_sortedBySalary")
-    public List<EmployeeDto> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDTO> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchEmployeesSortedBySalary(companyId);
     }
 
     @GetMapping("/company/{id}/employees_byName/{name}")
-    public List<EmployeeDto> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+    public List<EmployeeDTO> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
         return logisticCompanyService.fetchEmployeesByName(companyId, name);
     }
 
