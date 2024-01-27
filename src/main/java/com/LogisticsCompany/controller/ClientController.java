@@ -3,6 +3,7 @@ package com.LogisticsCompany.controller;
 import com.LogisticsCompany.dto.ClientDTO;
 import com.LogisticsCompany.model.Client;
 import com.LogisticsCompany.service.ClientService;
+import com.sun.jdi.InternalException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,6 @@ public class ClientController {
         try {
             ClientDTO client = clientService.getClient(id);
             return new ResponseEntity<>(client, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -34,9 +33,6 @@ public class ClientController {
     public ResponseEntity<List<ClientDTO>> getClient(){
         try{
             List<ClientDTO> clients = clientService.getClients();
-            if (clients.isEmpty()){
-                return  new ResponseEntity<>(clients, HttpStatus.NO_CONTENT);
-            }
             return new ResponseEntity<>(clients, HttpStatus.OK);
         }catch (Exception e){
             return  new ResponseEntity<> (HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,7 +46,7 @@ public class ClientController {
             if (clientService.deleteClient(clientId)) {
                 return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Client not found", HttpStatus.NOT_FOUND);
+                throw new EntityNotFoundException("Client not found.");
             }
         } catch (Exception e) {
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
