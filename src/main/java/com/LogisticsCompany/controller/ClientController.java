@@ -58,7 +58,18 @@ public class ClientController {
     @ResponseBody
     public ResponseEntity<String> createClient(@RequestBody ClientDTO newClient) {
         try {
-            // Assuming clientService.createClient() returns the newly created client.
+            clientService.createClient(newClient);
+            return new ResponseEntity<>("Client created successfully", HttpStatus.CREATED);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = {"/client/{clientId}"})
+    @ResponseBody
+    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient, @PathVariable long clientId) {
+        try {
             clientService.createClient(newClient);
 
             // You might want to return the created client information or just a success message.

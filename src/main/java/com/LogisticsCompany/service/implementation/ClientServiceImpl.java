@@ -21,6 +21,28 @@ public class ClientServiceImpl implements ClientService {
     private ClientRepository repository;
     @Autowired
     private EntityMapper entityMapper;
+
+    @Override
+    public ClientDTO updateClient(ClientDTO clientDTO) {
+        // Check if the clientDTO has a valid ID
+        if (clientDTO.getId() == null) {
+            throw new IllegalArgumentException("Client ID cannot be null for update.");
+        }
+
+        // Fetch the existing client from the database
+        Client existingClient = repository.findById(clientDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + clientDTO.getId()));
+
+        // Update all fields from the clientDTO
+        entityMapper.updateClientFromDTO(existingClient, clientDTO);
+
+        // Save the updated client back to the database
+        Client updatedClient = repository.save(existingClient);
+
+        // Map the updated client back to DTO
+        return entityMapper.mapClientToDTO(updatedClient);
+    }
+
     @Override
     public List<ClientDTO> getClients() {
         // Fetch all clients from the repository

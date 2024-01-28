@@ -36,17 +36,17 @@ public class EntityMapper {
     public OrderDto mapToOrderDTOnoOffice(Order order){
         OrderDto orderDTO = modelMapper.map(order, OrderDto.class);
 
-        orderDTO.setReceiver(mapClientToDTOnoOffice(order.getReceiver()));
-        orderDTO.setSender(mapClientToDTOnoOffice(order.getSender()));
+        orderDTO.setReceiver(mapClientToDTO(order.getReceiver()));
+        orderDTO.setSender(mapClientToDTO(order.getSender()));
         return orderDTO;
     }
 
-    public ClientDTO mapClientToDTOnoOffice(Client client){
+    public ClientDTO mapClientToDTO(Client client){
         return modelMapper.map(client, ClientDTO.class);
     }
 
     private List<ClientDTO> mapClientListDTOnoOffice(List<Client> clients){
-        return clients.stream().map(this::mapClientToDTOnoOffice).collect(Collectors.toList());
+        return clients.stream().map(this::mapClientToDTO).collect(Collectors.toList());
     }
 
     private List<OrderDto> mapOrderListToDTOnoOffice(List<Order> orders){
@@ -76,6 +76,11 @@ public class EntityMapper {
         client.setName(clientDto.getName());
         client.setId(clientDto.getId());
         return client;
+    }
+    public void updateClientFromDTO(Client client, ClientDTO clientDTO) {
+        // Update all fields from ClientDTO to Client
+        client.setName(clientDTO.getName());
+        client.setEmail(clientDTO.getEmail());
     }
 
     // Order mappings-----------------------------------------------------------------------------------------------

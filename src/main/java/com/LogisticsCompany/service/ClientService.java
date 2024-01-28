@@ -10,6 +10,7 @@ import java.util.List;
 
 
 public interface ClientService {
+    ClientDTO updateClient(ClientDTO clientDTO);
     List<ClientDTO> getClients();
     ClientDTO getClient(Long id);
     void createClient(ClientDTO client);
