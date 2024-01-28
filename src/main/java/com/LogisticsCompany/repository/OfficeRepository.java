@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OfficeRepository extends JpaRepository<Office, Long> {
-
+public interface OfficeRepository extends JpaRepository< Office, Long> {
+    Optional<Office> findById(Long id);
 
     Optional<Office> findFirstByOrderByIdAsc();
     // ako ni trqbvat offices with orders

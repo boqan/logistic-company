@@ -1,3 +1,4 @@
+
 package com.LogisticsCompany.controller;
 
 import com.LogisticsCompany.dto.ClientDTO;
@@ -66,6 +67,4 @@ public class ClientController {
             return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
