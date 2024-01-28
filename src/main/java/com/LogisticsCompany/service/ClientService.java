@@ -19,6 +19,4 @@ public interface ClientService {
     void receiveOrder(Order order);     //change the delivery status to DELIVERED
 
     boolean deleteClient(Long clientId);
-
-
 }

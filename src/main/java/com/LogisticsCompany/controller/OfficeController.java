@@ -1,6 +1,6 @@
 package com.LogisticsCompany.controller;
 
-import com.LogisticsCompany.dto.EmployeeDto;
+import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.dto.OrderDto;
 import com.LogisticsCompany.enums.DeliveryStatus;
@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 @RestController
 public class OfficeController {
@@ -78,22 +79,22 @@ public class OfficeController {
     }
 
     @GetMapping("/office/{id}/employees_sortedBySalary")
-    public List<EmployeeDto> getEmployeesSortedBySalary(Office office) {
+    public List<EmployeeDTO> getEmployeesSortedBySalary(Office office) {
         return officeService.fetchEmployeesSortedBySalary(office);
     }
 
     @GetMapping("/office/{id}/employees_aboveSalary/{salary}")
-    public List<EmployeeDto> getEmployeesAboveSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesAboveSalary(Office office, @PathVariable("salary") double salary) {
         return officeService.fetchEmployeesAboveSalary(office, salary);
     }
 
     @GetMapping("/office/{id}/employees_belowSalary/{salary}")
-    public List<EmployeeDto> getEmployeesBelowSalary(Office office, @PathVariable("salary") double salary) {
+    public List<EmployeeDTO> getEmployeesBelowSalary(Office office, @PathVariable("salary") double salary) {
         return officeService.fetchEmployeesBelowSalary(office, salary);
     }
 
     @GetMapping("/office/{id}/employees_byName/{name}")
-    public List<EmployeeDto> getEmployeeByName(Office office, @PathVariable("name") String name) {
+    public List<EmployeeDTO> getEmployeeByName(Office office, @PathVariable("name") String name) {
         return officeService.fetchEmployeesByName(office, name);
     }
 
