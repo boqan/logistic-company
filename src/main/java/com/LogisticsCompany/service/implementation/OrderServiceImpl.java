@@ -5,12 +5,12 @@ import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderUpdateRequest;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.DeliveryStatusException;
-import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
 import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.error.OrderCreationValidationException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
+import com.LogisticsCompany.repository.ClientRepository;
 import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.repository.OrderRepository;
 import com.LogisticsCompany.service.OfficeService;
@@ -26,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
+    private final ClientRepository clientRepository;
 
     private final OfficeRepository officeRepository;
     private final EntityMapper entityMapper;
@@ -33,8 +34,9 @@ public class OrderServiceImpl implements OrderService {
     private final OfficeService officeService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, OfficeRepository officeRepository, EntityMapper entityMapper, OfficeService officeService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ClientRepository clientRepository, OfficeRepository officeRepository, EntityMapper entityMapper, OfficeService officeService) {
         this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
         this.officeRepository = officeRepository;
         this.entityMapper = entityMapper;
         this.officeService = officeService;
@@ -60,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
     @Override
-    public OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException {
+    public OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, OfficeNotFoundException {
         // Validate order creation request
         orderCreationRequestValidation(request);
 
@@ -96,16 +98,15 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTOSenderReceiverWithIds updateOrder(Long orderId, OrderUpdateRequest orderUpdateRequest) {
         Order existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found for ID: " + orderId));
-// @TODO add when there is a client repository available
-//        // Update the fields of the existing order entity with the values from the update request DTO
-//        if (orderUpdateRequest.getSender() != null) {
-//            existingOrder.setSender(clientRepository.findById(orderUpdateRequest.getSender())
-//                    .orElseThrow(() -> new EntityNotFoundException("Sender not found for ID: " + orderUpdateRequest.getSender())));
-//        }
-//        if (orderUpdateRequest.getReceiver() != null) {
-//            existingOrder.setReceiver(clientRepository.findById(orderUpdateRequest.getReceiver())
-//                    .orElseThrow(() -> new EntityNotFoundException("Receiver not found for ID: " + orderUpdateRequest.getReceiver())));
-//        }
+
+        if (orderUpdateRequest.getSender() != null) {
+            existingOrder.setSender(clientRepository.findById(orderUpdateRequest.getSender())
+                    .orElseThrow(() -> new EntityNotFoundException("Sender not found for ID: " + orderUpdateRequest.getSender())));
+        }
+        if (orderUpdateRequest.getReceiver() != null) {
+            existingOrder.setReceiver(clientRepository.findById(orderUpdateRequest.getReceiver())
+                    .orElseThrow(() -> new EntityNotFoundException("Receiver not found for ID: " + orderUpdateRequest.getReceiver())));
+        }
         if (orderUpdateRequest.getOfficeId() != null) {
             existingOrder.setOffice(officeRepository.findById(orderUpdateRequest.getOfficeId())
                     .orElseThrow(() -> new EntityNotFoundException("Office not found for ID: " + orderUpdateRequest.getOfficeId())));
