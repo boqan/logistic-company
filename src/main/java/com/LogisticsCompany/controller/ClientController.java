@@ -20,8 +20,9 @@ public class ClientController {
 
     @RequestMapping(value = {"/client/{id}"})
     @ResponseBody
-    public ResponseEntity<ClientDTO> getClient(@PathVariable long id) {
+    public ResponseEntity<ClientDTO> getClient(@PathVariable long id) throws InterruptedException {
         ClientDTO client = clientService.getClient(id);
+        Thread.sleep(600);
         return new ResponseEntity<>(client, HttpStatus.OK);
 
     }
