@@ -21,61 +21,44 @@ public class ClientController {
     @RequestMapping(value = {"/client/{id}"})
     @ResponseBody
     public ResponseEntity<ClientDTO> getClient(@PathVariable long id) {
-        try {
-            ClientDTO client = clientService.getClient(id);
-            return new ResponseEntity<>(client, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        ClientDTO client = clientService.getClient(id);
+        return new ResponseEntity<>(client, HttpStatus.OK);
+
     }
 
-    @RequestMapping(value = {"/client"})
+    @RequestMapping(value = {"/clients"})
     @ResponseBody //tells a controller that the object returned is automatically serialized into JSON and passed back into the HttpResponse object.
     public ResponseEntity<List<ClientDTO>> getClient(){
-        try{
-            List<ClientDTO> clients = clientService.getClients();
-            return new ResponseEntity<>(clients, HttpStatus.OK);
-        }catch (Exception e){
-            return  new ResponseEntity<> (HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<ClientDTO> clients = clientService.getClients();
+        return new ResponseEntity<>(clients, HttpStatus.OK);
+
     }
 
     @DeleteMapping(value = {"/client/{clientId}"})
     @ResponseBody
     public ResponseEntity<String> deleteClient(@PathVariable long clientId) {
-        try {
-            if (clientService.deleteClient(clientId)) {
-                return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
-            } else {
-                throw new EntityNotFoundException("Client not found.");
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+
+        if (clientService.deleteClient(clientId)) {
+            return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
+        } else {
+            throw new EntityNotFoundException("Client not found.");
         }
+
     }
 
     @PostMapping(value = {"/client"})
     @ResponseBody
     public ResponseEntity<String> createClient(@RequestBody ClientDTO newClient) {
-        try {
-            clientService.createClient(newClient);
-            return new ResponseEntity<>("Client created successfully", HttpStatus.CREATED);
+        clientService.createClient(newClient);
+        return new ResponseEntity<>("Client created successfully \n" + newClient, HttpStatus.CREATED);
 
-        } catch (Exception e) {
-            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @PutMapping(value = {"/client/{clientId}"})
     @ResponseBody
-    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient, @PathVariable long clientId) {
-        try {
-            clientService.createClient(newClient);
+    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient) {
+        clientService.updateClient(newClient);
+        return new ResponseEntity<>("Client updated successfully \n" + newClient, HttpStatus.CREATED);
 
-            // You might want to return the created client information or just a success message.
-            return new ResponseEntity<>("Client created successfully", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }

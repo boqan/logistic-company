@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 public class ClientDTO extends IdGenerator {
 
     private String name;
-    private String address;
     private String email;
-
 }

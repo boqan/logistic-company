@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO updateClient(ClientDTO clientDTO) {
-        // Check if the clientDTO has a valid ID
+        // Check if the id is null
         if (clientDTO.getId() == null) {
             throw new IllegalArgumentException("Client ID cannot be null for update.");
         }
@@ -33,14 +33,13 @@ public class ClientServiceImpl implements ClientService {
         Client existingClient = repository.findById(clientDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + clientDTO.getId()));
 
-        // Update all fields from the clientDTO
-        entityMapper.updateClientFromDTO(existingClient, clientDTO);
-
+        existingClient.setName(clientDTO.getName());
+        existingClient.setEmail(clientDTO.getEmail());
         // Save the updated client back to the database
-        Client updatedClient = repository.save(existingClient);
+        existingClient = repository.save(existingClient);
 
         // Map the updated client back to DTO
-        return entityMapper.mapClientToDTO(updatedClient);
+        return entityMapper.mapClientToDTO(existingClient);
     }
 
     @Override
@@ -50,19 +49,19 @@ public class ClientServiceImpl implements ClientService {
 
         // Convert each ClientEntity to ClientDTOnoOffice using entityMapper
         return clientEntities.stream()
-                .map(entityMapper::convertToDto)
+                .map(entityMapper::mapClientToDTO)
                 .collect(Collectors.toList());    }
 
     @Override
     public ClientDTO getClient(Long id) {
         Client client = repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-        ClientDTO clientDTO = entityMapper.convertToDto(client);
+        ClientDTO clientDTO = entityMapper.mapClientToDTO(client);
         return clientDTO;
     }
 
     @Override
     public void createClient(ClientDTO clientDto) {
-        Client client = entityMapper.convertToClient(clientDto);
+        Client client = entityMapper.mapDTOToClient(clientDto);
         repository.save(client);
     }
 

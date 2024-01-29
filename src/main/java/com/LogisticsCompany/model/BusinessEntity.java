@@ -23,6 +23,7 @@ public class BusinessEntity extends IdGenerator {
     @OneToMany(mappedBy = "office")
     private List<Employee> employees;
 
-    @OneToMany(mappedBy = "office")
+    @OneToMany
+    @JoinColumn(name = "office_id")
     private List<Client> clients;
 }
