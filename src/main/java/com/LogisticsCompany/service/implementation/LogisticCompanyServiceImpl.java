@@ -37,10 +37,8 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     }
 
     @Override
-    public List<LogisticCompanyDTOnoOffice> fetchLogisticCompanyList() {
-        List<LogisticCompany> logisticCompanies = logisticCompanyRepository.findAll();
-        List<LogisticCompanyDTOnoOffice> logisticCompanyDTOnoOfficeList = entityMapper.mapLogisticCompaniesNoCompany(logisticCompanies);
-        return logisticCompanyDTOnoOfficeList;
+    public List<LogisticCompanyDto> fetchLogisticCompanyList() {
+        return entityMapper.mapLogisticCompanyListDTOnoCompany(logisticCompanyRepository.findAll());
     }
 
     @Override
