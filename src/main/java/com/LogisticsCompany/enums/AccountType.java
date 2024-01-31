@@ -2,5 +2,5 @@ package com.LogisticsCompany.enums;
 
 public enum AccountType {
 
-    CLIENT, EMPLOYEE, ADMIN
+    CLIENT, EMPLOYEE,COMPANY_MANAGER, ADMIN
 }

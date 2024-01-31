@@ -28,6 +28,8 @@ public class Credentials extends IdGenerator implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
+    private Long connectedId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(accountType.name()));
@@ -45,7 +47,7 @@ public class Credentials extends IdGenerator implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
