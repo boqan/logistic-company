@@ -26,6 +26,7 @@ public class EntityMapper {
         officeDto.setOrders(mapOrderListToDTOnoOffice(office.getOrders()));
         officeDto.setEmployees(mapEmployeeListToDTO(office.getEmployees()));
         officeDto.setClients(mapClientListDTOnoOffice(office.getClients()));
+        officeDto.setCompanyId(office.getLogisticCompany().getId());
         return officeDto;
     }
 
