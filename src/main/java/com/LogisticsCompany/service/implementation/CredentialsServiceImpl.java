@@ -4,6 +4,7 @@ package com.LogisticsCompany.service.implementation;
 import com.LogisticsCompany.config.JwtUtil;
 import com.LogisticsCompany.dto.*;
 import com.LogisticsCompany.enums.AccountType;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
 import com.LogisticsCompany.error.UserNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.repository.CredentialsRepository;
@@ -19,6 +20,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -30,6 +33,9 @@ public class CredentialsServiceImpl implements CredentialsService {
 
     @Autowired
     private LogisticCompanyService logisticCompanyService;
+
+    @Autowired
+    private LogisticCompanyRepository logisticCompanyRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -96,44 +102,40 @@ public class CredentialsServiceImpl implements CredentialsService {
 
     }
 
+    // When registering a company we check if the company exist already if id does we throw an exception
+    // If the company does not exist we create it and then we create the user
+    // if the user already exist we throw an exception
+    // if both of them are valid and not created we have them and return the token
     @Override
-    public AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest) {
-        if (!validatePassword(registerCompanyRequest.getPassword())) {
-            throw new IllegalArgumentException("Password does not meet the strength requirements.");
+    public AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest) throws EntityAlreadyExistsInDbException {
+        // Check if the company exists
+        LogisticCompany logisticCompany_ = logisticCompanyRepository.findByName(registerCompanyRequest.getCompanyName()).orElse(null);
+        if (logisticCompany_ != null) {
+            throw new EntityAlreadyExistsInDbException("Company already exists");
         }
-        else{
+        else {
+            // Create the company
+            LogisticCompany logisticCompany = LogisticCompany.builder()
+                    .name(registerCompanyRequest.getCompanyName())
+                    .country(registerCompanyRequest.getCountry())
+                    .build();
 
-            if (credentialsRepository.findByUsername(registerCompanyRequest.getUsername()).isPresent()) {
-                throw new IllegalArgumentException("invalid email or username.");
-            } else if (credentialsRepository.findByEmail(registerCompanyRequest.getEmail()).isPresent()) {
-                throw new IllegalArgumentException("invalid email or username.");
-            }
-            else{
-                LogisticCompany logisticCompany = LogisticCompany.builder()
-                        .name(registerCompanyRequest.getCompanyName())
-                        .country(registerCompanyRequest.getCountry())
-                        .build();
-                LogisticCompanyDto saved = logisticCompanyService.saveLogisticCompany(logisticCompany);
+            LogisticCompanyDto logisticCompanyDto = logisticCompanyService.saveLogisticCompany(logisticCompany);
+            // create the user
+            Credentials user = Credentials.builder()
+                    .username(registerCompanyRequest.getUsername())
+                    .email(registerCompanyRequest.getEmail())
+                    .password(passwordEncoder.encode(registerCompanyRequest.getPassword()))
+                    .accountType(AccountType.COMPANY_MANAGER)
+                    .connectedId(logisticCompanyDto.getId())
+                    .build();
 
-                Credentials user = Credentials.builder()
-                        .username(registerCompanyRequest.getUsername())
-                        .email(registerCompanyRequest.getEmail())
-                        .password(passwordEncoder.encode(registerCompanyRequest.getPassword()))
-                        .accountType(AccountType.COMPANY_MANAGER)
-                        .connectedId(saved.getId())
-                        .build();
+            credentialsRepository.save(user);
 
-                    credentialsRepository.save(user);
-                    String jwtToken = jwtService.generateToken(user);
-                    return AuthenticationResponce.builder()
-                            .authenticationToken(jwtToken)
-                            .build();
-            }
-
-
-
-
-
+            String jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponce.builder()
+                    .authenticationToken(jwtToken)
+                    .build();
         }
     }
 }

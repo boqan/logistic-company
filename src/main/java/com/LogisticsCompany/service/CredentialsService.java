@@ -1,6 +1,7 @@
 package com.LogisticsCompany.service;
 
 import com.LogisticsCompany.dto.*;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
 import com.LogisticsCompany.error.UserNotFoundException;
 import com.LogisticsCompany.model.Credentials;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,5 @@ public interface CredentialsService {
 
     AuthenticationResponce login(AuthenticationRequest authenticationRequest) throws UserNotFoundException;
 
-    AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest);
+    AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest) throws EntityAlreadyExistsInDbException;
 }
