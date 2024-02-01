@@ -4,6 +4,7 @@ import com.LogisticsCompany.dto.AuthenticationRequest;
 import com.LogisticsCompany.dto.AuthenticationResponce;
 import com.LogisticsCompany.dto.RegisterCompanyRequest;
 import com.LogisticsCompany.dto.RegisterRequest;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
 import com.LogisticsCompany.error.UserNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.service.CredentialsService;
@@ -38,7 +39,7 @@ public class CredentialsController {
     }
 
     @PostMapping("/register_company")
-    public ResponseEntity<AuthenticationResponce> saveLogisticCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) {
+    public ResponseEntity<AuthenticationResponce> saveLogisticCompany(@RequestBody RegisterCompanyRequest registerCompanyRequest) throws EntityAlreadyExistsInDbException {
         return ResponseEntity.ok(credentialsService.registerCompany(registerCompanyRequest));
     }
 
