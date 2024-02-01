@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.query.Order;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,8 @@ public class LogisticCompany extends IdGenerator {
 
     @Column(name = "offices")
     @OneToMany(mappedBy = "logisticCompany")
-    private List<Office> offices;
+    @Builder.Default
+    private List<Office> offices = new ArrayList<>();
 
 
 
