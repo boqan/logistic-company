@@ -130,6 +130,7 @@ public class CredentialsServiceImpl implements CredentialsService {
                     .connectedId(logisticCompanyDto.getId())
                     .build();
 
+
             credentialsRepository.save(user);
 
             String jwtToken = jwtService.generateToken(user);
