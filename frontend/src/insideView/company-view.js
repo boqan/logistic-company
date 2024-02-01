@@ -23,7 +23,6 @@ const CompanyDetails = () => {
       navigate('/login');
       return;
     }
-
     const decodedToken = jwtDecode(token);
     const decodedRoles = decodedToken.roles ? decodedToken.roles.split(',') : [];
     const decodedUserId = decodedToken.userId;
@@ -97,6 +96,7 @@ const CompanyDetails = () => {
           </div>
         ))}
       </div>
+      <button onClick={() =>navigate(`/create-office/${companyId}`)}>Create Office</button>
       {userRoles.includes('ADMIN') && (
         <button onClick={() =>navigate(-1)}>Back to Companies</button>
       )}

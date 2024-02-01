@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import '../styles/Signup.css'; // Ensure you have the corresponding CSS file
+import { jwtDecode } from 'jwt-decode';
+
 
 const CreateCompany = () => {
+ 
   const navigate = useNavigate();
   
   // Initialize user data state
@@ -27,19 +30,20 @@ const CreateCompany = () => {
     event.preventDefault();
 
     try {
-        console.log(userData);
-      // Attempt to create the company
+       
       const companyResponse = await axios.post('http://localhost:8082/api/v1/auth/register_company', userData);
+
       
-      // Check if the company creation was successful
-      if (!companyResponse.data || !companyResponse.data.id) {
-        setErrorMessage('Company creation failed. Please try again.');
-        return;
+      if(companyResponse.data.authenticationToken){
+        localStorage.setItem('token', companyResponse.data.authenticationToken);
+        const decodedToken = jwtDecode(companyResponse.data.authenticationToken);
+        const decodedUserId = decodedToken.userId;
+        console.log(decodedToken);
+        // Log to check the decoded token structure
+
+        navigate(`/company-view/${decodedUserId}`);
       }
-
-      // Navigate to a different route or show a success message upon successful signup
-      // navigate('/success-route'); // Uncomment and modify as needed
-
+      
     } catch (error) {
       console.error('Company creation error:', error);
       setErrorMessage(error.response?.data?.message || 'An error occurred during company creation. Please try again.');

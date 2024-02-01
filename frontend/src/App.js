@@ -5,8 +5,10 @@ import AdminView from './insideView/admin-view';
 import Signup from './connect/Signup'; // Import your Signup component
 import UpdateCompany from './update/UpdateCompany';
 import CompanyView from './insideView/company-view';
-import EmployeeClientView from './insideView/office-view'
-import CreateCompany from './connect/logistic-company'
+import EmployeeClientView from './insideView/office-view';
+import CreateCompany from './connect/logistic-company';
+import CreateOffice from './connect/office';
+
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
           <Route path="/office-view/:officeId" element={<EmployeeClientView />} />
           <Route path="/company-view/:companyId" element={<CompanyView />} />
           <Route path="/update-company/:id" element={<UpdateCompany />} />
+          <Route path="/create-office/:companyId" element={<CreateOffice />} />
           
           {/* Redirect to /login if the route is not found or if the user tries to access an undefined route */}
           <Route path="*" element={<Navigate to="/login" replace />} />
