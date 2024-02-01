@@ -14,4 +14,6 @@ public interface CredentialsService {
     AuthenticationResponce register(RegisterRequest registerRequest);
 
     AuthenticationResponce login(AuthenticationRequest authenticationRequest) throws UserNotFoundException;
+
+    AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest);
 }

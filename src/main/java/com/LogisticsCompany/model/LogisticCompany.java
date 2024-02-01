@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

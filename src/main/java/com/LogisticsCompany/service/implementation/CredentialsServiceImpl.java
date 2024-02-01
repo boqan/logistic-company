@@ -2,14 +2,15 @@ package com.LogisticsCompany.service.implementation;
 
 
 import com.LogisticsCompany.config.JwtUtil;
-import com.LogisticsCompany.dto.AuthenticationRequest;
-import com.LogisticsCompany.dto.AuthenticationResponce;
-import com.LogisticsCompany.dto.RegisterRequest;
+import com.LogisticsCompany.dto.*;
 import com.LogisticsCompany.enums.AccountType;
 import com.LogisticsCompany.error.UserNotFoundException;
+import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.repository.CredentialsRepository;
+import com.LogisticsCompany.repository.LogisticCompanyRepository;
 import com.LogisticsCompany.service.CredentialsService;
 import com.LogisticsCompany.model.Credentials;
+import com.LogisticsCompany.service.LogisticCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,9 @@ public class CredentialsServiceImpl implements CredentialsService {
 
     @Autowired
     private CredentialsRepository credentialsRepository;
+
+    @Autowired
+    private LogisticCompanyService logisticCompanyService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -90,5 +94,33 @@ public class CredentialsServiceImpl implements CredentialsService {
                 .authenticationToken(jwtToken)
                 .build();
 
+    }
+
+    @Override
+    public AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest) {
+        if (!validatePassword(registerCompanyRequest.getPassword())) {
+            throw new IllegalArgumentException("Password does not meet the strength requirements.");
+        }
+        else{
+            LogisticCompany logisticCompany = LogisticCompany.builder()
+                    .name(registerCompanyRequest.getCompanyName())
+                    .country(registerCompanyRequest.getCountry())
+                    .build();
+            LogisticCompanyDto saved = logisticCompanyService.saveLogisticCompany(logisticCompany);
+
+            Credentials user = Credentials.builder()
+                    .username(registerCompanyRequest.getUsername())
+                    .email(registerCompanyRequest.getEmail())
+                    .password(passwordEncoder.encode(registerCompanyRequest.getPassword()))
+                    .accountType(AccountType.COMPANY_MANAGER)
+                    .connectedId(saved.getId())
+                    .build();
+
+            credentialsRepository.save(user);
+            String jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponce.builder()
+                    .authenticationToken(jwtToken)
+                    .build();
+        }
     }
 }

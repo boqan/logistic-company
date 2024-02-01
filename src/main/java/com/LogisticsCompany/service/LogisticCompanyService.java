@@ -19,11 +19,11 @@ public interface LogisticCompanyService {
 
     public List<LogisticCompanyDto> fetchLogisticCompanyList();
 
-    LogisticCompany saveLogisticCompany(LogisticCompany logisticCompany);
+    LogisticCompanyDto saveLogisticCompany(LogisticCompany logisticCompany);
 
     void deleteLogisticCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
-    LogisticCompany updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException;
+    LogisticCompanyDto updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException;
 
     Map<Office, List<Order>> fetchOrdersMap(Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException;
 

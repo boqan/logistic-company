@@ -42,8 +42,8 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     }
 
     @Override
-    public LogisticCompany saveLogisticCompany(LogisticCompany logisticCompany) {
-        return logisticCompanyRepository.save(logisticCompany);
+    public LogisticCompanyDto saveLogisticCompany(LogisticCompany logisticCompany) {
+        return entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompanyRepository.save(logisticCompany));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     }
 
     @Override
-    public LogisticCompany updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException {
+    public LogisticCompanyDto updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException {
         Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
         if(!currLogisticCompany.isPresent()){
             throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
@@ -71,7 +71,7 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
             logisticCompanyDb.setCountry((logisticCompany.getCountry()));
         }
 
-        return logisticCompanyRepository.save(logisticCompanyDb);
+        return entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompanyRepository.save(logisticCompanyDb));
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.service.LogisticCompanyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,68 +21,72 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/company")
 public class LogisticCompanyController {
 
     @Autowired
     private LogisticCompanyService logisticCompanyService;
 
-    @PostMapping("api/v1/auth/companies")
-    public LogisticCompany saveLogisticCompany(@Valid @RequestBody LogisticCompany logisticCompany){
-        return logisticCompanyService.saveLogisticCompany(logisticCompany);
-    }
 
     @GetMapping("/order/{id}")
-    public Map< Office, List<Order>> fetchOrders(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException {
-
-        return logisticCompanyService.fetchOrdersMap(companyId);
+    public ResponseEntity<Map< Office, List<Order>>> fetchOrders(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException {
+        Map< Office, List<Order>> orders = logisticCompanyService.fetchOrdersMap(companyId);
+        return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/companies")
-    public List<LogisticCompanyDto> fetchLogisticCompanyList(){
-        return logisticCompanyService.fetchLogisticCompanyList();
-
+    @GetMapping
+    public ResponseEntity<List<LogisticCompanyDto>> fetchLogisticCompanyList(){
+        List<LogisticCompanyDto> logisticCompanyList = logisticCompanyService.fetchLogisticCompanyList();
+        return ResponseEntity.ok(logisticCompanyList);
     }
 
-    @GetMapping("/company/{id}")
-    public LogisticCompanyDto fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchCompanyById(companyId);
+    @GetMapping("/{id}")
+    public ResponseEntity<LogisticCompanyDto> fetchLogisticCompanyById (@PathVariable("id") Long companyId) throws LogisticCompanyNotFoundException {
+        LogisticCompanyDto logisticCompanyDto = logisticCompanyService.fetchCompanyById(companyId);
+        return ResponseEntity.ok(logisticCompanyDto);
     }
 
-    @DeleteMapping("/company/{id}")
-    public String deleteDepartmentById(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteDepartmentById(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
         logisticCompanyService.deleteLogisticCompanyById(companyId);
-        return "Logistic Company deleted successfully!!";
+        return ResponseEntity.ok("Company with id " + companyId + " was deleted");
     }
 
-    @PutMapping("/company/{id}")
-    public LogisticCompany updateCompany(@PathVariable("id")Long companyId ,
+    @PutMapping("/{id}")
+    public ResponseEntity<LogisticCompanyDto> updateCompany(@PathVariable("id")Long companyId ,
                                          @RequestBody LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.updateLogisticCompany(companyId,logisticCompany);
+        LogisticCompanyDto logisticCompanyDto = logisticCompanyService.updateLogisticCompany(companyId,logisticCompany);
+        return ResponseEntity.ok(logisticCompanyDto);
     }
 
-    @GetMapping("/company/{id}/revenue")
-    public BigDecimal getRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchRevenue(companyId);
+    @GetMapping("/{id}/revenue")
+    public ResponseEntity<BigDecimal> getRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        BigDecimal revenue = logisticCompanyService.fetchRevenue(companyId);
+        return ResponseEntity.ok(revenue);
     }
 
-    @GetMapping("/company/{id}/offices_sortedByRevenue")
-    public List<OfficeDto> sortOfficesByRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchOfficesSortedByRevenue(companyId);
+    @GetMapping("/{id}/offices_sortedByRevenue")
+    public ResponseEntity<List<OfficeDto>> sortOfficesByRevenue(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        List<OfficeDto> offices = logisticCompanyService.fetchOfficesSortedByRevenue(companyId);
+        return ResponseEntity.ok(offices);
     }
 
-    @GetMapping("/company/{id}/offices_sortedByNumberOfEmployees")
-    public List<OfficeDto> sortOfficesByNumberOfEmployees(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchOfficesSortedByNumberOfEmployees(companyId);
+    @GetMapping("/{id}/offices_sortedByNumberOfEmployees")
+    public ResponseEntity<List<OfficeDto>> sortOfficesByNumberOfEmployees(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        List<OfficeDto> offices = logisticCompanyService.fetchOfficesSortedByNumberOfEmployees(companyId);
+        return ResponseEntity.ok(offices);
     }
 
-    @GetMapping("/company/{id}/employees_sortedBySalary")
-    public List<EmployeeDTO> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchEmployeesSortedBySalary(companyId);
+    @GetMapping("/{id}/employees_sortedBySalary")
+    public ResponseEntity<List<EmployeeDTO>> sortEmployeesBySalary(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException {
+        List<EmployeeDTO> employees = logisticCompanyService.fetchEmployeesSortedBySalary(companyId);
+        return ResponseEntity.ok(employees);
     }
 
-    @GetMapping("/company/{id}/employees_byName/{name}")
-    public List<EmployeeDTO> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
-        return logisticCompanyService.fetchEmployeesByName(companyId, name);
+    @GetMapping("/{id}/employees_byName/{name}")
+    public ResponseEntity<List<EmployeeDTO>> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
+        List<EmployeeDTO> employees = logisticCompanyService.fetchEmployeesByName(companyId,name);
+        return ResponseEntity.ok(employees);
     }
 
 
