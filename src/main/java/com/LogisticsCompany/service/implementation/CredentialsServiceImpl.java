@@ -102,25 +102,38 @@ public class CredentialsServiceImpl implements CredentialsService {
             throw new IllegalArgumentException("Password does not meet the strength requirements.");
         }
         else{
-            LogisticCompany logisticCompany = LogisticCompany.builder()
-                    .name(registerCompanyRequest.getCompanyName())
-                    .country(registerCompanyRequest.getCountry())
-                    .build();
-            LogisticCompanyDto saved = logisticCompanyService.saveLogisticCompany(logisticCompany);
 
-            Credentials user = Credentials.builder()
-                    .username(registerCompanyRequest.getUsername())
-                    .email(registerCompanyRequest.getEmail())
-                    .password(passwordEncoder.encode(registerCompanyRequest.getPassword()))
-                    .accountType(AccountType.COMPANY_MANAGER)
-                    .connectedId(saved.getId())
-                    .build();
+            if (credentialsRepository.findByUsername(registerCompanyRequest.getUsername()).isPresent()) {
+                throw new IllegalArgumentException("invalid email or username.");
+            } else if (credentialsRepository.findByEmail(registerCompanyRequest.getEmail()).isPresent()) {
+                throw new IllegalArgumentException("invalid email or username.");
+            }
+            else{
+                LogisticCompany logisticCompany = LogisticCompany.builder()
+                        .name(registerCompanyRequest.getCompanyName())
+                        .country(registerCompanyRequest.getCountry())
+                        .build();
+                LogisticCompanyDto saved = logisticCompanyService.saveLogisticCompany(logisticCompany);
 
-            credentialsRepository.save(user);
-            String jwtToken = jwtService.generateToken(user);
-            return AuthenticationResponce.builder()
-                    .authenticationToken(jwtToken)
-                    .build();
+                Credentials user = Credentials.builder()
+                        .username(registerCompanyRequest.getUsername())
+                        .email(registerCompanyRequest.getEmail())
+                        .password(passwordEncoder.encode(registerCompanyRequest.getPassword()))
+                        .accountType(AccountType.COMPANY_MANAGER)
+                        .connectedId(saved.getId())
+                        .build();
+
+                    credentialsRepository.save(user);
+                    String jwtToken = jwtService.generateToken(user);
+                    return AuthenticationResponce.builder()
+                            .authenticationToken(jwtToken)
+                            .build();
+            }
+
+
+
+
+
         }
     }
 }
