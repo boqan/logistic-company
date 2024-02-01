@@ -17,7 +17,6 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Credentials extends IdGenerator implements UserDetails {
@@ -29,6 +28,14 @@ public class Credentials extends IdGenerator implements UserDetails {
     private AccountType accountType;
 
     private Long connectedId;
+
+    public Credentials(String username, String password, String email, AccountType accountType, Long connectedId) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.accountType = accountType;
+        this.connectedId = connectedId;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

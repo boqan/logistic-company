@@ -25,7 +25,7 @@ public class LogisticCompanyController {
     @Autowired
     private LogisticCompanyService logisticCompanyService;
 
-    @PostMapping("/companies")
+    @PostMapping("api/v1/auth/companies")
     public LogisticCompany saveLogisticCompany(@Valid @RequestBody LogisticCompany logisticCompany){
         return logisticCompanyService.saveLogisticCompany(logisticCompany);
     }

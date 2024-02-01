@@ -55,6 +55,7 @@ public class CredentialsServiceImpl implements CredentialsService {
                     .email(registerRequest.getEmail())
                     .password(passwordEncoder.encode(registerRequest.getPassword()))
                     .accountType(registerRequest.getRole())
+                    .connectedId(registerRequest.getConnectedId())
                     .build();
 
             credentialsRepository.save(user);
