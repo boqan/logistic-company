@@ -13,7 +13,7 @@ class ClientList extends Component {
         this.remove = this.remove.bind(this);
     }
 
-    
+
     componentDidMount() {
         fetch('/clients')
             .then(response => response.json())
@@ -56,7 +56,7 @@ class ClientList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/clients">
+                        <Button color="success" tag={Link} to="/client">
                             Add Client
                         </Button>
                     </div>

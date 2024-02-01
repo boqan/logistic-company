@@ -6,8 +6,11 @@ import AppNavbar from './AppNavbar';
 class OrderEdit extends Component {
 
     emptyItem = {
-        name: '',
-        email: ''
+      receiverAddress: '',
+      senderId: 0, 
+      weight: 0.0, 
+      officeId: 0, 
+      deliveryType: '', 
     };
 
     constructor(props) {
@@ -17,15 +20,29 @@ class OrderEdit extends Component {
 
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeNumber = this.handleChangeNumber.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
-        if (this.props.match.params.id !== NaN) {
+        if (isNaN(this.props.match.params.id)) {
             const client = await (await fetch(`/order/${this.props.match.params.id}`)).json();
             this.setState({item: client});
         }
     }
+    handleChangeNumber(event) {
+      const { name, value } = event.target;
+      // Parse the value as a double or use 0 if parsing fails
+      const doubleValue = parseFloat(value) || 0.0;
+      
+      this.setState({
+        item: {
+          ...this.state.item,
+          [name]: doubleValue,
+        },
+      });
+    }
+    
 
     handleChange(event) {
         const target = event.target;
@@ -72,26 +89,38 @@ class OrderEdit extends Component {
                       autoComplete="receiverAddress"
                     />
                   </FormGroup>
+                  
                   <FormGroup>
-                    <Label for="sender">Sender Id</Label>
+                    <Label for="senderId">Sender Id</Label>
                     <Input
-                      type="text"
-                      name="sender id"
-                      id="sender id"
-                      value={item.receiverAddress || ''}
-                      onChange={this.handleChange}
-                      autoComplete="receiverAddress"
+                      type="number"
+                      name="senderId"
+                      id="senderId"
+                      value={item.senderId || ''}
+                      onChange={this.handleChangeNumber}
+                      autoComplete="senderId"
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="weight">weight</Label>
+                    <Label for="weight">Weight</Label>
                     <Input
-                      type="text"
+                      type="number"
                       name="weight"
                       id="weight"
                       value={item.weight || ''}
-                      onChange={this.handleChange}
+                      onChange={this.handleChangeNumber}
                       autoComplete="weight"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="officeId">Office Id</Label>
+                    <Input
+                      type="number"
+                      name="officeId"
+                      id="officeId"
+                      value={item.officeId || ''}
+                      onChange={this.handleChangeNumber}
+                      autoComplete="officeId"
                     />
                   </FormGroup>
                   <Label for="deliveryType">Delivery Type</Label>
@@ -103,8 +132,8 @@ class OrderEdit extends Component {
                         onChange={this.handleChange}
                         autoComplete="deliveryType"
                     >
-                        <option value="To home address">To home address</option>
-                        <option value="To office">To office</option>
+                        <option value="TO_HOME_ADDRESS">To home address</option>
+                        <option value="TO_OFFICE">To office</option>
                     </Input>
                   <FormGroup>
                     <Button color="primary" type="submit" tag={Link} to="/orders">
