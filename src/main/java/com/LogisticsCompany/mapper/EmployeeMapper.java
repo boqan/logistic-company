@@ -27,6 +27,7 @@ public class EmployeeMapper {
         // Set properties manually
         employeeDTO.setName(employee.getName());
         employeeDTO.setSalary(employee.getSalary());
+        employeeDTO.setEmail(employee.getEmail());
         employeeDTO.setEmployeeType(employee.getEmployeeType());
 
         // Assuming that employee has an 'office' property
@@ -48,6 +49,7 @@ public class EmployeeMapper {
 
         // Set properties manually
         employee.setName(employeeDTO.getName());
+        employee.setEmail(employeeDTO.getEmail());
         employee.setSalary(employeeDTO.getSalary());
         employee.setEmployeeType(employeeDTO.getEmployeeType());
 

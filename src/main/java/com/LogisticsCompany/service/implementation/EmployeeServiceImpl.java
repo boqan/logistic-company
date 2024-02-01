@@ -56,12 +56,41 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public void updateEmployeeUsingEmail(EmployeeDTO employeeDTO, String email) throws InvalidDTOException {
+        validateDTO(employeeDTO);
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with email " + email + " is not found"));
+
+        // Fetch the Office entity based on the officeId in the DTO
+        Long newOfficeId = employeeDTO.getOfficeID();
+        Office newOffice = officeRepository.findById(newOfficeId)
+                .orElseThrow(() -> new EntityNotFoundException("Office with ID " + newOfficeId + " is not found"));
+
+        // Update properties using copyProperties
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        // Set the new Office object in the Employee entity
+        employee.setOffice(newOffice);
+
+        employeeRepository.save(employee);
+    }
+
+    @Override
     public void deleteEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
 
         employeeRepository.delete(employee);
     }
+
+    @Override
+    public void deleteEmployeeByEmail(String email) {
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with email " + email + " not found"));
+
+        employeeRepository.delete(employee);
+    }
+
 
     @Override
     public EmployeeDTO findEmployeeById(Long id) {
@@ -103,6 +132,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees.stream()
                 .map(entityDTOMapper::EmployeeToDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDTO findEmployeeByEmail(String email) {
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Employee with email " + email + " not found"));
+
+        return entityDTOMapper.EmployeeToDTO(employee);
     }
 
     @Override
