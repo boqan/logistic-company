@@ -26,7 +26,7 @@ public class OfficeController {
     }
 
     @GetMapping("/offices")
-    public List<Office> fetchOfficeList(){
+    public List<OfficeDto> fetchOfficeList(){
         return officeService.fetchOfficeList();
 
     }

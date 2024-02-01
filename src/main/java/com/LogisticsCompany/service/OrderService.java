@@ -12,7 +12,7 @@ import com.LogisticsCompany.error.OrderCreationValidationException;
 import java.util.List;
 
 public interface OrderService {
-    OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
+    OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request) throws OrderCreationValidationException, EntityAlreadyExistsInDbException, OfficeNotFoundException;
     OrderDTOSenderReceiverWithIds getOrderById(Long id);
     List<OrderDTOSenderReceiverWithIds> getAllOrders();
     OrderDTOSenderReceiverWithIds updateOrder(Long orderId, OrderUpdateRequest orderUpdateRequest);

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
+import { Link } from 'react-router-dom';
+
+
 
 class ClientList extends Component {
 
@@ -10,6 +13,7 @@ class ClientList extends Component {
         this.remove = this.remove.bind(this);
     }
 
+    
     componentDidMount() {
         fetch('/clients')
             .then(response => response.json())
@@ -38,10 +42,7 @@ class ClientList extends Component {
                 <td>{client.email}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" 
-                        onClick={() => {
-                            this.props.history.push(`/client/${client.id}`)
-                            window.location.reload()}}>
+                        <Button size="sm" color="primary" tag={Link} to="/client/${client.id}">
                             Edit
                             </Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(client.id)}>Delete</Button>
@@ -55,11 +56,7 @@ class ClientList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success"                         
-                        onClick={() =>{
-                            this.props.history.push(`/client`)
-                            window.location.reload()
-                            }}>
+                        <Button color="success" tag={Link} to="/clients">
                             Add Client
                         </Button>
                     </div>

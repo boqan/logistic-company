@@ -8,16 +8,11 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <AppNavbar/>
-                <Container fluid>
-                    <Button color="link"
-                        onClick={() => {
-                            this.props.history.push(`/clients`)
-                            window.location.reload()}}>
-                            Clients
-                   </Button>
-                </Container>
-            </div>
+            <AppNavbar />
+            <Container fluid>
+              <h2>Welcome to the Home Page</h2>
+            </Container>
+          </div>
         );
     }
 }

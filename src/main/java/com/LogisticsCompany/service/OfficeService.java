@@ -25,7 +25,7 @@ public interface OfficeService {
 
     Office saveOffice(Office office);
 
-    List<Office> fetchOfficeList();
+    List<OfficeDto> fetchOfficeList();
 
     void deleteOfficeById(Long officeId) throws OfficeNotFoundException;
 

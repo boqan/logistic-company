@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
     @Override
-    public OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request, Long officeId) throws OrderCreationValidationException, OfficeNotFoundException {
+    public OrderDTOSenderReceiverWithIds createOrder(OrderCreationRequest request) throws OrderCreationValidationException, OfficeNotFoundException {
         // Validate order creation request
         orderCreationRequestValidation(request);
 
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderBuilder.price(calculateOrderPriceForOrderCreation(request)); // price is calculated based on the request
 
-        Office fetchedOffice = officeService.fetchOfficeByIdReturnsEntity(officeId); // gets the office provided in the URL path and sets that as the office from which it is being sent
+        Office fetchedOffice = officeService.fetchOfficeByIdReturnsEntity(request.office()); // gets the office provided in the URL path and sets that as the office from which it is being sent
         orderBuilder.office(fetchedOffice); // the first office is set as the office for the order
 
         Order order = orderBuilder.build(); // build the order entity

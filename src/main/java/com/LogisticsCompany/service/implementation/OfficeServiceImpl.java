@@ -116,8 +116,9 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public List<Office> fetchOfficeList() {
-        return officeRepository.findAll();
+    public List<OfficeDto> fetchOfficeList() {
+        List<Office> offices = officeRepository.findAll();
+        return entityMapper.mapOfficeListDTOnoCompany(offices);
     }
 
     @Override
