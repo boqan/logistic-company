@@ -1,0 +1,14 @@
+.update-button {
+    /* Similar styling as .view-button but with different background color */
+    padding: 6px 12px;
+    background-color: #28a745; /* Green color indicating an update action */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .update-button:hover {
+    background-color: #218838; /* Darker green for hover state */
+  }
+  
