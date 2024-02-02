@@ -6,6 +6,7 @@ import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
+import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
@@ -87,6 +88,12 @@ public class LogisticCompanyController {
     public ResponseEntity<List<EmployeeDTO>> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException {
         List<EmployeeDTO> employees = logisticCompanyService.fetchEmployeesByName(companyId,name);
         return ResponseEntity.ok(employees);
+    }
+
+    @PutMapping("/{id}/linkOffice/{officeId}")
+    public ResponseEntity<LogisticCompanyDto> linkOfficeToCompany(@PathVariable("id")Long companyId, @PathVariable("officeId")Long officeId) throws LogisticCompanyNotFoundException, OfficeNotFoundException {
+        LogisticCompanyDto logisticCompanyDto = logisticCompanyService.linkOfficeToCompany(companyId,officeId);
+        return ResponseEntity.ok(logisticCompanyDto);
     }
 
 

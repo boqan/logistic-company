@@ -5,11 +5,13 @@ import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
+import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.LogisticCompanyRepository;
+import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.service.LogisticCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
     private LogisticCompanyRepository logisticCompanyRepository;
     @Autowired
     private EntityMapper entityMapper;
+
+    @Autowired
+    private OfficeRepository officeRepository;
 
     @Override
     public LogisticCompanyDto fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException {
@@ -169,6 +174,32 @@ public class LogisticCompanyServiceImpl implements LogisticCompanyService {
         return employeeDTOList.stream()
                 .filter(employeeDTOnoOffice -> employeeDTOnoOffice.getName().equals(name))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public LogisticCompanyDto linkOfficeToCompany(Long companyId, Long officeId) throws OfficeNotFoundException, LogisticCompanyNotFoundException {
+        Optional<LogisticCompany> currLogisticCompany = logisticCompanyRepository.findById(companyId);
+        if(!currLogisticCompany.isPresent()){
+            throw new LogisticCompanyNotFoundException("Logistic Company Not Available");
+        }
+        LogisticCompany logisticCompanyDb = currLogisticCompany.get();
+
+        Optional<Office> currOffice = officeRepository.findById(officeId);
+        if(!currOffice.isPresent()){
+            throw new OfficeNotFoundException("Office Not Available");
+        }
+        Office officeDb = currOffice.get();
+        // Check if the office is in the company already
+
+        if(logisticCompanyDb.getOffices().contains(officeDb)){
+            throw new OfficeNotFoundException("Office already linked to the company");
+        }
+
+        logisticCompanyDb.getOffices().add(officeDb);
+        officeDb.setLogisticCompany(logisticCompanyDb);
+
+
+        return entityMapper.mapToDTOLogisticsCompanyNoCompany(logisticCompanyRepository.save(logisticCompanyDb));
     }
 
 
