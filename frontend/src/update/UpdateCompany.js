@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 const UpdateCompany = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [companyData, setCompanyData] = useState({ name: '', country: '' });
+  const [companyData, setCompanyData] = useState({ adress: '', country: '' });
   const token = localStorage.getItem('token');
   
   useEffect(() => {
@@ -15,7 +15,7 @@ const UpdateCompany = () => {
         const response = await axios.get(`http://localhost:8082/company/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setCompanyData({ name: response.data.name, country: response.data.country });
+        setCompanyData({ adress: response.data.name, country: response.data.country });
       } catch (error) {
         console.error('Error fetching company data:', error);
         // Handle error accordingly

@@ -8,6 +8,7 @@ import CompanyView from './insideView/company-view';
 import EmployeeClientView from './insideView/office-view';
 import CreateCompany from './connect/logistic-company';
 import CreateOffice from './connect/office';
+import UpdateOffice from './update/updateOffice';
 
 
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/office-view/:officeId" element={<EmployeeClientView />} />
           <Route path="/company-view/:companyId" element={<CompanyView />} />
           <Route path="/update-company/:id" element={<UpdateCompany />} />
+          <Route path="/update-office/:id" element={<UpdateOffice />} />
           <Route path="/create-office/:companyId" element={<CreateOffice />} />
           
           {/* Redirect to /login if the route is not found or if the user tries to access an undefined route */}

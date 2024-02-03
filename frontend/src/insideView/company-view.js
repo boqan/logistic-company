@@ -51,7 +51,7 @@ const CompanyDetails = () => {
     } else {
       navigate(-1);
     }
-    localStorage.setItem('companyId', companyId);
+    //localStorage.setItem('companyId', companyId);
   }, [companyId, token, navigate, userId, userRoles]); // Include userId and userRoles in dependencies
 
   const deleteOffice = async (officeId) => {
@@ -86,10 +86,14 @@ const CompanyDetails = () => {
         {company.offices && company.offices.map(office => (
           <div className="office-box" key={office.id}>
             <div className="office-header">
-              <h2>Address: {office.address}</h2>
+            <div className="office-details">
+                  <h2>Address: {office.address}</h2>
+                  <h2>Revenue: {office.revenue}</h2>
+                  
+              </div>    
               <div>
                 <button onClick={() => navigate(`/office-view/${office.id}`)} className="view-button"> View </button>
-                <button className="office-button update-button">Update</button>
+                <button onClick={() => navigate(`/update-office/${office.id}`)} className="update-button"> Update </button>
                 <button onClick={() => deleteOffice(office.id)} className="office-button delete-button">Delete</button>
               </div>
             </div>

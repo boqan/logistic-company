@@ -124,7 +124,7 @@ const OfficaManagerView = () => {
                                 <h2>Type:  {employee.employeeType}</h2>
                             </div>                              
                             <div>
-                                <button className="view-button"> View </button>
+                                <button className="view-button"> View </button>                               
                                 <button className="office-button update-button">Update</button>
                                 <button className="office-button delete-button" onClick={() => deleteEmployee(employee.id)}>Delete</button>
                             </div>
