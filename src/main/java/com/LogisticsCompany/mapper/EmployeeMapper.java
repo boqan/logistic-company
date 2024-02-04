@@ -28,7 +28,9 @@ public class EmployeeMapper {
         employeeDTO.setName(employee.getName());
         employeeDTO.setSalary(employee.getSalary());
         employeeDTO.setEmployeeType(employee.getEmployeeType());
-
+        if(employeeDTO.getId() != null) {
+            employeeDTO.setId(employee.getId());
+        }
         // Assuming that employee has an 'office' property
         if (employee.getOffice() != null) {
             // Set the officeId property of the DTO

@@ -10,6 +10,7 @@ const OfficaManagerView = () => {
     const [office, setOffice] = useState(null);
     const [userRoles, setUserRoles] = useState([]);
     const [userId, setUserId] = useState(null);
+    const [companyId, setCompanyId] = useState(null);
     const token = localStorage.getItem('token');
     const updateUserRoles = (decodedToken) => {
         const decodedRoles = decodedToken.roles ? decodedToken.roles.split(',') : [];
@@ -39,6 +40,7 @@ const OfficaManagerView = () => {
                     const response = await axios.get(`http://localhost:8082/office/${officeId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
+                    setCompanyId(response.data.companyId);
                     if(decodedRoles.includes('COMPANY_MANAGER') && response.data.companyId===decodedUserId){
                         setOffice(response.data);
                     }
@@ -71,7 +73,7 @@ const OfficaManagerView = () => {
             fetchOfficeDetails();
         }
         
-    }, [officeId, token, navigate, userId, userRoles]); // Include userId and userRoles in dependencies
+    }, [officeId, token, navigate, userId, userRoles,companyId]); // Include userId and userRoles in dependencies
 
     const deleteClient = async (clientId) => {
         try {
@@ -124,8 +126,9 @@ const OfficaManagerView = () => {
                                 <h2>Type:  {employee.employeeType}</h2>
                             </div>                              
                             <div>
-                                <button className="view-button"> View </button>                               
-                                <button className="office-button update-button">Update</button>
+                                <button className="view-button"> View </button>        
+                                                              
+                                <button className="office-button update-button"  onClick={() => navigate(`/update-employee/${employee.id}`)}>Update   </button>
                                 <button className="office-button delete-button" onClick={() => deleteEmployee(employee.id)}>Delete</button>
                             </div>
                         </div>
@@ -142,7 +145,7 @@ const OfficaManagerView = () => {
                             </div>                                
                             <div>
                                 <button className="view-button"> View </button>
-                                <button className="office-button update-button">Update</button>
+                                <button className="office-button update-button" onClick={() => navigate(`/update-client/${client.id}`)}>Update</button>
                                 <button className="office-button delete-button" onClick={() => deleteClient(client.id)}>Delete</button> {/* Corrected to use a hypothetical deleteClient function */}
                             </div>
                         </div>
@@ -154,8 +157,10 @@ const OfficaManagerView = () => {
             <p>Loading office details...</p>
         )}
                 {(userRoles.includes('ADMIN') || userRoles.includes('COMPANY_MANAGER')) && (
-                    <button onClick={() => navigate(-1)}>Back to Offices</button>
+                    <button onClick={() => navigate(`/company-view/${companyId}`)}>Back to Offices</button>
                 )}
+                <button onClick={() => navigate(`/add-employee/${officeId}`)}>Add Employee</button>
+                <button onClick={() => navigate(`/add-client/${officeId}`)}>Add Client</button>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
             </div>
 

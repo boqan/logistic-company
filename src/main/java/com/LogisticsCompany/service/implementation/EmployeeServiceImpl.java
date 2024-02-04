@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,10 +48,22 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new EntityNotFoundException("Office with ID " + newOfficeId + " is not found"));
 
         // Update properties using copyProperties
-        BeanUtils.copyProperties(employeeDTO, employee);
 
+
+        if(Objects.nonNull(employeeDTO.getName()) && !"".equals(employeeDTO.getName())){
+            employee.setName(employeeDTO.getName());
+        }
+        if(Objects.nonNull(employeeDTO.getSalary()) && !"".equals(employeeDTO.getSalary())){
+            employee.setSalary(employeeDTO.getSalary());
+        }
+        if(Objects.nonNull(employeeDTO.getOfficeID()) && !"".equals(employeeDTO.getOfficeID())){
+            employee.setOffice(newOffice);
+        }
+        if(Objects.nonNull(employeeDTO.getEmployeeType()) && !"".equals(employeeDTO.getEmployeeType())){
+            employee.setEmployeeType(employeeDTO.getEmployeeType());
+        }
         // Set the new Office object in the Employee entity
-        employee.setOffice(newOffice);
+
 
         employeeRepository.save(employee);
     }

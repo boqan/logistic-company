@@ -31,8 +31,15 @@ public class Employee {
     @Column(name="salary", nullable = false)
     private double salary;
 
-
-
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+              //  ", office=" + office +
+                ", name='" + name + '\'' +
+                ", employeeType=" + employeeType +
+                ", salary=" + salary +
+                '}';
+    }
 }
 

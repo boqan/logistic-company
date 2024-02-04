@@ -17,7 +17,7 @@ const AdminView = () => {
       navigate('/login');
       return;
     }
-
+    console.log(token);
     try {
       const decodedToken = jwtDecode(token);
       const userRoles = decodedToken.roles ; // Adjust based on your token structure
@@ -34,7 +34,7 @@ const AdminView = () => {
 
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get('http://localhost:8082/companies', {
+        const response = await axios.get('http://localhost:8082/company', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCompanies(response.data);

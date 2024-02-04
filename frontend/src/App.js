@@ -9,6 +9,10 @@ import EmployeeClientView from './insideView/office-view';
 import CreateCompany from './connect/logistic-company';
 import CreateOffice from './connect/office';
 import UpdateOffice from './update/updateOffice';
+import CreateEmployee from './connect/employee';
+import UpdateEmployee from './update/updateEmployee';
+import CreateClient from './connect/client';
+import UpdateClient from './update/updateClient';
 
 
 
@@ -26,6 +30,10 @@ function App() {
           <Route path="/update-company/:id" element={<UpdateCompany />} />
           <Route path="/update-office/:id" element={<UpdateOffice />} />
           <Route path="/create-office/:companyId" element={<CreateOffice />} />
+          <Route path="/add-employee/:officeId" element={<CreateEmployee />} />
+          <Route path="/update-employee/:employeeId" element={<UpdateEmployee />} />
+          <Route path="/add-client/:officeId" element={<CreateClient />} />
+          <Route path="/update-client/:clientId" element={<UpdateClient />} />
           
           {/* Redirect to /login if the route is not found or if the user tries to access an undefined route */}
           <Route path="*" element={<Navigate to="/login" replace />} />
