@@ -5,6 +5,7 @@ import com.LogisticsCompany.dto.LogisticCompanyDto;
 import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.error.CompanyNoOfficesException;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
+import com.LogisticsCompany.error.OfficeNotFoundException;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
@@ -17,13 +18,13 @@ import java.util.Map;
 public interface LogisticCompanyService {
     public LogisticCompanyDto fetchCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
-    public List<LogisticCompany> fetchLogisticCompanyList();
+    public List<LogisticCompanyDto> fetchLogisticCompanyList();
 
-    LogisticCompany saveLogisticCompany(LogisticCompany logisticCompany);
+    LogisticCompanyDto saveLogisticCompany(LogisticCompany logisticCompany);
 
     void deleteLogisticCompanyById(Long companyId) throws LogisticCompanyNotFoundException;
 
-    LogisticCompany updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException;
+    LogisticCompanyDto updateLogisticCompany(Long companyId, LogisticCompany logisticCompany) throws LogisticCompanyNotFoundException;
 
     Map<Office, List<Order>> fetchOrdersMap(Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException;
 
@@ -36,4 +37,6 @@ public interface LogisticCompanyService {
     List<EmployeeDTO> fetchEmployeesSortedBySalary(Long companyId) throws LogisticCompanyNotFoundException;
 
     List<EmployeeDTO> fetchEmployeesByName(Long companyId, String name) throws LogisticCompanyNotFoundException;
+
+    LogisticCompanyDto linkOfficeToCompany(Long companyId, Long officeId) throws OfficeNotFoundException, LogisticCompanyNotFoundException;
 }

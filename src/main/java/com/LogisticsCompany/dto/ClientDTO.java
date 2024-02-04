@@ -10,7 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientDTO extends IdGenerator {
 
-    private String name;
-    private String address;
+        private String name;
 
+        private Long officeId;
+
+        @Override
+        public String toString() {
+                return "ClientDTO{" +
+                        "name='" + name + '\'' +
+                        ", officeID=" + officeId +
+                        "} " + super.toString();
+        }
 }

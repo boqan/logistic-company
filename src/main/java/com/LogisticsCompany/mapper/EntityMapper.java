@@ -4,16 +4,23 @@ import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.enums.DeliveryType;
 import com.LogisticsCompany.error.OrderCreationValidationException;
 import com.LogisticsCompany.model.*;
+import com.LogisticsCompany.repository.OfficeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class EntityMapper {
     private final ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    private OfficeRepository officeRepository;
 
     public LogisticCompanyDto mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
         LogisticCompanyDto companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDto.class);
@@ -26,6 +33,9 @@ public class EntityMapper {
         officeDto.setOrders(mapOrderListToDTOnoOffice(office.getOrders()));
         officeDto.setEmployees(mapEmployeeListToDTO(office.getEmployees()));
         officeDto.setClients(mapClientListDTOnoOffice(office.getClients()));
+        if(office.getLogisticCompany() != null) {
+            officeDto.setCompanyId(office.getLogisticCompany().getId());
+        }
         return officeDto;
     }
 
@@ -41,15 +51,17 @@ public class EntityMapper {
         return orderDTO;
     }
 
-    public ClientDTO mapClientToDTOnoOffice(Client client){
-        return modelMapper.map(client, ClientDTO.class);
+
+
+    public List<LogisticCompanyDto> mapLogisticCompanyListDTOnoCompany(List<LogisticCompany> logisticCompanies){
+        return logisticCompanies.stream().map(this::mapToDTOLogisticsCompanyNoCompany).collect(Collectors.toList());
     }
 
-    private List<ClientDTO> mapClientListDTOnoOffice(List<Client> clients){
+    public List<ClientDTO> mapClientListDTOnoOffice(List<Client> clients){
         return clients.stream().map(this::mapClientToDTOnoOffice).collect(Collectors.toList());
     }
 
-    private List<OrderDto> mapOrderListToDTOnoOffice(List<Order> orders){
+    public List<OrderDto> mapOrderListToDTOnoOffice(List<Order> orders){
         return orders.stream().map(this::mapToOrderDTOnoOffice).collect(Collectors.toList());
     }
 
@@ -76,6 +88,42 @@ public class EntityMapper {
         client.setName(clientDto.getName());
         client.setId(clientDto.getId());
         return client;
+    }
+
+    public ClientDTO mapClientToDTOnoOffice(Client client){
+        ClientDTO clientDTO = modelMapper.map(client, ClientDTO.class);
+
+        if (clientDTO.getOfficeId() != null) {
+            // Retrieve the Office from the repository using the officeId
+            Optional<Office> officeOptional = officeRepository.findById(clientDTO.getOfficeId());
+
+            // Check if the office exists in the database
+            if (officeOptional.isPresent()) {
+                client.setOffice(officeOptional.get());
+            } else {
+                // Handle the case where the office is not found
+                throw new EntityNotFoundException("Office with ID " + clientDTO.getOfficeId() + " is not found");
+            }
+        }
+        return modelMapper.map(client, ClientDTO.class);
+    }
+
+    public Client mapDTOToClient(ClientDTO clientDTO){
+        Client client = modelMapper.map(clientDTO, Client.class);
+        if (clientDTO.getOfficeId() != null) {
+            // Retrieve the Office from the repository using the officeId
+            Optional<Office> officeOptional = officeRepository.findById(clientDTO.getOfficeId());
+
+            // Check if the office exists in the database
+            if (officeOptional.isPresent()) {
+                client.setOffice(officeOptional.get());
+            } else {
+                // Handle the case where the office is not found
+                throw new EntityNotFoundException("Office with ID " + clientDTO.getOfficeId() + " is not found");
+            }
+            return client;
+        }
+        else throw new  EntityNotFoundException();
     }
 
     // Order mappings-----------------------------------------------------------------------------------------------
@@ -125,13 +173,3 @@ public class EntityMapper {
 
     }
 }
-
-
-
-
-
-
-
-
-
-

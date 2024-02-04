@@ -19,4 +19,14 @@ public class Client extends IdGenerator {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
+    @Override
+    public String toString() {
+        return "Client{" +
+            //    "office=" + office +
+                ", name='" + name + '\'' +
+                "} " + super.toString();
+    }
+
+//@OneToOne(fetch = FetchType.LAZY)
+    //private Credentials credentials;
 }

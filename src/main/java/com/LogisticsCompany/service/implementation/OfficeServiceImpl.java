@@ -111,13 +111,13 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public Office saveOffice(Office office) {
-        return officeRepository.save(office);
+    public OfficeDto saveOffice(Office office) {
+        return entityMapper.mapToOfficeDTOnoCompany(officeRepository.save(office));
     }
 
     @Override
-    public List<Office> fetchOfficeList() {
-        return officeRepository.findAll();
+    public List<OfficeDto> fetchOfficeList() {
+        return entityMapper.mapOfficeListDTOnoCompany(officeRepository.findAll());
     }
 
     @Override
@@ -130,7 +130,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public Office updateOffice(Long officeId, Office office) throws OfficeNotFoundException {
+    public OfficeDto updateOffice(Long officeId, Office office) throws OfficeNotFoundException {
         Optional<Office> currOffice = officeRepository.findById(officeId);
         if(!currOffice.isPresent()){
             throw new OfficeNotFoundException("Office not available !");
@@ -144,11 +144,11 @@ public class OfficeServiceImpl implements OfficeService {
             officeDb.setRevenue(office.getRevenue());
         }
 
-        return officeRepository.save(officeDb);
+        return entityMapper.mapToOfficeDTOnoCompany(officeRepository.save(officeDb));
     }
     // needed together with fetchDefaultOffice() to create an order and then update the office's orders
     @Override
-    public Office updateOfficeOrders(Order newOrder, Office fetchedDefaultOffice) throws OfficeNotFoundException {
+    public OfficeDto updateOfficeOrders(Order newOrder, Office fetchedDefaultOffice) throws OfficeNotFoundException {
 
         // Ensure the orders list is initialized
         if (fetchedDefaultOffice.getOrders() == null) {
@@ -159,7 +159,7 @@ public class OfficeServiceImpl implements OfficeService {
         fetchedDefaultOffice.getOrders().add(newOrder);
 
         // Save the updated office
-        return officeRepository.save(fetchedDefaultOffice);
+        return entityMapper.mapToOfficeDTOnoCompany(officeRepository.save(fetchedDefaultOffice));
     }
 
     @Override

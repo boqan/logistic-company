@@ -7,6 +7,7 @@ import com.LogisticsCompany.model.Client;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.ClientRepository;
+import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.service.ClientService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,31 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository repository;
     @Autowired
+    private OfficeRepository officeRepository;
+    @Autowired
     private EntityMapper entityMapper;
+
+    @Override
+    public ClientDTO updateClient(ClientDTO clientDTO , Long clientId) {
+
+
+        // Fetch the existing client from the database
+        Client existingClient = repository.findById(clientId)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + clientDTO.getId()));
+
+        Long newOfficeId = clientDTO.getOfficeId();
+        Office newOffice = officeRepository.findById(newOfficeId)
+                .orElseThrow(() -> new EntityNotFoundException("Office with ID " + newOfficeId + " is not found"));
+
+        existingClient.setName(clientDTO.getName());
+        existingClient.setOffice(newOffice);
+        // Save the updated client back to the database
+        existingClient = repository.save(existingClient);
+
+        // Map the updated client back to DTO
+        return entityMapper.mapClientToDTOnoOffice(existingClient);
+    }
+
     @Override
     public List<ClientDTO> getClients() {
         // Fetch all clients from the repository
@@ -28,19 +53,19 @@ public class ClientServiceImpl implements ClientService {
 
         // Convert each ClientEntity to ClientDTOnoOffice using entityMapper
         return clientEntities.stream()
-                .map(entityMapper::convertToDto)
+                .map(entityMapper::mapClientToDTOnoOffice)
                 .collect(Collectors.toList());    }
 
     @Override
     public ClientDTO getClient(Long id) {
         Client client = repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
-        ClientDTO clientDTO = entityMapper.convertToDto(client);
+        ClientDTO clientDTO = entityMapper.mapClientToDTOnoOffice(client);
         return clientDTO;
     }
 
     @Override
     public void createClient(ClientDTO clientDto) {
-        Client client = entityMapper.convertToClient(clientDto);
+        Client client = entityMapper.mapDTOToClient(clientDto);
         repository.save(client);
     }
 
