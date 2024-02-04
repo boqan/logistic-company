@@ -17,8 +17,6 @@ class EmployeeUpdate extends Component {
 
   async componentDidMount() {
     const email = this.props.match.params.email;
-    console.log("Email: " + email);
-    console.log("URL: /employee/findByEmail/" + email);
 
     try {
         const employee = await (await fetch(`/employee/findByEmail/${email}`)).json();
@@ -41,7 +39,6 @@ class EmployeeUpdate extends Component {
     event.preventDefault();
     const { item } = this.state;
     const url = `/employee/updateByEmail/${this.props.match.params.email}`;
-    console.log("URL: " + url);
 
     await fetch(url, {
       method: 'PUT',
