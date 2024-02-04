@@ -73,6 +73,7 @@ class OrdersList extends Component {
                             <th width="15%">Price</th>
                             <th width="20%">Status</th>
                             <th width="25%">Actions</th>
+
                         </tr>
                         </thead>
                         <tbody>
