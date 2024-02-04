@@ -36,7 +36,7 @@ public class ClientController {
 
     @DeleteMapping(value = {"/client/{clientId}"})
     @ResponseBody
-    public ResponseEntity<String> deleteClient(@PathVariable long clientId) {
+    public ResponseEntity<String> deleteClient(@PathVariable Long clientId) {
 
         if (clientService.deleteClient(clientId)) {
             return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
@@ -56,8 +56,8 @@ public class ClientController {
 
     @PutMapping(value = {"/client/{clientId}"})
     @ResponseBody
-    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient) {
-        clientService.updateClient(newClient);
+    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient,@PathVariable Long clientId) {
+        clientService.updateClient(newClient,clientId);
         return new ResponseEntity<>("Client updated successfully \n" + newClient, HttpStatus.CREATED);
     }
 }

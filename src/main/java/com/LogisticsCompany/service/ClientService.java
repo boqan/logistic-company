@@ -14,7 +14,7 @@ public interface ClientService {
     ClientDTO getClient(Long id);
     void createClient(ClientDTO client);
 
-    ClientDTO updateClient(ClientDTO clientDTO);
+    ClientDTO updateClient(ClientDTO clientDTO,Long clientId);
 
     void placeOrder(Order order, Office office, DeliveryType deliveryType);
     void payOrder(Order order);     //always called when requesting an order - logic for increasing revenue for the office

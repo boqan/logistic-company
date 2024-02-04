@@ -14,7 +14,7 @@ const CreateEmployee = () => {
         name: '',
         salary: '',
         officeID: officeId,
-        employeeType: ''
+        employeeType: 'COURIER'
     });
     const [userRoles, setUserRoles] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');

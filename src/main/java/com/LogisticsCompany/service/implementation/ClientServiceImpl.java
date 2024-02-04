@@ -26,14 +26,11 @@ public class ClientServiceImpl implements ClientService {
     private EntityMapper entityMapper;
 
     @Override
-    public ClientDTO updateClient(ClientDTO clientDTO) {
-        // Check if the id is null
-        if (clientDTO.getId() == null) {
-            throw new IllegalArgumentException("Client ID cannot be null for update.");
-        }
+    public ClientDTO updateClient(ClientDTO clientDTO , Long clientId) {
+
 
         // Fetch the existing client from the database
-        Client existingClient = repository.findById(clientDTO.getId())
+        Client existingClient = repository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + clientDTO.getId()));
 
         Long newOfficeId = clientDTO.getOfficeId();

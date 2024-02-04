@@ -6,7 +6,7 @@ const ClientUpdate = () => {
     const { clientId } = useParams();
     const navigate = useNavigate();
     const [clientData, setClientData] = useState({  name: '',
-    officeID:''
+    officeId:''
 });
     const token = localStorage.getItem('token');
  
@@ -21,7 +21,7 @@ useEffect(() => {
         console.log(response.data);
         setClientData({
             name: response.data.name,
-            officeID: response.data.officeID
+            officeId: response.data.officeId
           });
         } catch (error) {
         console.error('Error fetching company data:', error);

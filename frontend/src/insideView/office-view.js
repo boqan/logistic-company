@@ -80,19 +80,17 @@ const OfficaManagerView = () => {
             await axios.delete(`http://localhost:8082/client/${clientId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            setOffice(prevCompany => ({
-                ...prevCompany,
-                offices: prevCompany.offices.filter(office => office.id !== officeId)
-            }));
+            
+            // Update state to reflect the deletion of the client
+            setOffice(prevOffice => {
+                const updatedClients = prevOffice.clients.filter(client => client.id !== clientId);
+                return { ...prevOffice, clients: updatedClients };
+            });
         } catch (error) {
-            console.error('Error deleting office:', error);
+            console.error('Error deleting client:', error);
         }
     };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-      };
+    
     
 
       const deleteEmployee = async (employeeId) => {
@@ -109,6 +107,11 @@ const OfficaManagerView = () => {
             console.error('Error deleting employee:', error); // Corrected the error message to refer to an employee instead of an office
         }
     };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+      };
     
     return (
         <div>
