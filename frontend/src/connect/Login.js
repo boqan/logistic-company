@@ -27,11 +27,11 @@ const Login = () => {
         const decodedUserId = decodedToken.userId;
         // Redirect user based on role
         if (userRole === 'ADMIN') {
-          navigate('/admin-view');
+          navigate(`/admin-view`);
         } else if (userRole === 'CLIENT') {
-          navigate('/client-view');
+          navigate(`/client-view/${decodedUserId}`);
         } else if (userRole === 'EMPLOYEE') {
-          navigate('/employee-view');
+          navigate(`/employee-view/${decodedUserId}`);
         } else if (userRole === 'COMPANY_MANAGER') {
           navigate(`/company-view/${decodedUserId}`);
         } else {

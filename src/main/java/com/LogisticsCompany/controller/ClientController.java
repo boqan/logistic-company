@@ -60,4 +60,6 @@ public class ClientController {
         clientService.updateClient(newClient,clientId);
         return new ResponseEntity<>("Client updated successfully \n" + newClient, HttpStatus.CREATED);
     }
+
+
 }
