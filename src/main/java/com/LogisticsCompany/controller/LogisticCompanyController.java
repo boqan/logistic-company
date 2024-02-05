@@ -29,11 +29,13 @@ public class LogisticCompanyController {
     private LogisticCompanyService logisticCompanyService;
 
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/ordersByCompany/{id}")
     public ResponseEntity<Map< Office, List<Order>>> fetchOrders(@PathVariable("id")Long companyId) throws LogisticCompanyNotFoundException, CompanyNoOfficesException {
         Map< Office, List<Order>> orders = logisticCompanyService.fetchOrdersMap(companyId);
         return ResponseEntity.ok(orders);
     }
+
+
 
     @GetMapping
     public ResponseEntity<List<LogisticCompanyDto>> fetchLogisticCompanyList(){

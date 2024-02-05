@@ -2,6 +2,7 @@ package com.LogisticsCompany.service;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDto;
+import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderDto;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.InvalidStatusException;
@@ -13,14 +14,14 @@ import java.util.List;
 
 public interface OfficeService {
 
-    List<OrderDto> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException;
+    List<OrderDTOSenderReceiverWithIds> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException;
 
     OfficeDto fetchOfficeById(Long officeId) throws OfficeNotFoundException;
 
     Office fetchOfficeByIdReturnsEntity(Long officeId) throws OfficeNotFoundException;
-    List<OrderDto> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;
+    //List<OrderDto> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;
 
-    List<OrderDto> fetchOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;
+   // List<OrderDto> fetchOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException;
 
     OfficeDto saveOffice(Office office);
 
@@ -39,6 +40,8 @@ public interface OfficeService {
     List<EmployeeDTO> fetchEmployeesBelowSalary(Office office, double salary);
 
     List<EmployeeDTO> fetchEmployeesByName(Office office, String name);
-
+/*
     List<OrderDto> fetchClientListOfOrders(Long officeId, Long clientId) throws OfficeNotFoundException;
+
+ */
 }

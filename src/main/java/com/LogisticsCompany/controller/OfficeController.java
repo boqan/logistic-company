@@ -42,7 +42,7 @@ public class OfficeController {
         return ResponseEntity.ok(officeDto);
     }
 
-
+/*
     @GetMapping("/orders/{id}/with_status/{status}")
     public ResponseEntity<List<OrderDto>> getOrdersByDeliveryStatus(@PathVariable("id") Long officeId,
                                                     @PathVariable("status") DeliveryStatus deliveryStatus)
@@ -52,6 +52,10 @@ public class OfficeController {
         return ResponseEntity.ok(orders);
     }
 
+
+
+ */
+/*
     @GetMapping("/orders/{id}/with_Status/{status}/receiver/{clientId}")
     public ResponseEntity<List<OrderDto>> getOrdersByDeliveryStatusAndReceiverId(@PathVariable("id") Long officeId,
                                                                  @PathVariable("status") DeliveryStatus deliveryStatus ,
@@ -71,6 +75,8 @@ public class OfficeController {
         List<OrderDto> orders = officeService.fetchOrdersByDeliveryStatusAndSenderId(officeId,deliveryStatus,clientId);
         return ResponseEntity.ok(orders);
     }
+
+ */
 
 
     @DeleteMapping("/{id}")
@@ -109,7 +115,7 @@ public class OfficeController {
         List<EmployeeDTO> employees = officeService.fetchEmployeesByName(office, name);
         return ResponseEntity.ok(employees);
     }
-
+/*
     @GetMapping("/{id}/client_orders/{clientId}")
     public ResponseEntity<List<OrderDto>> getClientListOfOrders(@PathVariable("id") Long officeId,
                                                 @PathVariable("clientId") Long clientId) throws OfficeNotFoundException {
@@ -117,6 +123,8 @@ public class OfficeController {
         return ResponseEntity.ok(orders);
     }
 
+
+ */
 
 
 }

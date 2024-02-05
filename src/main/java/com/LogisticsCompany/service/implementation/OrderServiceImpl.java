@@ -74,6 +74,10 @@ public class OrderServiceImpl implements OrderService {
         Office fetchedOffice = officeService.fetchOfficeByIdReturnsEntity(officeId); // gets the office provided in the URL path and sets that as the office from which it is being sent
         orderBuilder.office(fetchedOffice); // the first office is set as the office for the order
 
+        orderBuilder.sender(clientRepository.findById(request.sender()).get());
+
+        orderBuilder.receiver(clientRepository.findById(request.receiver()).get());
+
         Order order = orderBuilder.build(); // build the order entity
 
         officeService.updateOfficeOrders(order, fetchedOffice); // update the office's orders (add the new order to the list of orders)

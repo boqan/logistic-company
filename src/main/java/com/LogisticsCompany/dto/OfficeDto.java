@@ -14,7 +14,7 @@ public class OfficeDto extends BusinessEntityDto {
 
     private String address;
 
-    private List<OrderDto> orders;
+    private List<OrderDTOSenderReceiverWithIds> orders;
 
 
 }

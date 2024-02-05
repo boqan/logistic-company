@@ -90,6 +90,22 @@ const OfficaManagerView = () => {
             console.error('Error deleting client:', error);
         }
     };
+
+    const deleteOrder = async (orderId) => {
+        try {
+            await axios.delete(`http://localhost:8082/orders/${orderId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            
+            // Update state to reflect the deletion of the client
+            setOffice(prevOffice => {
+                const updatedOrders = prevOffice.orders.filter(order => order.id !== orderId);
+                return { ...prevOffice, orders: updatedOrders };
+            });
+        } catch (error) {
+            console.error('Error deleting client:', error);
+        }
+    };
     
     
 
@@ -155,6 +171,30 @@ const OfficaManagerView = () => {
                     </div>
                 ))}
             </div>
+            <h2>Orders: </h2>
+            <div className="employee-list">
+                {office.orders && office.orders.map(order => (
+                    <div className="employee-box" key={order.id}> {/* Ensure unique key for each client */}
+                        <div className="employee-header">
+                            <div className="employee-details">
+                                <h2>ID:  {order.id}</h2>
+                                <h2>Status:  {order.status}</h2>
+                                <h2>Delivery Type:  {order.deliveryType}</h2>
+                                <h2>Reciever Address:  {order.receiverAddress}</h2>
+                                <h2>Weight:  {order.weight}</h2>
+                                <h2>Sender:  {order.sender}</h2>
+                                <h2>Receiver:  {order.receiver}</h2>
+
+                            </div>                                
+                            <div>
+                               
+                                <button className="office-button update-button" onClick={() => navigate(`/update-order/${order.id}`)}>Update</button>
+                                <button className="office-button delete-button" onClick={() => deleteOrder(order.id)}>Delete</button> {/* Corrected to use a hypothetical deleteClient function */}
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </>
         ) : (
             <p>Loading office details...</p>
@@ -164,6 +204,7 @@ const OfficaManagerView = () => {
                 )}
                 <button onClick={() => navigate(`/add-employee/${officeId}`)}>Add Employee</button>
                 <button onClick={() => navigate(`/add-client/${officeId}`)}>Add Client</button>
+                <button onClick={() => navigate(`/create-order/${officeId}`)}>Create Order</button>
                 <button onClick={handleLogout} className="logout-button">Logout</button>
             </div>
 

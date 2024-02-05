@@ -23,14 +23,24 @@ public class EntityMapper {
     private OfficeRepository officeRepository;
 
     public LogisticCompanyDto mapToDTOLogisticsCompanyNoCompany(LogisticCompany logisticCompany){
-        LogisticCompanyDto companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDto.class);
+        //LogisticCompanyDto companyDTO=modelMapper.map(logisticCompany, LogisticCompanyDto.class);
+        LogisticCompanyDto companyDTO = new LogisticCompanyDto();
+        companyDTO.setId(logisticCompany.getId());
+        companyDTO.setName(logisticCompany.getName());
+        companyDTO.setCountry(logisticCompany.getCountry());
+        companyDTO.setOffices(mapOfficeListDTOnoCompany(logisticCompany.getOffices()));
         companyDTO.setOffices(mapOfficeListDTOnoCompany(logisticCompany.getOffices()));
         return companyDTO;
     }
 
     public OfficeDto mapToOfficeDTOnoCompany(Office office){
-        OfficeDto officeDto = modelMapper.map(office, OfficeDto.class);
-        officeDto.setOrders(mapOrderListToDTOnoOffice(office.getOrders()));
+
+        //OfficeDto officeDto = modelMapper.map(office, OfficeDto.class);
+        OfficeDto officeDto = new OfficeDto();
+        officeDto.setId(office.getId());
+        officeDto.setCompanyId(office.getLogisticCompany().getId());
+        officeDto.setAddress(office.getAddress());
+        officeDto.setOrders(mapToOrderDTOs(office.getOrders()));
         officeDto.setEmployees(mapEmployeeListToDTO(office.getEmployees()));
         officeDto.setClients(mapClientListDTOnoOffice(office.getClients()));
         if(office.getLogisticCompany() != null) {

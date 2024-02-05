@@ -41,11 +41,13 @@ const CompanyDetails = () => {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCompany(response.data);
+          
         } catch (error) {
           console.error('Error fetching company details:', error);
           navigate(-1);
         }
       };
+     
 
       fetchCompanyDetails();
     } else {

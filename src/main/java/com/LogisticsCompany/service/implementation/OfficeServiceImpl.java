@@ -2,6 +2,7 @@ package com.LogisticsCompany.service.implementation;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDto;
+import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderDto;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.InvalidStatusException;
@@ -50,7 +51,7 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public List<OrderDto> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException {
+    public List<OrderDTOSenderReceiverWithIds> fetchOrdersByDeliveryStatus(Long officeId, DeliveryStatus deliveryStatus) throws OfficeNotFoundException, InvalidStatusException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
             throw new OfficeNotFoundException("Office not available");
@@ -61,14 +62,14 @@ public class OfficeServiceImpl implements OfficeService {
         OfficeDto officeDto = entityMapper.mapToOfficeDTOnoCompany(office.get());
         return officeDto.getOrders().stream().
                 filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getDeliveryStatus()
+                        .getStatus()
                         .equals(deliveryStatus))
                         .collect(Collectors.toList());
     }
 
-
+/*
     @Override
-    public List<OrderDto> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException {
+    public List<OrderDTOSenderReceiverWithIds> fetchOrdersByDeliveryStatusAndReceiverId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException {
         Optional<Office> office = officeRepository.findById(officeId);
         if(!office.isPresent()){
             throw new OfficeNotFoundException("Office not available");
@@ -79,15 +80,17 @@ public class OfficeServiceImpl implements OfficeService {
         OfficeDto officeDto = entityMapper.mapToOfficeDTOnoCompany(office.get());
         return officeDto.getOrders().stream()
                 .filter(orderDTOnoOffice -> orderDTOnoOffice
-                        .getDeliveryStatus()
+                        .getStatus()
                         .equals(deliveryStatus) &&
-                        orderDTOnoOffice
-                                .getReceiver()
+                        OrderDTOSenderReceiverWithIds
+                                .get()
                                 .getId()
                                 .equals(clientId))
                 .collect(Collectors.toList());
     }
 
+ */
+/*
 
     @Override
     public List<OrderDto> fetchOrdersByDeliveryStatusAndSenderId(Long officeId, DeliveryStatus deliveryStatus, Long clientId) throws OfficeNotFoundException, InvalidStatusException {
@@ -109,6 +112,9 @@ public class OfficeServiceImpl implements OfficeService {
                                 .equals(clientId))
                 .collect(Collectors.toList());
     }
+
+ */
+
 
     @Override
     public OfficeDto saveOffice(Office office) {
@@ -195,7 +201,7 @@ public class OfficeServiceImpl implements OfficeService {
                 .collect(Collectors.toList());
         return entityMapper.mapEmployeeListToDTO(employees);
     }
-
+/*
     @Override
     public List<OrderDto> fetchClientListOfOrders(Long officeId, Long clientId) throws OfficeNotFoundException {
         Optional<Office> office = officeRepository.findById(officeId);
@@ -215,5 +221,8 @@ public class OfficeServiceImpl implements OfficeService {
                 .collect(Collectors.toList());
 
     }
+
+
+ */
 
 }

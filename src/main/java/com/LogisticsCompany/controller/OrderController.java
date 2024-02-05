@@ -37,11 +37,11 @@ public class OrderController {
     }
 
     // there is also the same get method in logistic company controller
-//    @GetMapping("/{orderId}")
-//    public ResponseEntity<OrderDTOSenderReceiverWithIds> getOrderById(@PathVariable Long orderId) {
-//        OrderDTOSenderReceiverWithIds orderDTOSenderReceiverWithIds = orderService.getOrderById(orderId);
-//        return ResponseEntity.ok(orderDTOSenderReceiverWithIds);
-//    }
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderDTOSenderReceiverWithIds> getOrderById(@PathVariable Long orderId) {
+        OrderDTOSenderReceiverWithIds orderDTOSenderReceiverWithIds = orderService.getOrderById(orderId);
+        return ResponseEntity.ok(orderDTOSenderReceiverWithIds);
+    }
 
     @GetMapping
     public ResponseEntity<List<OrderDTOSenderReceiverWithIds>> getAllOrders() {
