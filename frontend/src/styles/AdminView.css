@@ -1,0 +1,117 @@
+.profile-container {
+  padding: 20px;
+  font-family: Arial, sans-serif; /* Choose a font that suits your app */
+}
+
+h1 {
+  color: #333; /* Dark grey color for headings */
+}
+
+.companies-list {  
+  gap: 20px;
+  margin: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Adds space between employee boxes */
+}
+
+.company-box {
+  display: flex;
+  justify-content: space-between; /* Space between the company name and the view button */
+  align-items: center; /* Vertically align items */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff; /* White background for the boxes */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.company-header h2 {
+  margin: 0;
+  font-size: 1.1rem; /* Slightly larger font size for company names */
+  flex: 1; /* Allows the name to take up the available space */
+}
+
+.view-button {
+  padding: 6px 12px;
+  margin-left: 10px; /* Spacing between buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  display: inline-block; /* Align buttons properly */
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.company-details {
+  border-top: 2px solid #007bff; /* Thicker border top with a blue color */
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.logout-button {
+  background-color: #f44336; /* Red color for logout to indicate a different action */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Responsive tweaks for better mobile viewing */
+@media (max-width: 768px) {
+  .companies-list {
+    grid-template-columns: 1fr;
+  }
+
+  .company-box {
+    flex-direction: column; /* Stack items vertically on smaller screens */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .view-button {
+    margin-top: 10px; /* Add space between the name and the button */
+    width: 100%; /* Full width button */
+  }
+}
+.delete-button {
+  padding: 6px 12px;
+  margin-left: 10px; /* Spacing between buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  display: inline-block; /* Align buttons properly */
+}
+
+.delete-button:hover {
+  background-color: #bd2130; /* A darker shade for hover state */
+}
+.update-button {
+  padding: 6px 12px;
+  margin-left: 10px; /* Spacing between buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: center;
+  display: inline-block; /* Align buttons properly */
+}
+
+.update-button:hover {
+  background-color: #218838; /* Darker green for hover state */
+}
+.view-button { background-color: #17a2b8; color: white; }
+.update-button { background-color: #ffc107; color: white; }
+.delete-button { background-color: #dc3545; color: white; }

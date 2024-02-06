@@ -1,5 +1,6 @@
 package com.LogisticsCompany.model;
 
+
 import com.LogisticsCompany.enums.EmployeeType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +8,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -30,4 +32,15 @@ public class Employee {
     @Column(name="salary", nullable = false)
     private double salary;
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+              //  ", office=" + office +
+                ", name='" + name + '\'' +
+                ", employeeType=" + employeeType +
+                ", salary=" + salary +
+                '}';
+    }
 }
+

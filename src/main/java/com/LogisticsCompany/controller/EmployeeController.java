@@ -1,8 +1,13 @@
 package com.LogisticsCompany.controller;
 
+import com.LogisticsCompany.dto.AuthenticationResponce;
 import com.LogisticsCompany.dto.EmployeeDTO;
+import com.LogisticsCompany.dto.RegisterCompanyRequest;
+import com.LogisticsCompany.dto.RegisterEmployeeRequest;
 import com.LogisticsCompany.enums.EmployeeType;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
 import com.LogisticsCompany.error.InvalidDTOException;
+import com.LogisticsCompany.service.CredentialsService;
 import com.LogisticsCompany.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +23,7 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final CredentialsService credentialsService;
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<EmployeeDTO> findEmployeeById(@PathVariable("id") Long id) {
@@ -65,5 +71,10 @@ public class EmployeeController {
     public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable("id") Long id) {
         employeeService.deleteEmployeeById(id);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponce> saveEmployeeCredentials(@RequestBody RegisterEmployeeRequest registerEmployeeRequest) throws EntityAlreadyExistsInDbException, InvalidDTOException {
+        return ResponseEntity.ok(credentialsService.registerEmployee(registerEmployeeRequest));
     }
 }
