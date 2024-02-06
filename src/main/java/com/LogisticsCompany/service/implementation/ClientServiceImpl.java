@@ -30,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
     private EntityMapper entityMapper;
 
     @Override
-    public ClientDTO updateClient(ClientDTO clientDTO , Long clientId) {
+    public ClientDTO updateClient(ClientDTO clientDTO , long clientId) {
 
 
         // Fetch the existing client from the database
@@ -73,7 +73,6 @@ public class ClientServiceImpl implements ClientService {
         Client client = entityMapper.mapDTOToClient(clientDto);
         repository.save(client);
     }
-
 
 
     @Override
