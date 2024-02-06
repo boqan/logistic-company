@@ -19,7 +19,7 @@ class ClientEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     async componentDidMount() {
-        if (this.props.match.params.id) {
+        if (!isNaN(this.props.match.params.id)) {
             const client = await (await fetch(`/client/${this.props.match.params.id}`)).json();
             this.setState({item: client});
         }

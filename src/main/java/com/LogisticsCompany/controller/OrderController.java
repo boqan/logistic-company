@@ -50,7 +50,7 @@ public class OrderController {
     }
 
     @PutMapping("/order/{id}")
-    public ResponseEntity<OrderDTOSenderReceiverWithIds> updateOrder(@PathVariable Long id, @RequestBody OrderUpdateRequest orderUpdateRequest) {
+    public ResponseEntity<OrderDTOSenderReceiverWithIds> updateOrder(@PathVariable(name = "id") Long id, @RequestBody OrderUpdateRequest orderUpdateRequest) {
         OrderDTOSenderReceiverWithIds updatedOrder = orderService.updateOrder(id, orderUpdateRequest);
         return ResponseEntity.ok(updatedOrder);
     }

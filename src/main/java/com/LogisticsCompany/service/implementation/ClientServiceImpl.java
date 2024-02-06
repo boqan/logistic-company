@@ -2,8 +2,10 @@ package com.LogisticsCompany.service.implementation;
 
 import com.LogisticsCompany.dto.ClientDTO;
 import com.LogisticsCompany.enums.DeliveryType;
+import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
 import com.LogisticsCompany.model.Client;
+import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.model.Office;
 import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.ClientRepository;
@@ -23,15 +25,15 @@ public class ClientServiceImpl implements ClientService {
     private EntityMapper entityMapper;
 
     @Override
-    public ClientDTO updateClient(ClientDTO clientDTO) {
+    public ClientDTO updateClient(ClientDTO clientDTO, long id) {
         // Check if the id is null
-        if (clientDTO.getId() == null) {
-            throw new IllegalArgumentException("Client ID cannot be null for update.");
+        if (id == 0) {
+            throw new IllegalArgumentException("Client ID cannot be 0 for update.");
         }
 
         // Fetch the existing client from the database
-        Client existingClient = repository.findById(clientDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + clientDTO.getId()));
+        Client existingClient = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + id));
 
         existingClient.setName(clientDTO.getName());
         existingClient.setEmail(clientDTO.getEmail());

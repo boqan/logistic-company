@@ -7,12 +7,13 @@ class OrderEdit extends Component {
 
     emptyItem = {
       receiverAddress: '',
-      senderId: 0, 
-      weight: 0.0, 
-      officeId: 0, 
-      deliveryType: '', 
+      senderId: null,
+      receiverId: null,
+      weight: 0.0,
+      officeId: null,
+      deliveryType: 'TO_HOME_ADDRESS',
     };
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +26,7 @@ class OrderEdit extends Component {
     }
 
     async componentDidMount() {
-        if (isNaN(this.props.match.params.id)) {
+        if (!isNaN(this.props.match.params.id)) {
             const client = await (await fetch(`/order/${this.props.match.params.id}`)).json();
             this.setState({item: client});
         }
@@ -52,20 +53,22 @@ class OrderEdit extends Component {
         item[name] = value;
         this.setState({item});
     }
+
     async handleSubmit(event) {
-        event.preventDefault();
-        const {item} = this.state;
-    
-        await fetch('/order' + (item.id ? '/' + item.id : ''), {
-            method: (item.id) ? 'PUT' : 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item),
-        });
-        this.props.history.push('/orders');
-    }
+      event.preventDefault();
+      const {item} = this.state;
+  
+      await fetch('/order' + (item.id ? '/' + item.id : ''), {
+          method: (item.id) ? 'PUT' : 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(item),
+      });
+      this.props.history.push('/orders');
+  }
+
 
 
     render() {
@@ -99,6 +102,17 @@ class OrderEdit extends Component {
                       value={item.senderId || ''}
                       onChange={this.handleChangeNumber}
                       autoComplete="senderId"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="receiverId">Receiver Id</Label>
+                    <Input
+                      type="number"
+                      name="receiverId"
+                      id="receiverId"
+                      value={item.receiverId || ''}
+                      onChange={this.handleChangeNumber}
+                      autoComplete="receiverId"
                     />
                   </FormGroup>
                   <FormGroup>

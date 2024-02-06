@@ -42,9 +42,7 @@ class ClientList extends Component {
                 <td>{client.email}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to="/client/${client.id}">
-                            Edit
-                            </Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/client/" + client.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(client.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>

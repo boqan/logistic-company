@@ -46,9 +46,7 @@ class OrdersList extends Component {
 
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary"  tag={Link} to="/order/${order.id}">
-                            Edit
-                        </Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/order/" + order.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(order.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
@@ -73,7 +71,6 @@ class OrdersList extends Component {
                             <th width="15%">Price</th>
                             <th width="20%">Status</th>
                             <th width="25%">Actions</th>
-
                         </tr>
                         </thead>
                         <tbody>

@@ -20,7 +20,7 @@ public class ClientController {
 
     @RequestMapping(value = {"/client/{id}"})
     @ResponseBody
-    public ResponseEntity<ClientDTO> getClient(@PathVariable long id) throws InterruptedException {
+    public ResponseEntity<ClientDTO> getClient(@PathVariable(name = "id") long id) throws InterruptedException {
         ClientDTO client = clientService.getClient(id);
         Thread.sleep(600);
         return new ResponseEntity<>(client, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class ClientController {
 
     @DeleteMapping(value = {"/client/{clientId}"})
     @ResponseBody
-    public ResponseEntity<String> deleteClient(@PathVariable long clientId) {
+    public ResponseEntity<String> deleteClient(@PathVariable(name = "clientId") long clientId) {
 
         if (clientService.deleteClient(clientId)) {
             return new ResponseEntity<>("Client deleted successfully", HttpStatus.OK);
@@ -57,8 +57,8 @@ public class ClientController {
 
     @PutMapping(value = {"/client/{clientId}"})
     @ResponseBody
-    public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient) {
-        clientService.updateClient(newClient);
+    public ResponseEntity<String> updateClient(@PathVariable(name = "clientId") long id, @RequestBody ClientDTO newClient) {
+        clientService.updateClient(newClient, id);
         return new ResponseEntity<>("Client updated successfully \n" + newClient, HttpStatus.CREATED);
 
     }
