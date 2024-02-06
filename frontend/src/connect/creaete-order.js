@@ -29,7 +29,7 @@ const CreateOrder = () => {
       
     
       useEffect(() => {
-        console.log(officeId)
+        
         if (!token) {
           navigate('/login');
           return;
@@ -82,7 +82,7 @@ const CreateOrder = () => {
             const response = await axios.post(`http://localhost:8082/orders/${officeId}`, userData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            navigate(`/office-view/${officeId}`);
+            navigate(-1);
         } catch (error) {
             console.error('Error creating employee:', error);
             setErrorMessage(error.response?.data?.message || 'An error occurred while creating the employee. Please try again.');
@@ -142,7 +142,7 @@ const CreateOrder = () => {
               <FormGroup>
                 <Button color="primary" type="submit">Save</Button>{' '}
               </FormGroup>
-              <button onClick={() => navigate(`/office-view/${officeId}`)}>Cancel</button>
+              <button onClick={() => navigate(-1)}>Cancel</button>
             </Form>
           </Container>
         </div>

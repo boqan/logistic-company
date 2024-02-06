@@ -104,7 +104,7 @@ const CompanyDetails = () => {
       </div>
       <button onClick={() =>navigate(`/create-office/${companyId}`)}>Create Office</button>
       {userRoles.includes('ADMIN') && (
-        <button onClick={() =>navigate(-1)}>Back to Companies</button>
+        <button onClick={() =>navigate(`/admin-view`)}>Back to Companies</button>
       )}
        <button onClick={handleLogout} className="logout-button">Logout</button>
     </div>

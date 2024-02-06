@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,9 +65,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void createClient(ClientDTO clientDto) {
+    public ClientDTO createClient(ClientDTO clientDto) {
         Client client = entityMapper.mapDTOToClient(clientDto);
-        repository.save(client);
+        return entityMapper.mapClientToDTOnoOffice(repository.save(client));
     }
 
     @Override
@@ -76,7 +77,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void payOrder(Order order) {
-
+        BigDecimal price = BigDecimal.valueOf(order.getPrice());
+        order.getOffice().setRevenue(order.getOffice().getRevenue().add(price));
     }
 
     @Override

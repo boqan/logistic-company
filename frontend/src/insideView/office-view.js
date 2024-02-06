@@ -145,7 +145,7 @@ const OfficaManagerView = () => {
                                 <h2>Type:  {employee.employeeType}</h2>
                             </div>                              
                             <div>
-                                <button className="view-button"> View </button>        
+                                <button className="view-button"  onClick={() => navigate(`/employee-view/${employee.id}`)}> View </button>        
                                                               
                                 <button className="office-button update-button"  onClick={() => navigate(`/update-employee/${employee.id}`)}>Update   </button>
                                 <button className="office-button delete-button" onClick={() => deleteEmployee(employee.id)}>Delete</button>
@@ -161,9 +161,10 @@ const OfficaManagerView = () => {
                         <div className="employee-header">
                             <div className="employee-details">
                                 <h2>Name:  {client.name}</h2>
+                                <h2>ID:  {client.id}</h2>
                             </div>                                
                             <div>
-                                <button className="view-button"> View </button>
+                                <button className="view-button" onClick={() => navigate(`/client-view/${client.id}`)}> View </button>
                                 <button className="office-button update-button" onClick={() => navigate(`/update-client/${client.id}`)}>Update</button>
                                 <button className="office-button delete-button" onClick={() => deleteClient(client.id)}>Delete</button> {/* Corrected to use a hypothetical deleteClient function */}
                             </div>

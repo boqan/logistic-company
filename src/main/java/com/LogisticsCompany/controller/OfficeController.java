@@ -2,6 +2,7 @@ package com.LogisticsCompany.controller;
 
 import com.LogisticsCompany.dto.EmployeeDTO;
 import com.LogisticsCompany.dto.OfficeDto;
+import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderDto;
 import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.error.InvalidStatusException;
@@ -115,16 +116,22 @@ public class OfficeController {
         List<EmployeeDTO> employees = officeService.fetchEmployeesByName(office, name);
         return ResponseEntity.ok(employees);
     }
-/*
-    @GetMapping("/{id}/client_orders/{clientId}")
-    public ResponseEntity<List<OrderDto>> getClientListOfOrders(@PathVariable("id") Long officeId,
+
+    @GetMapping("/{id}/client_orders_receiver/{clientId}")
+    public ResponseEntity<List<OrderDTOSenderReceiverWithIds>> getClientListOfOrdersReceiver(@PathVariable("id") Long officeId,
                                                 @PathVariable("clientId") Long clientId) throws OfficeNotFoundException {
-        List<OrderDto> orders = officeService.fetchClientListOfOrders(officeId, clientId);
+        List<OrderDTOSenderReceiverWithIds> orders = officeService.fetchClientListOfOrdersReceiver(officeId, clientId);
+        return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/{id}/client_orders_sender/{clientId}")
+    public ResponseEntity<List<OrderDTOSenderReceiverWithIds>> getClientListOfOrdersSender(@PathVariable("id") Long officeId,
+                                                                                             @PathVariable("clientId") Long clientId) throws OfficeNotFoundException {
+        List<OrderDTOSenderReceiverWithIds> orders = officeService.fetchClientListOfOrdersSender(officeId, clientId);
         return ResponseEntity.ok(orders);
     }
 
 
- */
 
 
 }

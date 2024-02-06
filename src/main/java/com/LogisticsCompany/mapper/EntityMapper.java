@@ -38,7 +38,9 @@ public class EntityMapper {
         //OfficeDto officeDto = modelMapper.map(office, OfficeDto.class);
         OfficeDto officeDto = new OfficeDto();
         officeDto.setId(office.getId());
-        officeDto.setCompanyId(office.getLogisticCompany().getId());
+        if(office.getLogisticCompany()!=null){
+            officeDto.setCompanyId(office.getLogisticCompany().getId());
+        }
         officeDto.setAddress(office.getAddress());
         officeDto.setOrders(mapToOrderDTOs(office.getOrders()));
         officeDto.setEmployees(mapEmployeeListToDTO(office.getEmployees()));

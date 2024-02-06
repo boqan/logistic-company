@@ -40,8 +40,10 @@ public interface OfficeService {
     List<EmployeeDTO> fetchEmployeesBelowSalary(Office office, double salary);
 
     List<EmployeeDTO> fetchEmployeesByName(Office office, String name);
-/*
-    List<OrderDto> fetchClientListOfOrders(Long officeId, Long clientId) throws OfficeNotFoundException;
 
- */
+    List<OrderDTOSenderReceiverWithIds> fetchClientListOfOrdersSender(Long officeId, Long clientId) throws OfficeNotFoundException;
+
+    List<OrderDTOSenderReceiverWithIds> fetchClientListOfOrdersReceiver(Long officeId, Long clientId) throws OfficeNotFoundException;
+
+
 }

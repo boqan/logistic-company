@@ -1,8 +1,14 @@
 package com.LogisticsCompany.controller;
 
+import com.LogisticsCompany.dto.AuthenticationResponce;
 import com.LogisticsCompany.dto.ClientDTO;
+import com.LogisticsCompany.dto.RegisterClientRequest;
+import com.LogisticsCompany.dto.RegisterEmployeeRequest;
+import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
+import com.LogisticsCompany.error.InvalidDTOException;
 import com.LogisticsCompany.model.Client;
 import com.LogisticsCompany.service.ClientService;
+import com.LogisticsCompany.service.CredentialsService;
 import com.sun.jdi.InternalException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +22,9 @@ import java.util.List;
 public class ClientController {
     @Autowired
     ClientService clientService;
+
+    @Autowired
+    CredentialsService credentialsService;
 
     @RequestMapping(value = {"/client/{id}"})
     @ResponseBody
@@ -59,6 +68,11 @@ public class ClientController {
     public ResponseEntity<String> updateClient(@RequestBody ClientDTO newClient,@PathVariable Long clientId) {
         clientService.updateClient(newClient,clientId);
         return new ResponseEntity<>("Client updated successfully \n" + newClient, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/register_client")
+    public ResponseEntity<AuthenticationResponce> saveClientCredentials(@RequestBody RegisterClientRequest registerClientRequest) throws EntityAlreadyExistsInDbException, InvalidDTOException {
+        return ResponseEntity.ok(credentialsService.registerClient(registerClientRequest));
     }
 
 

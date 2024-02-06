@@ -1,6 +1,5 @@
 package com.LogisticsCompany.service.implementation;
 
-import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.dto.OrderCreationRequest;
 import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderUpdateRequest;
@@ -14,6 +13,7 @@ import com.LogisticsCompany.model.Order;
 import com.LogisticsCompany.repository.ClientRepository;
 import com.LogisticsCompany.repository.OfficeRepository;
 import com.LogisticsCompany.repository.OrderRepository;
+import com.LogisticsCompany.service.ClientService;
 import com.LogisticsCompany.service.OfficeService;
 import com.LogisticsCompany.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +25,7 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private final ClientService clientService;
     private final OrderRepository orderRepository;
 
     private final ClientRepository clientRepository;
@@ -35,7 +36,8 @@ public class OrderServiceImpl implements OrderService {
     private final OfficeService officeService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ClientRepository clientRepository, OfficeRepository officeRepository, EntityMapper entityMapper, OfficeService officeService) {
+    public OrderServiceImpl(ClientService clientService, OrderRepository orderRepository, ClientRepository clientRepository, OfficeRepository officeRepository, EntityMapper entityMapper, OfficeService officeService) {
+        this.clientService = clientService;
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.officeRepository = officeRepository;
@@ -83,6 +85,9 @@ public class OrderServiceImpl implements OrderService {
         officeService.updateOfficeOrders(order, fetchedOffice); // update the office's orders (add the new order to the list of orders)
 
         Order savedOrder = orderRepository.save(order);
+
+        clientService.payOrder(order);
+
         return entityMapper.mapToOrderDTOSenderReceiverWithIds(savedOrder);
     }
 

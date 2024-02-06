@@ -5,12 +5,16 @@ import com.LogisticsCompany.config.JwtUtil;
 import com.LogisticsCompany.dto.*;
 import com.LogisticsCompany.enums.AccountType;
 import com.LogisticsCompany.error.EntityAlreadyExistsInDbException;
+import com.LogisticsCompany.error.InvalidDTOException;
 import com.LogisticsCompany.error.UserNotFoundException;
+import com.LogisticsCompany.model.Employee;
 import com.LogisticsCompany.model.LogisticCompany;
 import com.LogisticsCompany.repository.CredentialsRepository;
 import com.LogisticsCompany.repository.LogisticCompanyRepository;
+import com.LogisticsCompany.service.ClientService;
 import com.LogisticsCompany.service.CredentialsService;
 import com.LogisticsCompany.model.Credentials;
+import com.LogisticsCompany.service.EmployeeService;
 import com.LogisticsCompany.service.LogisticCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,12 @@ public class CredentialsServiceImpl implements CredentialsService {
 
     @Autowired
     private LogisticCompanyService logisticCompanyService;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private LogisticCompanyRepository logisticCompanyRepository;
@@ -138,5 +148,74 @@ public class CredentialsServiceImpl implements CredentialsService {
                     .authenticationToken(jwtToken)
                     .build();
         }
+    }
+
+    @Override
+    public AuthenticationResponce registerEmployee(RegisterEmployeeRequest registerEmployeeRequest) throws InvalidDTOException, EntityAlreadyExistsInDbException {
+
+        if(!credentialsRepository.findByUsername(registerEmployeeRequest.getUsername()).isPresent()
+            || !credentialsRepository.findByEmail(registerEmployeeRequest.getEmail()).isPresent()) {
+
+            // Create the company
+            EmployeeDTO employee = EmployeeDTO.builder()
+                    .name(registerEmployeeRequest.getName())
+                    .salary(registerEmployeeRequest.getSalary())
+                    .employeeType(registerEmployeeRequest.getEmployeeType())
+                    .officeID(registerEmployeeRequest.getOfficeID())
+                    .build();
+
+
+            EmployeeDTO employeeDTO = employeeService.saveEmployee(employee);
+            System.out.println(employeeDTO.getId());
+            // create the user
+            Credentials user = Credentials.builder()
+                    .username(registerEmployeeRequest.getUsername())
+                    .email(registerEmployeeRequest.getEmail())
+                    .password(passwordEncoder.encode(registerEmployeeRequest.getPassword()))
+                    .accountType(AccountType.EMPLOYEE)
+                    .connectedId(employeeDTO.getId())
+                    .build();
+
+
+            credentialsRepository.save(user);
+
+            String jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponce.builder()
+                    .authenticationToken(jwtToken)
+                    .build();
+        }
+        else throw new EntityAlreadyExistsInDbException("Credentials already exists");
+    }
+
+    @Override
+    public AuthenticationResponce registerClient(RegisterClientRequest registerClientRequest) throws InvalidDTOException, EntityAlreadyExistsInDbException {
+
+        if(!credentialsRepository.findByUsername(registerClientRequest.getUsername()).isPresent()
+                || !credentialsRepository.findByEmail(registerClientRequest.getEmail()).isPresent()) {
+
+            ClientDTO client = ClientDTO.builder()
+                    .name(registerClientRequest.getName())
+                    .officeId(registerClientRequest.getOfficeID())
+                    .build();
+
+            ClientDTO clientDTO = clientService.createClient(client);
+
+            Credentials user = Credentials.builder()
+                    .username(registerClientRequest.getUsername())
+                    .email(registerClientRequest.getEmail())
+                    .password(passwordEncoder.encode(registerClientRequest.getPassword()))
+                    .accountType(AccountType.CLIENT)
+                    .connectedId(clientDTO.getId())
+                    .build();
+
+            credentialsRepository.save(user);
+
+            String jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponce.builder()
+                    .authenticationToken(jwtToken)
+                    .build();
+        }
+        else throw new EntityAlreadyExistsInDbException("Credentials already exists");
+
     }
 }

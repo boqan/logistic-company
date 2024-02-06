@@ -8,6 +8,7 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor

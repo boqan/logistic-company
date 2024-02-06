@@ -15,7 +15,8 @@ import CreateClient from './connect/client';
 import UpdateClient from './update/updateClient';
 import CreateOrder from './connect/creaete-order';
 import UpdateOrder from './update/updateOrder';
-
+import ClientView from './insideView/client-view';
+import EmployeeView from './insideView/employee-view';
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
           <Route path="/update-client/:clientId" element={<UpdateClient />} />
           <Route path="/create-order/:officeId" element={<CreateOrder />} />
           <Route path="/update-order/:orderId" element={<UpdateOrder />} />
+          <Route path="/client-view/:clientId" element={<ClientView />} />
+          <Route path="/employee-view/:employeeId" element={<EmployeeView />} />
           
           {/* Redirect to /login if the route is not found or if the user tries to access an undefined route */}
           <Route path="*" element={<Navigate to="/login" replace />} />

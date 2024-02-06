@@ -30,10 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper entityDTOMapper;
 
     @Override
-    public void saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException {
+    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException {
         validateDTO(employeeDTO);
         Employee newEmployee = entityDTOMapper.DTOToEmployee(employeeDTO);
-        employeeRepository.save(newEmployee);
+        return entityDTOMapper.EmployeeToDTO(employeeRepository.save(newEmployee));
     }
 
     @Override

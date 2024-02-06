@@ -14,7 +14,10 @@ const CreateEmployee = () => {
         name: '',
         salary: '',
         officeID: officeId,
-        employeeType: 'COURIER'
+        employeeType: 'COURIER',
+        username:'',
+        password:'',
+        email:''
     });
     const [userRoles, setUserRoles] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -80,7 +83,7 @@ const CreateEmployee = () => {
         event.preventDefault();
         try {
             console.log(userData);
-            const response = await axios.post('http://localhost:8082/employee/save', userData, {
+            const response = await axios.post('http://localhost:8082/employee/register', userData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             navigate(`/office-view/${officeId}`);
@@ -131,6 +134,42 @@ const CreateEmployee = () => {
                         
                     </select>
                 </div>
+
+                        <div className="form-group">
+                <label htmlFor="username">Username:</label>
+                <input
+                    id="username"
+                    type="text"
+                    name="username"
+                    value={userData.username}
+                    onChange={handleInputChange}
+                    required
+                />
+                </div>
+
+                <div className="form-group">
+                <label htmlFor="email">Email:</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleInputChange}
+                    required
+                />
+                </div>
+
+                <div className="form-group">
+                <label htmlFor="password">Password:</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleInputChange}
+                    required
+                />
+                 </div>
 
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 

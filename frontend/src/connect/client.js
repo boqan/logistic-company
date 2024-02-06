@@ -11,7 +11,10 @@ const CreateClient = () => {
     const { officeId } = useParams(); // Extract officeId from URL
     const [userData, setUserData] = useState({
         name: '',
-        officeId:officeId
+        officeID:officeId,
+        username:'',
+        password:'',
+        email:''
     });
     const [userRoles, setUserRoles] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -26,7 +29,7 @@ const CreateClient = () => {
       
     
       useEffect(() => {
-        console.log(officeId)
+        
         if (!token) {
           navigate('/login');
           return;
@@ -76,7 +79,8 @@ const CreateClient = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8082/client', userData, {
+            
+            const response = await axios.post('http://localhost:8082/register_client', userData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             navigate(`/office-view/${officeId}`);
@@ -105,6 +109,42 @@ const CreateClient = () => {
                     <Input type="text" name="name" id="name" value={userData.name} onChange={handleChange} autoComplete="name" />
                 </FormGroup>
 
+                <div className="form-group">
+                <label htmlFor="username">Username:</label>
+                <input
+                    id="username"
+                    type="text"
+                    name="username"
+                    value={userData.username}
+                    onChange={handleInputChange}
+                    required
+                />
+                </div>
+
+                <div className="form-group">
+                <label htmlFor="email">Email:</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={handleInputChange}
+                    required
+                />
+                </div>
+
+                <div className="form-group">
+                <label htmlFor="password">Password:</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    onChange={handleInputChange}
+                    required
+                />
+                 </div>
+        
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
                 <FormGroup>

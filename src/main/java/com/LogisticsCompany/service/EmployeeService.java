@@ -8,7 +8,7 @@ import com.LogisticsCompany.model.Office;
 import java.util.List;
 
 public interface EmployeeService {
-    void saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException;
+    EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) throws InvalidDTOException;
     void updateEmployee(EmployeeDTO employeeDTO, Long id) throws InvalidDTOException;
     void deleteEmployeeById(Long id);
     EmployeeDTO findEmployeeById(Long id);
