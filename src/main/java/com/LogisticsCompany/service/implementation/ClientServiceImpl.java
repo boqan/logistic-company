@@ -1,6 +1,7 @@
 package com.LogisticsCompany.service.implementation;
 
 import com.LogisticsCompany.dto.ClientDTO;
+import com.LogisticsCompany.enums.DeliveryStatus;
 import com.LogisticsCompany.enums.DeliveryType;
 import com.LogisticsCompany.error.LogisticCompanyNotFoundException;
 import com.LogisticsCompany.mapper.EntityMapper;
@@ -15,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +50,7 @@ public class ClientServiceImpl implements ClientService {
         return entityMapper.mapClientToDTOnoOffice(existingClient);
     }
 
+
     @Override
     public List<ClientDTO> getClients() {
         // Fetch all clients from the repository
@@ -71,19 +74,17 @@ public class ClientServiceImpl implements ClientService {
         repository.save(client);
     }
 
-    @Override
-    public void placeOrder(Order order, Office office, DeliveryType deliveryType) {
 
-    }
 
     @Override
     public void payOrder(Order order) {
-
+        BigDecimal price = BigDecimal.valueOf(order.getPrice());
+        order.getOffice().setRevenue(order.getOffice().getRevenue().add(price));
     }
 
     @Override
     public void receiveOrder(Order order) {
-
+        order.setStatus(DeliveryStatus.DELIVERED);
     }
 
     @Override
