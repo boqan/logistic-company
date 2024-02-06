@@ -1,0 +1,62 @@
+/* Container for the list of employees */
+.employee-list {
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px; /* Adds space between employee boxes */
+}
+
+/* Individual employee box styling */
+.employee-box {
+    padding: 20px ;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Header section of each employee box */
+.employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    
+}
+
+h2 {
+    margin: 0; /* Removes default margin from h2 elements */
+}
+
+/* Generic button styling */
+.view-button, .office-button {
+    padding: 10px 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+/* Specific button styling */
+.view-button {
+    background-color: #007bff;
+}
+
+.update-button {
+    background-color: #ffc107;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+/* Hover effects for buttons */
+.view-button:hover, .office-button:hover {
+    opacity: 0.8;
+}
+.employee-details {
+    display: flex;
+    flex-direction: column; /* Aligns children in a column, making them appear on separate lines */
+}

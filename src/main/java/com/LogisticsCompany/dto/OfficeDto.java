@@ -10,9 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 public class OfficeDto extends BusinessEntityDto {
 
+    private Long companyId;
+
     private String address;
 
-    private List<OrderDto> orders;
+    private List<OrderDTOSenderReceiverWithIds> orders;
 
 
 }

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ public class Office extends BusinessEntity {
 
     @Column(name="orders", nullable = false, length = 255)
     @OneToMany(mappedBy = "office")
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private LogisticCompany logisticCompany;

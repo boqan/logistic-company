@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,9 +22,8 @@ public class BusinessEntity extends IdGenerator {
     private BigDecimal revenue=BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "office")
-    private List<Employee> employees;
+    private List<Employee> employees = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "office_id")
-    private List<Client> clients;
+    @OneToMany(mappedBy = "office")
+    private List<Client> clients = new ArrayList<>();
 }

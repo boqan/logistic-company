@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClientDTO extends IdGenerator {
 
-    private String name;
-    private String email;
+        private String name;
+
+        private Long officeId;
+
+
 }

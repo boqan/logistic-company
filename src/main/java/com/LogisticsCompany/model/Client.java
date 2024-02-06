@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,7 +20,9 @@ public class Client extends IdGenerator {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Email(message="Please provide a valid email address")
-    private String email;
 
+
+
+//@OneToOne(fetch = FetchType.LAZY)
+    //private Credentials credentials;
 }

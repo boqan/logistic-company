@@ -15,11 +15,11 @@ import lombok.*;
 public class Order extends IdGenerator {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender")
     private Client sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "receiver")
     private Client receiver;
 
     @Column(nullable = false)

@@ -1,5 +1,6 @@
 package com.LogisticsCompany.service.implementation;
 
+import com.LogisticsCompany.dto.OfficeDto;
 import com.LogisticsCompany.dto.OrderCreationRequest;
 import com.LogisticsCompany.dto.OrderDTOSenderReceiverWithIds;
 import com.LogisticsCompany.dto.OrderUpdateRequest;
@@ -72,6 +73,10 @@ public class OrderServiceImpl implements OrderService {
 
         Office fetchedOffice = officeService.fetchOfficeByIdReturnsEntity(request.office()); // gets the office provided in the URL path and sets that as the office from which it is being sent
         orderBuilder.office(fetchedOffice); // the first office is set as the office for the order
+
+        orderBuilder.sender(clientRepository.findById(request.sender()).get());
+
+        orderBuilder.receiver(clientRepository.findById(request.receiver()).get());
 
         Order order = orderBuilder.build(); // build the order entity
 

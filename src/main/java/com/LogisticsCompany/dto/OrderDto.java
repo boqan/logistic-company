@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class OrderDto extends IdGenerator {
 
     private DeliveryStatus deliveryStatus;
-    private BigDecimal price;
+    private double price;
 
     private ClientDTO sender;
 
