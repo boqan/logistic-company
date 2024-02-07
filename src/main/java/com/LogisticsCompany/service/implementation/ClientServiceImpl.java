@@ -16,7 +16,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Service implementation for managing client-related operations.
+ * This class provides methods to update, retrieve, create, and delete client entities.
+ * It also includes methods for placing, paying, and receiving orders related to clients.
+ *
+ * @see org.springframework.stereotype.Service
+ */
 @Service
 public class ClientServiceImpl implements ClientService {
     @Autowired
@@ -25,7 +31,14 @@ public class ClientServiceImpl implements ClientService {
     private OfficeRepository officeRepository;
     @Autowired
     private EntityMapper entityMapper;
-
+    /**
+     * Update a client's information based on the provided ClientDTO and client ID.
+     *
+     * @param clientDTO The updated client information in the form of a ClientDTO.
+     * @param clientId  The ID of the client to be updated.
+     * @return The updated ClientDTO after the update operation.
+     * @throws EntityNotFoundException If the client with the given ID is not found in the database.
+     */
     @Override
     public ClientDTO updateClient(ClientDTO clientDTO , Long clientId) {
 
@@ -46,7 +59,11 @@ public class ClientServiceImpl implements ClientService {
         // Map the updated client back to DTO
         return entityMapper.mapClientToDTOnoOffice(existingClient);
     }
-
+    /**
+     * Get a list of all clients.
+     *
+     * @return A list of ClientDTOs representing all clients in the database.
+     */
     @Override
     public List<ClientDTO> getClients() {
         // Fetch all clients from the repository
@@ -56,14 +73,25 @@ public class ClientServiceImpl implements ClientService {
         return clientEntities.stream()
                 .map(entityMapper::mapClientToDTOnoOffice)
                 .collect(Collectors.toList());    }
-
+    /**
+     * Get a client by ID.
+     *
+     * @param id The ID of the client to retrieve.
+     * @return The ClientDTO representing the client with the given ID.
+     * @throws EntityNotFoundException If the client with the given ID is not found in the database.
+     */
     @Override
     public ClientDTO getClient(Long id) {
         Client client = repository.findById(id).orElseThrow(() -> new EntityNotFoundException());
         ClientDTO clientDTO = entityMapper.mapClientToDTOnoOffice(client);
         return clientDTO;
     }
-
+    /**
+     * Create a new client based on the provided ClientDTO.
+     *
+     * @param clientDto The ClientDTO containing the information for the new client.
+     * @return The ClientDTO representing the newly created client.
+     */
     @Override
     public ClientDTO createClient(ClientDTO clientDto) {
         Client client = entityMapper.mapDTOToClient(clientDto);
@@ -85,7 +113,12 @@ public class ClientServiceImpl implements ClientService {
     public void receiveOrder(Order order) {
 
     }
-
+    /**
+     * Delete a client by ID.
+     *
+     * @param clientId The ID of the client to delete.
+     * @return True if the client is successfully deleted, false if the client does not exist.
+     */
     @Override
     public boolean deleteClient(Long clientId){
         try{

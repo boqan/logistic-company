@@ -1,4 +1,10 @@
 package com.LogisticsCompany.error;
+/**
+ * Custom exception class to indicate that a company does not have any offices.
+ * This exception can be thrown in scenarios where operations require a company to have
+ * at least one office, but none are found. It extends the standard {@link Exception} class,
+ * allowing for optional inclusion of a message and a cause.
+ */
 public class CompanyNoOfficesException extends Exception {
 
     public CompanyNoOfficesException() {

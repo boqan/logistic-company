@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for managing offices.
+ * This interface provides methods for querying offices by their ID, fetching offices with orders,
+ * and finding the first office ordered by ID in ascending order.
+ */
 @Repository
 public interface OfficeRepository extends JpaRepository< Office, Long> {
     Optional<Office> findById(Long id);

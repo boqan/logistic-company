@@ -28,7 +28,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.regex.Pattern;
 
-
+/**
+ * Service implementation for managing user credentials.
+ * This service provides methods for user registration, login, and other related operations.
+ */
 @Service
 public class CredentialsServiceImpl implements CredentialsService {
 
@@ -60,10 +63,23 @@ public class CredentialsServiceImpl implements CredentialsService {
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,}$";
 
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-
+    /**
+     * Validates a password against a predefined pattern.
+     *
+     * @param password The password to validate.
+     * @return True if the password meets the strength requirements, false otherwise.
+     */
     private boolean validatePassword(String password) {
         return pattern.matcher(password).matches();
     }
+    /**
+     * Registers a new user based on the provided registration request.
+     * Validates the password strength before registration.
+     *
+     * @param registerRequest The registration request containing user details.
+     * @return An authentication response with a JWT token upon successful registration.
+     * @throws IllegalArgumentException If the password does not meet the strength requirements.
+     */
     @Override
     public AuthenticationResponce register(RegisterRequest registerRequest) {
         if (!validatePassword(registerRequest.getPassword())) {
@@ -85,7 +101,13 @@ public class CredentialsServiceImpl implements CredentialsService {
                     .build();
         }
     }
-
+    /**
+     * Logs in a user using the provided authentication request.
+     *
+     * @param authenticationRequest The authentication request containing the username and password.
+     * @return An authentication response with a JWT token upon successful login.
+     * @throws UserNotFoundException If the user is not found in the database.
+     */
     @Override
     public AuthenticationResponce login(AuthenticationRequest authenticationRequest) throws UserNotFoundException {
 
@@ -116,6 +138,14 @@ public class CredentialsServiceImpl implements CredentialsService {
     // If the company does not exist we create it and then we create the user
     // if the user already exist we throw an exception
     // if both of them are valid and not created we have them and return the token
+    /**
+     * Registers a new company and a user associated with it. Checks if the company and user already exist,
+     * and throws exceptions accordingly. Returns an authentication response with a JWT token upon successful registration.
+     *
+     * @param registerCompanyRequest The registration request for a company and user.
+     * @return An authentication response with a JWT token upon successful registration.
+     * @throws EntityAlreadyExistsInDbException If the company or user already exists in the database.
+     */
     @Override
     public AuthenticationResponce registerCompany(RegisterCompanyRequest registerCompanyRequest) throws EntityAlreadyExistsInDbException {
         // Check if the company exists
@@ -149,7 +179,15 @@ public class CredentialsServiceImpl implements CredentialsService {
                     .build();
         }
     }
-
+    /**
+     * Registers a new employee and a user associated with it. Checks if the user already exists,
+     * and throws an exception accordingly. Returns an authentication response with a JWT token upon successful registration.
+     *
+     * @param registerEmployeeRequest The registration request for an employee and user.
+     * @return An authentication response with a JWT token upon successful registration.
+     * @throws InvalidDTOException If the employee DTO is invalid.
+     * @throws EntityAlreadyExistsInDbException If the user already exists in the database.
+     */
     @Override
     public AuthenticationResponce registerEmployee(RegisterEmployeeRequest registerEmployeeRequest) throws InvalidDTOException, EntityAlreadyExistsInDbException {
 
@@ -186,7 +224,15 @@ public class CredentialsServiceImpl implements CredentialsService {
         }
         else throw new EntityAlreadyExistsInDbException("Credentials already exists");
     }
-
+    /**
+     * Registers a new client and a user associated with it. Checks if the user already exists,
+     * and throws an exception accordingly. Returns an authentication response with a JWT token upon successful registration.
+     *
+     * @param registerClientRequest The registration request for a client and user.
+     * @return An authentication response with a JWT token upon successful registration.
+     * @throws InvalidDTOException If the client DTO is invalid.
+     * @throws EntityAlreadyExistsInDbException If the user already exists in the database.
+     */
     @Override
     public AuthenticationResponce registerClient(RegisterClientRequest registerClientRequest) throws InvalidDTOException, EntityAlreadyExistsInDbException {
 

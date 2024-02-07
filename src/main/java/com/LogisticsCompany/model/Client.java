@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Represents a Client entity in the system.
+ */
 @Entity
 @Data
 @AllArgsConstructor

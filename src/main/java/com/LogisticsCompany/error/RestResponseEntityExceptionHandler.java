@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
+/**
+ * Global exception handler for RESTful APIs.
+ * This class is responsible for handling exceptions that may occur during API requests and generating meaningful HTTP responses with error messages.
+ * It includes exception handling for several custom exceptions related to logistics, companies, offices, orders, and users, among others.
+ */
 @ControllerAdvice
 @ResponseStatus
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
+public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(LogisticCompanyNotFoundException.class)
     public ResponseEntity<ErrorMessage> logisticCompanyNotFoundException(LogisticCompanyNotFoundException logisticCompanyNotFoundException, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, logisticCompanyNotFoundException.getMessage());
@@ -35,12 +39,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, companyNoOfficesException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorMessage> userNotFoundException(UserNotFoundException userNotFoundException, WebRequest request) {
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, userNotFoundException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
-    
+
     @ExceptionHandler(OrderCreationValidationException.class)
     public ResponseEntity<ErrorMessage> handleOrderCreationValidationException(
             OrderCreationValidationException ex, WebRequest request) {

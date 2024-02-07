@@ -7,6 +7,10 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an employee in the logistics company.
+ * This is a base class for various types of employees.
+ */
 @Entity
 @Builder
 @Getter
