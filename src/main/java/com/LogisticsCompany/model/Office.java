@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Represents an office within a logistic company.
+ */
 @Entity
 @Data
 @AllArgsConstructor

@@ -41,11 +41,13 @@ const CompanyDetails = () => {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCompany(response.data);
+          
         } catch (error) {
           console.error('Error fetching company details:', error);
           navigate(-1);
         }
       };
+     
 
       fetchCompanyDetails();
     } else {
@@ -102,7 +104,7 @@ const CompanyDetails = () => {
       </div>
       <button onClick={() =>navigate(`/create-office/${companyId}`)}>Create Office</button>
       {userRoles.includes('ADMIN') && (
-        <button onClick={() =>navigate(-1)}>Back to Companies</button>
+        <button onClick={() =>navigate(`/admin-view`)}>Back to Companies</button>
       )}
        <button onClick={handleLogout} className="logout-button">Logout</button>
     </div>

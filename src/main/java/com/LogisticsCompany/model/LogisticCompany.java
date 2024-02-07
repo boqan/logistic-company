@@ -13,7 +13,11 @@ import java.util.Map;
 
 
 import java.util.Set;
-
+/**
+ * Represents a logistics company.
+ * This class extends the IdGenerator class and includes information about the company's name,
+ * country, and a list of offices associated with the company.
+ */
 @Entity
 @Builder
 @Data

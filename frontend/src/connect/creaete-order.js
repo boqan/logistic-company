@@ -5,19 +5,16 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode'
 
 
-const CreateEmployee = () => {
+const CreateOrder = () => {
 
     const navigate = useNavigate();
     const { officeId } = useParams(); // Extract officeId from URL
     const [userData, setUserData] = useState({
-        
-        name: '',
-        salary: '',
-        officeID: officeId,
-        employeeType: 'COURIER',
-        username:'',
-        password:'',
-        email:''
+        sender :'',
+        receiver: '',
+        weight: '',
+        receiverAddress: '',
+        deliveryType: 'TO_OFFICE'
     });
     const [userRoles, setUserRoles] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -82,105 +79,74 @@ const CreateEmployee = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            console.log(userData);
-            const response = await axios.post('http://localhost:8082/employee/register', userData, {
+            const response = await axios.post(`http://localhost:8082/orders/${officeId}`, userData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            navigate(`/office-view/${officeId}`);
+            navigate(-1);
         } catch (error) {
             console.error('Error creating employee:', error);
             setErrorMessage(error.response?.data?.message || 'An error occurred while creating the employee. Please try again.');
         }
     };
+
+
+
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setUserData({ ...userData, [name]: value });
       };
-  
-    
-    
-
-    return (
+      
+      return (
         <div>
-        <Container>
-            <h1>Add Employee</h1>
+          <Container>
+            <h1>Create Order</h1>
             <Form onSubmit={handleSubmit}>
-                <FormGroup>
-                    <Label for="name">Name</Label>
-                    <Input type="text" name="name" id="name" value={userData.name} onChange={handleChange} autoComplete="name" />
-                </FormGroup>
+      
+              <FormGroup>
+                <Label for="sender">Sender</Label>
+                <Input type="text" name="sender" id="sender" value={userData.sender} onChange={handleInputChange} autoComplete="off" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="receiver">Receiver</Label>
+                <Input type="text" name="receiver" id="receiver" value={userData.receiver} onChange={handleInputChange} autoComplete="off" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="weight">Weight</Label>
+                <Input type="text" name="weight" id="weight" value={userData.weight} onChange={handleInputChange} autoComplete="off" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="receiverAddress">Receiver Address</Label>
+                <Input type="text" name="receiverAddress" id="receiverAddress" value={userData.receiverAddress} onChange={handleInputChange} autoComplete="off" />
+              </FormGroup>
 
-                <FormGroup>
-                    <Label for="salary">Salary</Label>
-                    <Input type="text" name="salary" id="salary" value={userData.salary} onChange={handleChange} autoComplete="salary" />
-                </FormGroup>
-
-                <div className="form-group">
-                    <label htmlFor="role">Role:</label>
+              <div className="form-group">
+                    <label htmlFor="deliveryType">Delivery Type:</label>
                     <select
-                        id="role"
-                        name="employeeType"
+                        id="deliveryType"
+                        name="deliveryType"
                         className="custom-dropdown"
-                        value={userData.employeeType}
-                        onChange={handleChange} 
+                        value={userData.deliveryType}
+                        onChange={handleInputChange} 
                         style={{ fontSize: '1.25rem', padding: '0.5rem 1rem' }}
                         required
                     >
-                        <option value="COURIER">Courier</option>
-                        <option value="DRIVER">Driver</option>
-                        <option value="LOADER">Loader</option>
-                        <option value="ACCOUNTANT">Accountant</option>
-                        <option value="ADMINISTRATOR">Administrator</option>
+                        <option value="TO_OFFICE">To office</option>
+                        <option value="TO_HOME_ADDRESS">To home address</option>
+                        
                         
                     </select>
                 </div>
-
-                        <div className="form-group">
-                <label htmlFor="username">Username:</label>
-                <input
-                    id="username"
-                    type="text"
-                    name="username"
-                    value={userData.username}
-                    onChange={handleInputChange}
-                    required
-                />
-                </div>
-
-                <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={userData.email}
-                    onChange={handleInputChange}
-                    required
-                />
-                </div>
-
-                <div className="form-group">
-                <label htmlFor="password">Password:</label>
-                <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    value={userData.password}
-                    onChange={handleInputChange}
-                    required
-                />
-                 </div>
-
-                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-
-                <FormGroup>
-                    <Button color="primary" type="submit">Save</Button>{' '}
-                    
-                </FormGroup>
-                <button onClick={() => navigate(`/office-view/${officeId}`)}>Cancel</button>
+      
+              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+      
+              <FormGroup>
+                <Button color="primary" type="submit">Save</Button>{' '}
+              </FormGroup>
+              <button onClick={() => navigate(-1)}>Cancel</button>
             </Form>
-        </Container>
-    </div>
-    );
+          </Container>
+        </div>
+      );
+      
   }
-  export default CreateEmployee;
+  export default CreateOrder;

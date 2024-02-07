@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * Repository interface for managing employees.
+ * This interface provides methods for querying employees by name and employee type.
+ */
 @Repository
 public interface EmployeeRepository extends JpaRepository< Employee, Long> {
     Optional<Employee> findByName(String name);

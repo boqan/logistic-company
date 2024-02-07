@@ -1,5 +1,11 @@
 package com.LogisticsCompany.error;
-
+/**
+ * Exception indicating that an invalid status has been encountered.
+ * This exception can be used to handle scenarios where a status value is not as expected or is not valid
+ * within the context of an operation. The exception extends the {@link Exception} class and provides
+ * constructors for specifying a message, a cause, or both, allowing developers to provide detailed
+ * information about the nature of the invalid status.
+ */
 public class InvalidStatusException extends Exception{
 
     public InvalidStatusException() {

@@ -17,7 +17,7 @@ const AdminView = () => {
       navigate('/login');
       return;
     }
-    console.log(token);
+    
     try {
       const decodedToken = jwtDecode(token);
       const userRoles = decodedToken.roles ; // Adjust based on your token structure

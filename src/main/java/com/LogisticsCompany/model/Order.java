@@ -5,6 +5,12 @@ import com.LogisticsCompany.enums.DeliveryType;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Represents an order in the logistics system.
+ * This class extends the IdGenerator class and includes information about the sender, receiver,
+ * weight, receiver's address, price, delivery type, delivery status, and the office associated with the order.
+ * The class also includes a custom builder to assist in creating order objects with additional methods.
+ */
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // Make no-args constructor protected
@@ -15,11 +21,11 @@ import lombok.*;
 public class Order extends IdGenerator {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender")
     private Client sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "receiver")
     private Client receiver;
 
     @Column(nullable = false)
