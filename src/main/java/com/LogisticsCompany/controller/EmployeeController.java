@@ -36,11 +36,6 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.findEmployeesByType(type));
     }
 
-    @GetMapping("/findByEmail/{email}")
-    public ResponseEntity<EmployeeDTO> findEmployeeByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(employeeService.findEmployeeByEmail(email));
-    }
-
     @GetMapping("/getAll")
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
@@ -69,22 +64,9 @@ public class EmployeeController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/updateByEmail/{email}")
-    public ResponseEntity<HttpStatus> updateEmployeeUsingEmail(@Valid @RequestBody EmployeeDTO employee, @PathVariable String email) throws InvalidDTOException {
-        employeeService.updateEmployeeUsingEmail(employee, email);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<HttpStatus> deleteEmployeeById(@PathVariable("id") Long id) {
         employeeService.deleteEmployeeById(id);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @DeleteMapping("/deleteByEmail/{email}")
-    public ResponseEntity<HttpStatus> deleteEmployeeByEmail(@PathVariable("email") String email) {
-        String cleanedEmail = email.trim();
-        employeeService.deleteEmployeeByEmail(cleanedEmail);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

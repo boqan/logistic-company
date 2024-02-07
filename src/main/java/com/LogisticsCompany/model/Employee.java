@@ -24,9 +24,6 @@ public class Employee {
     @Column(name="name", nullable = false, length = 255)
     private String name;
 
-    @Column(name="email", nullable = false, unique = true, length = 255)
-    private String email;
-
     @Column(name="employee_type", nullable = false, length = 255)
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType;
